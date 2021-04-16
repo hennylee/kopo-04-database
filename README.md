@@ -1,1 +1,1 @@
-# kopo-04-database
+# [한국폴리텍대학/데이터 분석학과] 04_data-base강의
