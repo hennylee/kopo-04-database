@@ -43,4 +43,17 @@
 
 - 출처 : https://srzero.tistory.com/entry/Oracle-%EC%9A%A9%EC%96%B4-Instance-VS-Database
 
-- 참고 : https://garimoo.github.io/database/2018/04/16/oracle_db_structure.html
+
+## 총 정리
+
+- 오라클 데이터베이스 구조 : 오라클 데이터베이스 시스템은 오라클 데이터베이스와 데이터베이스 Instance로 구성
+
+- instance : instance가 시작될 때마다 SGA(System Global Area) 라는 공유 메모리 영역이 할당, 백그라운드 프로세스 시작.
+
+- 데이터베이스 마운트: 데이터베이스 instance를 시작 후, 해당 instance를 특정 DB와 연결하는 과정.
+
+- connection: user process와 오라클 DB instance 사이의 통신 경로.
+- session: 데이터베이스 instance에 대한 현재 유저의 로그인 상태. 유저가 연결하는 시점에서 연결을 끊거나 DB application을 종료할 때까지 지속.
+
+
+- 출처 : https://garimoo.github.io/database/2018/04/16/oracle_db_structure.html
