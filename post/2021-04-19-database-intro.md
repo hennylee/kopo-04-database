@@ -3,7 +3,7 @@
 
 1. DB vs DBMS 정의, 사례, 차이점 
 2. RDBMS 정의 및 개념, RDBMS의 R이란?
-
+3. SQL Syntax Diagram을 해석하기(SQL Manual을 참조한다)
 
 
 ## 1. Client/Server와 Request/Response
