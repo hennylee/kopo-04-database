@@ -24,7 +24,7 @@
 ### SELECT
 
 
-1~2. * 를 통해서 전체 COLUMN을 조회할 수 있다. 
+[1~2] * 를 통해서 전체 COLUMN을 조회할 수 있다. 
 
 ```sql
 SELECT * FROM EMP;
@@ -68,20 +68,20 @@ DESC EMP;
 
 - 원하는 컬럼(속성)만 조회하고 싶을 때 사용한다. 
 
-3~4. 원하는 순서대로 컬럼을 조회할 수 있다.
+[3~4] 원하는 순서대로 컬럼을 조회할 수 있다.
 
 ```sql
 SELECT EMPNO, ENAME, JOB, SAL FROM EMP;
 SELECT SAL, JOB, EMPNO, ENAME FROM EMP; 
 ```
 
-5. 같은 컬럼은 여러번 조회 가능하다
+[5] 같은 컬럼은 여러번 조회 가능하다
 
 ```sql
 SELECT EMPNO, EMPNO, EMPNO, ENAME, JOB, SAL FROM EMP;
 ```
 
-6. 존재하지 않는 컬럼을 만들어서 조회할 수 있다. 
+[6] 존재하지 않는 컬럼을 만들어서 조회할 수 있다. 
 
 - 문자를 표기할 때는 ''로 감싼다.
 
@@ -91,34 +91,34 @@ SELECT EMPNO, SAL, 8, 'ORACLE' FROM EMP;
 
 ### WHERE 조건절
 
-7. WHERE 조건절을 통해 원하는 ROW(Record)만 조회할 수 있다.
+[7] WHERE 조건절을 통해 원하는 ROW(Record)만 조회할 수 있다.
 
 ```sql
 -- WHERE 조건절은 SELECT LIST와 함께 쓸 수 있다.
 SELECT * FROM EMP WHERE DEPTNO = 10;
 ```
 
-8~9. 공백 유무의 차이 : DBMS 서버 입장에서 다른 SQL일 수도 있다.
+[8~9] 공백 유무의 차이 : DBMS 서버 입장에서 다른 SQL일 수도 있다.
 
 ```sql
 SELECT EMPNO, ENAME, JOB, SAL FROM EMP WHERE SAL > 200;
 SELECT  EMPNO,ENAME, JOB, SAL FROM  EMP  WHERE SAL > 200;
 ```
 
-10. WHERE절의 AND 키워드를 사용하면 조건의 교집합을 구할 수 있다.
+[10] WHERE절의 AND 키워드를 사용하면 조건의 교집합을 구할 수 있다.
 
 ```sql
 SELECT EMPNO, ENAME, JOB, SAL, DEPTNO FROM EMP WHERE DEPTNO = 10 AND SAL > 2000;
 ```
 
-11. 데이터는 대소문자를 비교한다.
+[11] 데이터는 대소문자를 비교한다.
 
 ```sql
 SELECT DEPTNO, ENAME, JOB FROM EMP WHERE JOB = 'manager';
 SELECT DEPTNO, ENAME, JOB FROM EMP WHERE JOB = 'MANAGER';
 ```
 
-12. WHERE 조건이 참이면 전체 결과를 출력한다.
+[12] WHERE 조건이 참이면 전체 결과를 출력한다.
 
 ```sql
 -- 1=1 은 항상 참이다.
@@ -126,14 +126,14 @@ SELECT DEPTNO, ENAME, JOB FROM EMP;
 SELECT DEPTNO, ENAME, JOB FROM EMP WHERE 1=1;
 ```
 
-13. WHERE 조건이 거짓이면 아무것도 출력되지 않는다. 
+[13] WHERE 조건이 거짓이면 아무것도 출력되지 않는다. 
 
 ```sql
 -- 1=2는 항상 거짓이다. 
 SELECT DEPTNO, ENAME, JOB FROM EMP WHERE 1=2;
 ```
 
-14. SQL 명령어 안에서 산술연산자를 사용할 수 있다. 
+[14] SQL 명령어 안에서 산술연산자를 사용할 수 있다. 
 
 - `SAL*12` : 데이터 베이스 서버 내에는 사원의 급여 정보만 저장되어 있는데 해당 사원의 연봉을 보고 싶을 때 사용한다. 
 
@@ -149,7 +149,7 @@ SELECT DEPTNO, ENAME, JOB FROM EMP WHERE 1=2;
 SELECT ENAME, SAL, SAL*12, COMM, COMM+300 FROM EMP;
 ```
 
-15. 연산자 우선순위 
+[15] 연산자 우선순위 
 - 일반적인 연산자 우선순위가 SQL에도 적용된다. 
 - 어떤게 좋은 방식일까? 명확하게 괄호로 표시하는 것이 좋은 방식이다. (SQL코드의 명료화)
 
@@ -178,19 +178,19 @@ SELECT HIREDATE FROM EMP WHERE HIREDATE >= '83/01/01' AND HIREDATE < '83/12/31';
 
 ### COLUMN ALIAS
 
-1. COLUMN ALIAS 방법은 3가지가 존재한다.
+[1] COLUMN ALIAS 방법은 3가지가 존재한다.
 
 ```sql
 SELECT ENAME, SAL+200 bonus, SAL*12 as annual_SAL, COMM, COMM+300 "Special Bonus" FROM EMP;
 ```
 
-2. 특수문자, 공백문자, 대소문자 구분이 필요한 경우 ""로 묶어서 표현해준다.
+[2] 특수문자, 공백문자, 대소문자 구분이 필요한 경우 ""로 묶어서 표현해준다.
 
 ```sql
 SELECT ENAME, COMM+300 AS    "Special Bonus" FROM EMP;
 ```
 
-3. AS 또는 as 뒤에 별칭을 주는 것이 ANSI표준 방식이다. (SQL의 명료성)
+[3] AS 또는 as 뒤에 별칭을 주는 것이 ANSI표준 방식이다. (SQL의 명료성)
 
 ```sql
 SELECT ENAME, COMM+300 보너스 FROM EMP;
@@ -206,14 +206,14 @@ SELECT E.EMPNO, E.ENAME FROM EMP E;
 
 ### 문자열 결합/합성 연산자
 
-4~5. ENAME과 JOB 컬럼의 데이터를 합성할 수 있다.
+[4~5] ENAME과 JOB 컬럼의 데이터를 합성할 수 있다.
 
 ```sql
 SELECT ENAME, JOB FROM EMP;
 SELECT ENAME||JOB FROM EMP;
 ```
 
-6~8. 문자열과 COLUMN의 데이터도 결합할 수 있다. 
+[6~8] 문자열과 COLUMN의 데이터도 결합할 수 있다. 
 
 - 문자열에 대한 가공처리를 DB서버에 넘긴 것이다.
 
@@ -222,27 +222,27 @@ SELECT DNAME||'부서는 '||LOC||'에 위치하고 있습니다' FROM DEPT;
 SELECT ENAME||'is a '||JOB FROM EMP;
 ```
 
-9. 바깥에 있는 ''은 문자열을 묶어준다. 안쪽에 있는 ''은 문자 데이터 싱글 포텐셜?이다.
+[9] 바깥에 있는 ''은 문자열을 묶어준다. 안쪽에 있는 ''은 문자 데이터 싱글 포텐셜?이다.
 
 ```sql
 -- 헷갈리기 쉬우니 잘 구분해야 한다.
 SELECT ENAME||'''s JOB is '||JOB FROM EMP;
 ```
 
-10. COLUMN ALIAS 를 수행하면 COLUMN HEAD를 깔끔하게 표현할 수 있다. 
+[10] COLUMN ALIAS 를 수행하면 COLUMN HEAD를 깔끔하게 표현할 수 있다. 
 
 ```sql
 SELECT ENAME||'''s JOB is'||JOB as JOB_list FROM EMP;
 SELECT DNAME||'부서는 '||LOC||'에 위치하고 있습니다' AS 부서위치 FROM DEPT;
 ```
 
-11. 데이터베이스에 저장될 수 있는 데이터타입은 대부분 숫자, 문자, 날짜 유형을 벗어나지 않는다.
+[11] 데이터베이스에 저장될 수 있는 데이터타입은 대부분 숫자, 문자, 날짜 유형을 벗어나지 않는다.
 
 ```sql
 SELECT EMPNO, ENAME, HIREDATE FROM EMP;
 ```
 
-12. Data type Conversion
+[12] Data type Conversion
 
 [Implicit Conversion  vs  Explicit Conversion]
 
