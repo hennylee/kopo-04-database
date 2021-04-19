@@ -20,7 +20,7 @@
 
 - 반대로 DB는 WAS로 Response를 보내고, WAS는 Web Server로 Response를 보낸다. 
 
-<img width="263" alt="image" src="https://user-images.githubusercontent.com/77392444/115169565-5f3bfd80-a0f9-11eb-8db9-3bcc3bb4752c.png">
+![image](https://user-images.githubusercontent.com/77392444/115169651-98746d80-a0f9-11eb-961c-3c0a5711ed80.png)
 
 
 ## Personal Computer/ Server Computer
