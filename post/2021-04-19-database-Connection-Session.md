@@ -42,3 +42,5 @@
 ![image](https://user-images.githubusercontent.com/77392444/115215529-8ec12900-a13e-11eb-9689-5128dc403dcf.png)
 
 - 출처 : https://srzero.tistory.com/entry/Oracle-%EC%9A%A9%EC%96%B4-Instance-VS-Database
+
+- 참고 : https://garimoo.github.io/database/2018/04/16/oracle_db_structure.html
