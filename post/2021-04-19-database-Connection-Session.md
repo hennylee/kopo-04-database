@@ -35,3 +35,10 @@
 - 프로세스는 세션에 의해 수행되는 명령어에 의해 사용된다. 
 
 - 세션을 통해 프로세스가 사용된다.
+
+
+## Instance vs Database
+
+![image](https://user-images.githubusercontent.com/77392444/115215529-8ec12900-a13e-11eb-9689-5128dc403dcf.png)
+
+- 출처 : https://srzero.tistory.com/entry/Oracle-%EC%9A%A9%EC%96%B4-Instance-VS-Database
