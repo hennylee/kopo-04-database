@@ -23,6 +23,12 @@
 
 ### SELECT *
 
+```sql
+-- *를 통해서 전체 COLUMN을 조회할 수 있다. 
+SELECT * FROM EMP;
+SELECT EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO FROM EMP;
+```
+
 - `SELECT * FROM EMP;`와 `SELECT EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO FROM EMP;`의 결과는? 같다. 
 
 - 결과가 동일하지만 어떤 방식이 더 좋은 SQL일까? 필요한 컬럼을 일일히 나열하는 방법이 좋다.
@@ -47,11 +53,14 @@
 
 ### DESC
 
-- `DESC EMP;`
+- 테이블의 구조를 조회할 때 사용한다. 
+
+```sql
+-- 테이블 구조를 조회할 수 있다. 
+DESC EMP;
+```
 
 ![image](https://user-images.githubusercontent.com/77392444/115178171-b34fdd80-a10b-11eb-8221-c3f932dc059d.png)
-
-- 테이블의 구조를 조회할 때 사용한다. 
 
 
 ### SELECT LIST
