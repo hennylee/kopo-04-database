@@ -20,6 +20,8 @@
 
 - 반대로 DB는 WAS로 Response를 보내고, WAS는 Web Server로 Response를 보낸다. 
 
+<img width="263" alt="image" src="https://user-images.githubusercontent.com/77392444/115169565-5f3bfd80-a0f9-11eb-8db9-3bcc3bb4752c.png">
+
 
 ## Personal Computer/ Server Computer
 
@@ -71,6 +73,7 @@
 - 예전에 오라클은 자사의 고유 Product에 `*`를 붙였다.
 
 - PRO*C 란?
+<img width="570" alt="image" src="https://user-images.githubusercontent.com/77392444/115169536-3f0c3e80-a0f9-11eb-9227-4c7858771d49.png">
 
 
 ## OSS(Open Source Software)
