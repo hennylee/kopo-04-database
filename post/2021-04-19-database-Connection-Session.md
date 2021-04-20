@@ -22,6 +22,14 @@
 
 ## Session
 
+- 세션은 사전적으로 시간의 의미를 가지고 있다.
+
+- 로그인한 기간을 세션이라고 볼 수 있다. 
+
+- 서버는 클라이언트에게 서비스를 제공하기 위해 로그인에서 로그아웃할때까지 Client의 Status 정보를 가지고 있어야 한다.
+
+- 그 정보를 메모리에 가지고 있는다. 
+
 - Session은 사용자 프로세스를 통한 DBMS와 유저의 연결을 의미한다. 
 
 - A session is a specific connection of a user to an Oracle instance through a user process. 
@@ -53,6 +61,7 @@
 - 데이터베이스 마운트: 데이터베이스 instance를 시작 후, 해당 instance를 특정 DB와 연결하는 과정.
 
 - connection: user process와 오라클 DB instance 사이의 통신 경로.
+
 - session: 데이터베이스 instance에 대한 현재 유저의 로그인 상태. 유저가 연결하는 시점에서 연결을 끊거나 DB application을 종료할 때까지 지속.
 
 
