@@ -7,7 +7,7 @@
 ## 모양 의미
 - 명령어, 키워드 : 직사각형 내에 대문자로 쓴다.
 
-- 변수 : 타원형 안에 소문자로 쓴다.
+- Parameters(Variable) : 타원형 안에 소문자로 쓴다.
 
 - Punctuation, operators, delimiters, and terminators : 원 안에 쓴다.
 
