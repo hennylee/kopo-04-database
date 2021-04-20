@@ -68,3 +68,7 @@ SELECT SAL-EMPNO, abs(SAL-EMPNO), abs(SAL-COMM)+100 FROM EMP;
 -- NVL(a, b) : a가 NULL이면 b로 치환한다.
 -- decode(a, b, c, d) : if조건절의 역할을 한다. if( a = b ) { c } else { d }
 SELECT concat(ENAME||'is ',COMM), NVL(COMM, -1), decode(COMM, null, -999, COMM) FROM EMP;
+
+
+-- <0420> 숙제
+SELECT DATE FROM DUAL;
