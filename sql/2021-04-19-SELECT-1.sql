@@ -1,4 +1,4 @@
--- <04/20> SELECT (1)
+-- <04/19> SELECT (1)
 -- <SELECT>
 -- 1~2. *를 통해서 전체 COLUMN을 조회할 수 있다. 
 SELECT * FROM EMP;
