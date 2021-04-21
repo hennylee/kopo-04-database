@@ -76,7 +76,7 @@ SELECT concat(ENAME||'is ',COMM), NVL(COMM, -1), decode(COMM, null, -999, COMM) 
 -- NLS_DATE_FORMAT이 저장되어 있는 Table
 SELECT * FROM nls_session_parameters WHERE parameter LIKE '%FORMAT%';
 SELECT sysdate FROM dual;
-SELECT systimestamp FROM dual;
+SELECT systimestamp FROM dual; 
 
 -- 시간 정보까지 출력하는 방법
 SELECT TO_CHAR(SYSDATE, 'MM-DD-YYYY HH24:MI:SS') "NOW" FROM DUAL;
