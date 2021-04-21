@@ -1,4 +1,4 @@
---<04/20> SELECT(2)
+-- <04/20> SELECT(2)
 
 -- <DUAL>
 -- 1. Dual
@@ -71,7 +71,6 @@ SELECT concat(ENAME||'is ',COMM), NVL(COMM, -1), decode(COMM, null, -999, COMM) 
 
 
 -- <0420> 숙제
-
 -- 1. SYSDATE
 -- NLS_DATE_FORMAT이 저장되어 있는 Table
 SELECT * FROM nls_session_parameters WHERE parameter LIKE '%FORMAT%';
