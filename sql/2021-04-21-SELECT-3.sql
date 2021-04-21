@@ -49,6 +49,300 @@ SELECT EMPNO, COMM FROM EMP ORDER BY COMM asc;
 SELECT EMPNO, COMM FROM EMP ORDER BY COMM desc;
 
 
+-- <DISTINCT>
+-- 1. ALL : 전체 다 출력하기, ALL은 잘 안쓰인다. 
+SELECT JOB FROM EMP;
+SELECT ALL JOB FROM EMP;
 
+-- 중복된 값 제외하고 유일한 값만 보여주는 두 가지 방식 : UNIQUE, DISTINCT
+-- DISTINCT가 ANSI 표준일 뿐 둘의 차이는 없다.
+-- 필터링의 기능만 있고, 데이터를 수정하지 않는다.
+
+-- 2. UNIQUE
+SELECT UNIQUE JOB FROM EMP;
+
+-- 3. DISTINCT
+SELECT DISTINCT JOB FROM EMP;
+
+-- 4. 순서쌍의 중복제거 원리 이해하기
+-- DISTINCT 뒤에 두 개의 인자가 나오면 두개를 합쳐서 DISTINCT한 값들을 찾아내는 것 같음
+SELECT DISTINCT DEPTNO, JOB FROM EMP;
+SELECT DEPTNO, JOB FROM EMP;
+
+-- 5. ORDER BY 와 비교해서 DISTINCT의 원리 이해해보기
+-- DISTINCT는 원본 데이터에 순서와 동일하다
+SELECT JOB FROM EMP ORDER BY JOB;
+SELECT JOB FROM EMP;
+SELECT DISTINCT JOB FROM EMP;
+
+-- 6~7. DISTINCT 연산자가 2번 나오면? 왜 에러가 나지? Syntax diagram 보고 이해하기
+-- DISTINCT는 중복해서 사용할 수 없다.
+SELECT DISTINCT JOB, DISTINCT DEPTNO FROM EMP;
+SELECT JOB, DISTINCT DEPTNO FROM EMP; 
+
+-- 8. NULL이 있는 데이터는 포함하는 거야 빼는거야?
+-- DISTINCT는 NULL도 하나의 군집으로 본다.
+SELECT COMM FROM EMP WHERE COMM IS NOT NULL;
+SELECT DISTINCT COMM FROM EMP;
+
+-- 9. SQL*PLUS에서 실습하기
+
+-- <DECODE>
+-- [동등비교]
+-- 1. DECODE(expr1, expr2, expr3, expr4, expr5...) : expr1이 expr2이면 expr3,   expr1이 expr4이면 expr5...
+SELECT DEPTNO, ENAME, DECODE(DEPTNO,10, 'ACCOUNTING', 20, 'RESEARCH', 30, 'SALES', 'ETC') FROM EMP ORDER BY DEPTNO; 
+SELECT DEPTNO, ENAME FROM EMP ORDER BY DEPTNO; 
+
+-- 2. DECODE 조건에서 null을 찾으려면 null/NULL이라고 쓰면 된다.
+SELECT COMM, DECODE(COMM, NULL, -99, COMM) FROM EMP;
+SELECT COMM, DECODE(COMM, null, -99, COMM) FROM EMP;
+
+-- [범위비교]
+-- 3. 
+-- GREATEST() : 최대값 찾는 함수, LEAST() : 최소값 찾는 함수
+SELECT GREATEST(3000, 1500, 2100, 5000), LEAST(3000, 1500, 2100, 5000) FROM DUAL;
+ 
+-- DECODE는 기본적으로 동등비교만 가능하기 때문에 불편해서 DECODE 함수를 확장 개선한 것이 CASE이다. 
+SELECT DEPTNO, ENAME, SAL, DECODE(GREATEST(SAL, 5000), SAL, 'HIGH', DECODE(GREATEST(SAL, 2500), SAL, 'MID', 'LOW')) 
+FROM EMP ORDER BY DEPTNO;
+
+-- DECODE에서 조건이 중복되면 앞의 것만 실행된다.
+SELECT DEPTNO, ENAME, SAL, DECODE(GREATEST(SAL, 500), SAL, 'HIGH', DECODE(GREATEST(SAL, 2500), SAL, 'MID', 'LOW')) 
+FROM EMP ORDER BY DEPTNO;
+
+
+-- 4. DECODE에서 NULL은 어떻게 처리되는가? 
+-- CASE 1. 아예 오류 처리가 나는가? X 오류가 발생하지 않는다.
+-- CASE 2. ORDER BY처럼 처리하는 방법이 내부적으로 정해져 있나? O, 무조건 조건을 만족한다고 처리하는 것 같다.
+SELECT DEPTNO, ENAME, SAL, COMM, DECODE(GREATEST(COMM, 5000), COMM, 'HIGH', DECODE(GREATEST(COMM,2500),COMM,'MID','LOW'))
+FROM EMP ORDER BY DEPTNO;
+
+-- GREATEST함수는 NULL이면 NULL을 반환한다.
+SELECT COMM, GREATEST(COMM, 5000) FROM EMP ORDER BY COMM;
+
+-- SQL 내에서 NULL 처리해보기
+-- 가장 OUTER DECODE에서 NULL이면 NULL을 출력하고 아니면 다른 DECODE를 수행하라.
+SELECT DEPTNO, ENAME, SAL, COMM,
+DECODE(COMM, NULL, NULL, 
+    DECODE(GREATEST(COMM, 5000), COMM, 'HIGH', 
+        DECODE(GREATEST(COMM,2500),COMM,'MID','LOW')
+    )
+) AS COMM_GRADE
+FROM EMP ORDER BY DEPTNO;
+
+
+-- <CASE>
+-- 5. CASE문 형식 : CASE WHEN ~ THEN ~[, WHEN ~ THEN ~, WHEN ~ THEN ~] ELSE ~ END
+-- CASE의 조건에는 연산이 가능하다.
+SELECT DEPTNO, ENAME, SAL, 
+    CASE WHEN SAL >= 5000 THEN 'HIGH'
+         WHEN SAL >= 2500 THEN 'MID'
+         WHEN SAL < 2500 THEN 'LOW'
+    ELSE
+         'UNKNOWN'
+    END
+FROM EMP
+ORDER BY DEPTNO;
+
+-- CASE문의 WHEN 조건에는 BETWEEN 사용이 가능하다.
+-- ELSE에서 NULL은 어떻게 처리되는가?
+
+-- 6. CASE문을 가지고 DECODE처럼 사용할 수 있다.
+SELECT DEPTNO, 
+    CASE DEPTNO
+        WHEN 10 THEN 'Accountion'
+        WHEN 20 THEN 'Research'
+        WHEN 30 THEN 'Sales'
+        WHEN 40 THEN 'Operations'
+        ELSE 'Unknown'
+    END as DNAME
+FROM EMP
+ORDER BY DEPTNO;
+
+
+-- 7~8. CASE문의 WHEN 조건이 중첩되는 경우 어떻게 처리되는가?
+-- 7. 첫번째 조건과 중복되면 아래 조건을 수행하지 않고 바로 ELSE로 넘어간다.
+SELECT SAL, 
+CASE  
+    WHEN SAL>= 1000 THEN 1
+    WHEN SAL>= 2000 THEN 2
+    WHEN SAL>= 3000 THEN 3
+    WHEN SAL>= 4000 THEN 4
+    WHEN SAL>= 5000 THEN 5
+ELSE 0
+END AS SAL_CHK
+FROM EMP
+ORDER BY SAL;
+
+-- 8.CASE문에서는 앞의 조건을 만족하지 않는 결과에 대해서만 아래 조건을 수행한다. 
+SELECT SAL, CASE
+WHEN SAL >= 5000 THEN 5
+WHEN SAL >= 4000 THEN 4
+WHEN SAL >= 3000 THEN 3
+WHEN SAL >= 2000 THEN 2
+WHEN SAL >= 1000 THEN 1
+ELSE 0
+END AS SAL_CHK
+FROM EMP
+ORDER BY SAL;
+
+
+-- 9. NULLIF함수를 CASE를 가지고 SIMULATION해보기
+SELECT JOB,
+NULLIF(JOB,'MANAGER'),
+    CASE
+        WHEN JOB='MANAGER' THEN NULL
+        ELSE JOB
+    END AS NULLIF_SIM
+FROM EMP;
+
+-- [요구] 부서별 차등 보너스 계산 SQL을 작성하시오.
+    -- 10번 부서 급여의 0.3% , 20번부서 급여의 20%, 30번 부서 급여의 10%, 나머지 모든 부서 1%
+    -- 부서 번호, 이름, 직무, 급여, 보너스
+    -- 부서별, 최고 보너스 순으로 정렬
+    -- 소수점 절삭  : ROUND, TRUNC 함수
+
+-- 기본
+SELECT DEPTNO, ENAME, JOB, SAL, COMM
+FROM EMP
+ORDER BY DEPTNO; 
+
+-- CASE 중복 조건 처리 X
+SELECT DEPTNO, ENAME, JOB, SAL,
+CASE WHEN DEPTNO=10 
+    THEN SAL*1.003
+    WHEN DEPTNO=20
+    THEN SAL*1.2
+    WHEN DEPTNO=30
+    THEN SAL*1.1
+    ELSE
+        SAL*1.01
+END AS bonus
+FROM EMP
+ORDER BY bonus; 
+
+-- CASE 중복 조건 처리 X + ROUND() 올림 함수 사용
+SELECT DEPTNO, ENAME, JOB, SAL, COMM,
+CASE WHEN DEPTNO=10 
+    THEN ROUND(SAL*1.003)
+    WHEN DEPTNO=20
+    THEN SAL*1.2
+    WHEN DEPTNO=30
+    THEN SAL*1.1
+    ELSE
+        SAL*1.01
+END AS bonus
+FROM EMP
+ORDER BY bonus; 
+
+-- CASE 중복 조건 처리 O
+SELECT DEPTNO, ENAME, JOB, SAL,
+CASE DEPTNO
+    WHEN 10 
+    THEN SAL*1.003
+    WHEN 20
+    THEN SAL*1.2
+    WHEN 30
+    THEN SAL*1.1
+    ELSE
+        SAL*1.01
+END AS bonus
+FROM EMP
+ORDER BY bonus; 
+
+-- CASE 중복 조건 처리 O + TRUC() 소수점 버림 함수
+SELECT DEPTNO, ENAME, JOB, SAL,
+CASE DEPTNO
+    WHEN 10 
+    THEN TRUNC(SAL*1.003)
+    WHEN 20
+    THEN SAL*1.2
+    WHEN 30
+    THEN SAL*1.1
+    ELSE
+        SAL*1.01
+END AS bonus
+FROM EMP
+ORDER BY bonus; 
+
+
+-- <ROWNUM>
+-- 1~2. ROWNUM이 ORDER BY보다 먼저 실행된다. 
+SELECT ROWNUM, ENAME, DEPTNO, SAL FROM EMP;
+SELECT ROWNUM, ENAME, DEPTNO, SAL FROM EMP ORDER BY DEPTNO, SAL;
+
+-- 3. SELECT 문의 실행 순서 : ROWNUM이 ORDER BY보다 먼저 실행됨
+SELECT ROWNUM, ENAME, DEPTNO,SAL FROM EMP WHERE DEPTNO IN (10,20) ORDER BY DEPTNO, SAL;
+
+-- 4. 조건절에서 ROWNUM 사용시 주의사항
+SELECT ROWNUM,ENAME, DEPTNO, SAL FROM EMP;
+
+-- WHERE 조건절에서 필터링이 된 후에 ROWNUM이 생성되기 때문에? 실행 불가이다. 
+SELECT ENAME, DEPTNO, SAL FROM EMP WHERE ROWNUM = 5;
+SELECT ENAME, DEPTNO, SAL FROM EMP WHERE ROWNUM > 5;
+SELECT ENAME, DEPTNO, SAL FROM EMP WHERE ROWNUM >= 5;
+
+-- 하지만 활용되는 빈도가 많기 때문에 아래 예시는 예외적으로 허용하는 CASE이다. 
+SELECT ENAME, DEPTNO, SAL FROM EMP WHERE ROWNUM = 1;
+SELECT ENAME, DEPTNO, SAL FROM EMP WHERE ROWNUM <= 5;
+SELECT ENAME, DEPTNO, SAL FROM EMP WHERE ROWNUM < 5;
+
+-- 5. 최상위 급여자 5명을 조회하기
+SELECT * FROM (SELECT DEPTNO, ENAME, SAL FROM EMP ORDER BY SAL DESC);
+SELECT ROWNUM, DEPTNO, ENAME, SAL FROM (SELECT DEPTNO, ENAME, SAL FROM EMP ORDER BY SAL DESC) 
+WHERE ROWNUM <= 5 ORDER BY ROWNUM;
+
+-- <논리 연산자>
+-- 5. AND 연산 
+SELECT ENAME, JOB, SAL, DEPTNO FROM EMP WHERE DEPTNO=10 AND SAL > 2000;
+
+-- 6. OR 연산
+SELECT ENAME, JOB, SAL, DEPTNO FROM EMP WHERE DEPTNO = 10 OR SAL > 2000;
+
+-- 같은 조건을 OR로 연결하면? 한 번만 수행한다. 
+SELECT ENAME, JOB, SAL, DEPTNO FROM EMP WHERE SAL > 2000;
+SELECT ENAME, JOB, SAL, DEPTNO FROM EMP WHERE SAL > 2000 OR SAL > 2000;
+SELECT ENAME, JOB, SAL, DEPTNO FROM EMP WHERE SAL > 1000 OR SAL > 2000;
+
+-- 하위 조건과 상위조건을 OR로 연결하면?
+
+-- 7.
+-- WHERE A and B or C : A and B / B or C 중에 무엇이 실행 우선 순위가 높은가? AND가 연산자 우선 순위가 높다. 
+SELECT ENAME, JOB, SAL, DEPTNO FROM EMP 
+WHERE DEPTNO=10 AND SAL > 2000 OR JOB = 'CLERK';
+
+SELECT ENAME, JOB, SAL, DEPTNO FROM EMP 
+WHERE (DEPTNO=10 AND SAL > 2000) OR JOB = 'CLERK';
+
+SELECT ENAME, JOB, SAL, DEPTNO FROM EMP 
+WHERE DEPTNO=10 AND (SAL > 2000 OR JOB = 'CLERK');
+
+SELECT ENAME, JOB, SAL, DEPTNO FROM EMP 
+WHERE DEPTNO=10 OR SAL > 2000 AND JOB = 'CLERK';
+
+SELECT ENAME, JOB, SAL, DEPTNO FROM EMP 
+WHERE DEPTNO=10 OR (SAL > 2000 AND JOB = 'CLERK');
+
+SELECT ENAME, JOB, SAL, DEPTNO FROM EMP 
+WHERE (DEPTNO=10 OR SAL > 2000) AND JOB = 'CLERK';
+
+-- 연산자 우선순위를 외워서 쓰는 방식은 좋은 쿼리가 아니다.
+-- ()를 쳐서 우선 순위를 표현해 주는 것이 좋다.
+-- SQL은 비 절차적 언어이지만 OPTIMIZER는 DBMS 내부에서 처리 방법과 처리 순서의 가장 효율적인 방법을 찾아주는 역할을 한다. 
+-- Optimizer는 누구를 더 좋아할까? AND
+-- AND연산을 먼저 처리하면 처리해야 할 중간 데이터의 집합이 줄어들기 때문이다.
+-- 예) [1건 AND 1만건] => 최소 0 ~ 최대 1건 , [1건 OR 1만건] => 최소 1만건 ~ 최대 1만1건 
+
+-- 8. ()를 쳐서 연산자 우선 순위를 명확하게 표현해 주는 것이 좋다.
+
+-- 9. 
+-- Oracle의 '같지 않다' 연산자 : != , ^= , <>
+-- NOT IN() :  LIST 연산자의 하나
+
+-- 10.
+
+-- [요구]'OR 연산' 시 중복되는 ROW는 어떻게 처리되는가?
+-- case 1 : 중복되어 출력된다.
+-- case 2 : 한 번만 출력된다.
 
 
