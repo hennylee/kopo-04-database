@@ -46,7 +46,7 @@ SELECT TO_CHAR(SYSDATE, 'MM-DD-YYYY HH24:MI:SS') "NOW" FROM DUAL;
 
 - 오라클에서 DATE형은 초 이하 단위까지 처리할 수 없다. 
 
-- 만약 초 이하 단위까지 처리하고 싶다면 TIMESTAMP형을 사용해야 한다. 
+- 만약 초 이하 단위(fractional seconds)까지 처리하고 싶다면 TIMESTAMP형을 사용해야 한다. 
 
 - 시스템의 DATE를 조회하려면 `SYSDATE`를 사용하는 것과 같이, 시스템의 TIMESTAMP를 조회하려면 `SYSTIMESTAMP`를 사용하면 된다. 
 
@@ -76,3 +76,15 @@ SELECT TO_CHAR(SYSTIMESTAMP, 'YYYY-MM-DD HH24:MI:SS.FF2') "NOW" FROM DUAL;
 -- 초단위를 formating하려면 FF 뒤에 소수점 자리를 표현하면 된다. 
 SELECT TO_CHAR(SYSTIMESTAMP, 'YYYY-MM-DD HH24:MI:SS.FF3') "NOW" FROM DUAL;
 ```
+
+## SYSDATE, DATE, SYSTIMESTAMP, TIMSTAMP
+
+- DATE : 년, 월, 일, 시, 분, 초까지의 정보만 가지고 있다. 
+
+- DATETIME : 
+
+- TIMESTAMP : 
+
+- SYSDATE : 
+
+- SYSTIMESTAMP : 
