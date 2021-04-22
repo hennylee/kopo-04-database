@@ -24,7 +24,7 @@
 
 ## 선택 키워드와 Parameter
 
-- 만약 main path 위에 수직적으로 리스트가 나타난다면 그 요소는 필수적인 것이 아닌 옵션이라는 뜻이다. 
+- 만약 main path 위에 구부러진 화살표로 연결된 리스트가 나타난다면 그 요소는 필수적인 것이 아닌 옵션이라는 뜻이다. 
 
 ![image](https://user-images.githubusercontent.com/77392444/115207208-56b5e800-a136-11eb-8d2a-36982c9daf01.png)
 
