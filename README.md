@@ -59,15 +59,8 @@ SELECT SAL,COMM,NVL(COMM,SAL),nvl2(COMM,SAL,0), NULLIF(JOB,'MANAGER') FROM emp;
 
     - 사례는 인터넷 검색으로 찾아서 직접 보여줘야 함
 
-5. []()
+5. [부서별 차등 보너스 계산 SQL을 작성하시오]()
 
-6. []()
+6. [Pseudo 컬럼 정의 및 예제 SQL문장들]()
 
-7. []()
-
-8. []()
-
-9. [Pseudo 컬럼 정의 및 예제 SQL문장들]()
-
-10. [Top-N, Bottom-M의 개념, 최상의 급여자 5명을 조회하는 SQL문을 작성하기(Sub Query)]()
-
+7. [Top-N, Bottom-M의 개념, 최상의 급여자 5명을 조회하는 SQL문을 작성하기(Sub Query)]()
