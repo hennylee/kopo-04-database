@@ -121,3 +121,32 @@ SELECT ENAME, DEPTNO, SAL FROM EMP WHERE ROWNUM < 5;
 - 왜냐하면, AND연산을 먼저 처리할 때 OR연산을 처리할 때보다 처리해야 할 중간 데이터 집합이 줄어들기 때문이다. 
 
 - 예) [1건 AND 1만건] => 최소 0 ~ 최대 1건 처리해야함! , [1건 OR 1만건] => 최소 1만건 ~ 최대 1만1건 처리해야함!
+
+
+- [요구]'OR 연산' 시 중복되는 ROW는 어떻게 처리되는가?
+  - case 1 : 중복되어 출력된다. X
+  - case 2 : 한 번만 출력된다. O
+
+
+
+## 7. 집합연산자
+- UNION : 합집합
+
+- UNION ALL : 중복 포함 합집합
+
+- MINUS : 먼저 위치한 SELECT문을 기준으로 차집합을 추출
+
+- INTERSECT : 교집합
+
+
+- [요구] UNION ALL 집합 연산자를 사용하여 OR와 동일한 결과를 생성하는 SQL을 작성 하십시오
+  - 중복 데이터가 여러번 출력됨 => SUBQUERY와 DISTINCT 사용하기
+
+```sql
+SELECT DISTINCT * FROM (
+  SELECT DEPTNO, JOB, ENAME FROM EMP WHERE DEPTNO = 20
+  UNION ALL 
+  SELECT DEPTNO, JOB, ENAME FROM EMP WHERE JOB = 'CLERK'
+)
+ORDER BY DEPTNO asc;
+```
