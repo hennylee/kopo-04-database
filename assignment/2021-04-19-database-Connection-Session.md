@@ -6,6 +6,8 @@
 
 ## Connection
 
+- Connection은 client와 server 간의 네트워크 적인 연결이다.
+
 - Connection은 user process 과 Oracle instance 간의 소통 경로이다. 
 
 - Connection은 Client와 Server(오라클 인스턴스)의 물리적 연결이다.
@@ -36,7 +38,7 @@
 
 - 그 정보를 메모리에 가지고 있는다. 
 
-- Session은 사용자 프로세스를 통한 DBMS와 유저의 연결을 의미한다. 
+- Session은 사용자 프로세스를 통한 DBMS와 유저의 특정한 연결을 의미한다. 
 
 - A session is a specific connection of a user to an Oracle instance through a user process. 
 
