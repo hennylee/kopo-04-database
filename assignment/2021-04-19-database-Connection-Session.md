@@ -69,21 +69,24 @@
 
 ## ask TOM(The Oracle Mentor)의 답변
 
-- A connection is a physical circuit between you and the database. 
+- Connection
+  - A connection is a physical circuit between you and the database. 
 
-- A connection might be one of many types -- most popular begin DEDICATED server and SHARED server. 
+  - A connection might be one of many types -- most popular begin DEDICATED server and SHARED server. 
 
-- Zero, one or more sessions may be established over a given connection to the database as show above with sqlplus. 
+- SESSION
+  - Zero, one or more sessions may be established over a given connection to the database as show above with sqlplus. 
 
-- A process will be used by a session to execute statements. 
+  - A process will be used by a session to execute statements. 
 
-- Sometimes there is a one to one relationship between CONNECTION->SESSION->PROCESS (eg: a normal dedicated server connection). 
+  - Sometimes there is a one to one relationship between CONNECTION->SESSION->PROCESS (eg: a normal dedicated server connection). 
 
-- Sometimes there is a one to many from connection to sessions (eg: like autotrace, one connection, two sessions, one process). 
+  - Sometimes there is a one to many from connection to sessions (eg: like autotrace, one connection, two sessions, one process). 
 
-- A process does not have to be dedicated to a specific connection or session however, for example when using shared server (MTS), your SESSION will grab a process from a pool of processes in order to execute a statement. 
+- PROCESS
+  - A process does not have to be dedicated to a specific connection or session however, for example when using shared server (MTS), your SESSION will grab a process from a pool of processes in order to execute a statement. 
 
-- When the call is over, that process is released back to the pool of processes.
+  - When the call is over, that process is released back to the pool of processes.
 
 - 출처 : https://asktom.oracle.com/pls/apex/f?p=100:11:0::::P11_QUESTION_ID:5671284058977
 
