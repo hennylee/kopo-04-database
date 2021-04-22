@@ -67,9 +67,25 @@
 
 ## Instance vs Database
 
-![image](https://user-images.githubusercontent.com/77392444/115215529-8ec12900-a13e-11eb-9689-5128dc403dcf.png)
+## ask TOM(The Oracle Mentor)의 답변
 
-- 출처 : https://srzero.tistory.com/entry/Oracle-%EC%9A%A9%EC%96%B4-Instance-VS-Database
+- A connection is a physical circuit between you and the database. 
+
+- A connection might be one of many types -- most popular begin DEDICATED server and SHARED server. 
+
+- Zero, one or more sessions may be established over a given connection to the database as show above with sqlplus. 
+
+- A process will be used by a session to execute statements. 
+
+- Sometimes there is a one to one relationship between CONNECTION->SESSION->PROCESS (eg: a normal dedicated server connection). 
+
+- Sometimes there is a one to many from connection to sessions (eg: like autotrace, one connection, two sessions, one process). 
+
+- A process does not have to be dedicated to a specific connection or session however, for example when using shared server (MTS), your SESSION will grab a process from a pool of processes in order to execute a statement. 
+
+- When the call is over, that process is released back to the pool of processes.
+
+- 출처 : https://asktom.oracle.com/pls/apex/f?p=100:11:0::::P11_QUESTION_ID:5671284058977
 
 
 ## 총 정리
