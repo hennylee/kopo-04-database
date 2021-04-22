@@ -1,11 +1,11 @@
 # SELECT (2)
 
-## DUAL
+## 1. DUAL
 
 - `to_char(DATA, format)` :  type conversion 함수, 자리수마다 콤마찍기
 
 
-## NULL
+## 2. NULL
 - 사전적 의미 : 데이터가 존재하지 않는, 값이 정의되지 않은
 
 - 현재 데이터를 입력하지 못한 경우이다. 
@@ -32,7 +32,7 @@
 
 ![image](https://user-images.githubusercontent.com/77392444/115348958-3c3f4580-a1ee-11eb-89cd-bc94d48201a5.png)
 
-### 5-7. NULL 연산불가
+### 2.1 NULL 연산불가
 
 - 결과가 NULL이 된다. 
 
@@ -49,7 +49,7 @@ SELECT ENAME, SAL, COMM, COMM+SAL*0.3 as bonus FROM EMP;
 ![image](https://user-images.githubusercontent.com/77392444/115642197-79721780-a355-11eb-8c72-7daa77137426.png)
 
 
-### 8-14. NULL 비교불가
+### 2.2 NULL 비교불가
 
 - NULL은 숫자 범위 어디에도 속할 수 없기 때문에 대소비교가 불가하다.
 
@@ -70,7 +70,7 @@ SELECT ENAME, SAL, COMM FROM EMP WHERE COMM < -1;
 - NULL을 비교하는 특별한 연산자는 `is null`,  `is not null` 뿐이다.
 
 
-### 1-2. NULL 적용불가
+### 2.3 NULL 적용불가
 
 - NULL은 함수 적용이 불가능하다. 결과는 무조건 NULL이 나오기 때문이다.
 
@@ -83,7 +83,7 @@ SELECT ENAME, length(ENAME), COMM, length(COMM) FROM EMP;
 - `length(COMM)` : 암시적 데이터타입 형변환이 발생한다. COMM이 문자로 바뀌게 된다. 좋은 방식은 아니다. 
 
 
-### NULL 처리 방법
+### 2.4 NULL 처리 방법
 
 - NULL을 처리할 수 있는 함수들  : NVL, decode, NVL2, NULLIF
 
