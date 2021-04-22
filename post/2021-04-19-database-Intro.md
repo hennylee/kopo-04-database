@@ -8,7 +8,7 @@
 
 - Server는 응답을 보내는 모든 H/W 컴퓨터 또는 S/W 프로그램이다.
 
-- Web Server, WAS 서버, DB 서버의 관계를 살펴보면, WebServer(클라이언트) - WAS(서버)와 WAS(클라이언트)- DB(서버)로 이루어져 있다.
+- Web Server, WAS 서버, DB 서버의 관계를 살펴보면, [WebServer(클라이언트) - WAS(서버)]와 [WAS(클라이언트)- DB(서버)]로 이루어져 있다.
 
 - 웹서버는 WAS에 Requsest를 보내고, WAS는 DB로 Request를 보내기 때문이다.
 

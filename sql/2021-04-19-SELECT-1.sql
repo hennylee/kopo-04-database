@@ -1,8 +1,14 @@
 -- <04/19> SELECT (1)
 -- <SELECT>
 -- 1~2. *를 통해서 전체 COLUMN을 조회할 수 있다. 
+-- 컬럼과 컬럼의 구분자는 `,`이다.
+
 SELECT * FROM EMP;
 SELECT EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO FROM EMP;
+
+-- `SELECT * FROM EMP;`와 `SELECT EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO FROM EMP;`의 결과는? 같다. 
+-- 그러면 둘 중 어떤 방식이 더 좋은 SQL일까? 필요한 컬럼을 일일히 나열하는 방법이 좋다.
+-- 그 이유는 1) SQL의 가독성 , 2) SQL 안정성 때문이다.
 
 -- DESC : 테이블 구조를 조회할 수 있다. 
 DESC EMP;
@@ -127,20 +133,3 @@ SELECT ENAME, SAL*100, SAL||'00' FROM EMP;
 SELECT ENAME, SAL||'00', to_char(SAL)||'00' FROM EMP;
 
 
--- [0419 과제]
-
-
-
--- 4.
-SELECT * FROM V$SESSION;
-SELECT * FROM V$PROCESS;
-SELECT * FROM SYS.V_$SESS_IO;
-
--- 5.
-SELECT EMPNO||','||ENAME||','||JOB||','||SAL||','||DEPTNO FROM EMP;
-
--- 6.
-SELECT * FROM TAB ;
-SELECT * FROM ALL_TABLES;
-
-DESC EMP;

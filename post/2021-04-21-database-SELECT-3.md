@@ -1,4 +1,4 @@
-## ORDER BY
+## 1. ORDER BY
 
 - 정렬 시 비교 기준
 
@@ -30,7 +30,7 @@
   - 묵시(암시)적 정렬 : DBMS 내부에서는 암시적 정렬이 자주 일어난다.  
 
 
-## DISTINCT
+## 2. DISTINCT
 
 - DISTINCT는 중복을 제거하는 필터링을 해준다. 
 
@@ -45,7 +45,7 @@
 - DISTINCT는 `select_list` 앞에 위치해야 한다.
 
 
-## DECODE
+## 3. DECODE
 
 - DECODE는 SQL문장 안에서 쓸 수 있는 조건문(IF)이다. 
 
@@ -60,7 +60,7 @@
   - CASE 2. ORDER BY처럼 처리하는 방법이 내부적으로 정해져 있나? O, 무조건 같다고 처리한다. 
 
 
-## CASE
+## 4. CASE
 
 ```sql
 CASE (컬럼)
@@ -74,11 +74,11 @@ END (AS [별칭])
 - DECODE와 CASE의 차이는?
 
 
-## ROWNUM 
+## 5. ROWNUM 
 
 - ROWNUM은 ROW에 부여된 절대적인 번호가 아니다. 
 
-- 오라클의 실행순서는? [ 3 - 4 - 1 - 5 ]
+- 오라클의 실행순서는? [ 3 - 4 - (2 - 1) - 5 ]
 
 ```sql
 1. SELECT select_list
@@ -110,7 +110,7 @@ SELECT ENAME, DEPTNO, SAL FROM EMP WHERE ROWNUM <= 5;
 SELECT ENAME, DEPTNO, SAL FROM EMP WHERE ROWNUM < 5;
 ```
 
-## 논리 연산자
+## 6. 논리 연산자
 
 - 종류 : AND, OR
 
