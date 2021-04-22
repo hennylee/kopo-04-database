@@ -47,12 +47,12 @@ SELECT ENAME, SAL, COMM FROM EMP WHERE COMM < -1;
 -- 11. NULL에 = 연산자를 사용할 수 없다. 
 SELECT ENAME, SAL, COMM FROM EMP WHERE COMM=NULL;
 
--- 12. NULL에 !=, <>, ^= 연산자를 사용할 수 없다.
+-- 12. NULL에 !=, <>, ^= 동등 비교 연산자를 사용할 수 없다.
 SELECT ENAME, SAL, COMM FROM EMP WHERE COMM <> null;
 SELECT ENAME, SAL, COMM FROM EMP WHERE COMM != null;
 SELECT ENAME, SAL, COMM FROM EMP WHERE COMM ^= null;
 
--- 13. NULL을 찾는 연산자는 is null이다.
+-- 13. NULL을 동등비교하는 연산자는 is null이다.
 SELECT ENAME, SAL, COMM FROM EMP WHERE COMM is null;
 
 -- 14. NULL이 아닌 데이터를 찾는 연산자는 is not null이다.
@@ -60,21 +60,24 @@ SELECT ENAME, SAL, COMM FROM EMP WHERE COMM is not null;
 
 -- [NULL 적용불가]
 -- 1~2. NULL은 함수적용 불가하다. 
--- `length(COMM)` : 암시적 데이터타입 형변환이 발생한다. COMM이 문자로 바뀌게 된다. 좋은 방식은 아니다. 
+-- `length(COMM)` : 암시적 데이터타입 형변환이 발생한다. COMM이 문자로 바뀌게 된다. 좋은 방식은 아니다.
+-- NULL 데이터에 함수를 적용하면 결과는 NULL이다.
 SELECT ENAME, length(ENAME), COMM, length(COMM) FROM EMP;
 SELECT SAL-EMPNO, abs(SAL-EMPNO), abs(SAL-COMM)+100 FROM EMP;
 
--- 3. NULL을 무시하는 함수들  : NVL, decode
+-- 3. NULL을 처리할 수 있는 함수들  : NVL, decode, NVL2, NULLIF
 -- NVL(a, b) : a가 NULL이면 b로 치환한다.
 -- decode(a, b, c, d) : if조건절의 역할을 한다. if( a = b ) { c } else { d }
-SELECT concat(ENAME||'is ',COMM), NVL(COMM, -1), decode(COMM, null, -999, COMM) FROM EMP;
+SELECT concat(ENAME||' is ',COMM), NVL(COMM, -1), decode(COMM, null, -999, COMM) FROM EMP;
+SELECT ENAME||' is '||COMM, NVL(COMM, -1), decode(COMM, null, -999, COMM) FROM EMP;
 
--- NULL
-SELECT SAL,COMM,NVL(COMM,SAL),nvl2(COMM,SAL,0), NULLIF(JOB,'MANAGER') FROM emp;
 
--- NVL2
+-- NVL(a, b) : a가 NULL이면 b로, NULL이 아니면 a로 치환한다.
+SELECT SAL,COMM,NVL(COMM,SAL) FROM emp;
+
+-- NVL2(a, b, c) : a가 NULL이면 c, NULL이 아니면 b
 SELECT COMM,SAL, nvl2(COMM,SAL,0) FROM emp;
 
--- NULLIF
+-- NULLIF(a, b) : a와 b가 같으면 null, 같지 않으면 a
 SELECT JOB, NULLIF(JOB,'MANAGER') FROM emp;
 SELECT COMM, NULLIF(COMM,500) FROM emp;
