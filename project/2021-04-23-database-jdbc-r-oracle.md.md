@@ -52,3 +52,5 @@ conn<-dbConnect(drv, "jdbc:oracle:thin:@//192.168.119.119:1521/dink","scott","ti
 - 쿼리 변수에 저장 : `query<-"SELECT * FROM EMP"`
 
 - 쿼리 실행 : `dbGetQuery(conn,query)`
+
+![image](https://user-images.githubusercontent.com/77392444/115861094-563a8b80-a46d-11eb-8156-05986b2acc1f.png)
