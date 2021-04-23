@@ -47,7 +47,7 @@ SELECT SAL,COMM,NVL(COMM,SAL),nvl2(COMM,SAL,0), NULLIF(JOB,'MANAGER') FROM emp;
 
 1. [실행 결과가 Oracle 9i 에서는 정렬되어 나타나지만 Oracle 10g이후 버전부터는 정렬된 결과가 나타나지 않는다. 이유를 찾아 설명 하십시요]()
  
-2. [다음의 집합 연산자 UNION, UNION ALL,INTERSECT, MINUS를 공부한후 각각의 예제 SQL을 만든 후 결과가 왜 정렬되는지 설명 하십시오.]()
+2. [다음의 집합 연산자 UNION, UNION ALL,INTERSECT, MINUS를 공부한후 각각의 예제 SQL을 만든 후 결과가 왜 정렬되는지 설명 하십시오.](https://github.com/hennylee/kopo-04-database/blob/main/assignment/2021-04-22-database-SetOperator.md)
 
     - 명시적 정렬, 암시적 정렬과 연관되어 있다. 
 
