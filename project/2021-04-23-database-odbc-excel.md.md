@@ -58,5 +58,23 @@ ORCL=
 - Test Connection을 클릭한 후, 계정명과 비밀번호를 입력한다. (이때 Oracle DBMS 서버가 반드시 가동중이어야 한다)
 
 
+## 실습해보기
+
+- EXCEL에서 Oracle 데이터 불러오기
+
+![image](https://user-images.githubusercontent.com/77392444/115861291-98fc6380-a46d-11eb-8fd8-d16a9e38754d.png)
+
+- 연결한 DNS 선택하고, SQL문 작성하기
+
+![image](https://user-images.githubusercontent.com/77392444/115861546-dfea5900-a46d-11eb-97d4-a8bab858d933.png)
 
 
+
+- 데이터 로드 혹은 데이터 변환 하기
+
+![image](https://user-images.githubusercontent.com/77392444/115861409-b7faf580-a46d-11eb-9b7d-cb812e6604ed.png)
+
+
+- 데이터 로드 완료
+
+![image](https://user-images.githubusercontent.com/77392444/115861706-145e1500-a46e-11eb-8dad-fc9ee5110b3b.png)
