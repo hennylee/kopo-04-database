@@ -53,7 +53,8 @@ SELECT SAL,COMM,NVL(COMM,SAL),nvl2(COMM,SAL,0), NULLIF(JOB,'MANAGER') FROM emp;
 
 3. [묵시(암시)적 정렬의 사례는?]()
 
-    - 숙제 X
+    - 명시적 정렬 : ORDER BY 처럼 의도적으로 SQL을 통해 정렬하는 경우
+    - 암시적 정렬 : DBMS가 내부적으로 정렬 : SORT, MERGE
 
 4. [Interactive SQL 과 Embeded SQL를 설명 하고 각각의 사용예를 찾아서 기록하고 해석 하십시요]()
 
@@ -73,17 +74,7 @@ CASE DEPTNO
     THEN SAL*1.1
     ELSE
         SAL*1.01
-END AS bonus,
-CASE DEPTNO
-    WHEN 10 
-    THEN SAL*1.003
-    WHEN 20
-    THEN SAL*1.2
-    WHEN 30
-    THEN SAL*1.1
-    ELSE
-        SAL*1.01
-END AS bonus2
+END AS bonus
 FROM EMP
 ORDER BY bonus; 
 ```
