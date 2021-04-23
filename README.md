@@ -61,6 +61,49 @@ SELECT SAL,COMM,NVL(COMM,SAL),nvl2(COMM,SAL,0), NULLIF(JOB,'MANAGER') FROM emp;
 
 5. [부서별 차등 보너스 계산 SQL을 작성하시오]()
 
+```SQL
+-- CASE 중복 변수 처리 O + TRUC() 내림 함수
+SELECT DEPTNO, ENAME, JOB, SAL,
+CASE DEPTNO
+    WHEN 10 
+    THEN TRUNC(SAL*1.003)
+    WHEN 20
+    THEN SAL*1.2
+    WHEN 30
+    THEN SAL*1.1
+    ELSE
+        SAL*1.01
+END AS bonus,
+CASE DEPTNO
+    WHEN 10 
+    THEN SAL*1.003
+    WHEN 20
+    THEN SAL*1.2
+    WHEN 30
+    THEN SAL*1.1
+    ELSE
+        SAL*1.01
+END AS bonus2
+FROM EMP
+ORDER BY bonus; 
+```
+
 6. [Pseudo 컬럼 정의 및 예제 SQL문장들]()
 
 7. [Top-N, Bottom-M의 개념, 최상의 급여자 5명을 조회하는 SQL문을 작성하기(Sub Query)]()
+
+- Top-N, Bottom-M
+
+- Psuecode인 ROWNUM을 사용하여 구한다.
+
+- ROWNUM은 1부터 생성된 뒤, 순차적으로 증가한다. 
+
+```SQL
+-- ROWNUM까지 상위 5명만 출력하고 싶다면
+SELECT ROWNUM, DEPTNO, ENAME, SAL FROM (SELECT DEPTNO, ENAME, SAL FROM EMP ORDER BY SAL DESC) 
+WHERE ROWNUM <= 5 ORDER BY ROWNUM;
+
+-- * 를 사용한 상위 5명의 데이터 출력
+SELECT * FROM (SELECT DEPTNO, ENAME, SAL FROM EMP ORDER BY SAL DESC) 
+WHERE ROWNUM <= 5 ORDER BY ROWNUM;
+```
