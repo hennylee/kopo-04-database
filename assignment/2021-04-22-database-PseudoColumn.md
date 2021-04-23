@@ -34,10 +34,12 @@
 SELECT ORA_ROWSCN FROM EMP;
 ```
 
-- ROWID Pseudocolumn : Index를 할 때 중요하다. Order을 달리해도 변하지 않는 고유의 값이다.
+- ROWID Pseudocolumn
 
 ```SQL
 -- 행을 찾아가는 가장 빠른 방법   
+-- ROWID는 Index에 저장된다.
+-- Order을 달리해도 변하지 않는 고유의 값이다.
 SELECT ROWID FROM EMP;
 ```
 
