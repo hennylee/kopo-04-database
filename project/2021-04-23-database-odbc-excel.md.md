@@ -1,6 +1,6 @@
 # Oracle Database의 데이터 Excel에 연동하기
 
-## OJDBC 다운로드
+## ODBC 다운로드
 
 - 다운로드 : https://www.oracle.com/kr/database/technologies/instant-client/winx64-64-downloads.html
 
