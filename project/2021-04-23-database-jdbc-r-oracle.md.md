@@ -23,6 +23,7 @@
 - 자바 환경변수 설정 : `Sys.setenv("JAVA_HOME"='C:\\Program Files\\Java\\jdk1.8.0_241')`
 
 - 환경변수 확인하는 방법
+
 ![image](https://user-images.githubusercontent.com/77392444/115855307-115f2680-a466-11eb-95c4-908f8bf082fc.png)
 
 
