@@ -110,6 +110,23 @@ SELECT ENAME, DEPTNO, SAL FROM EMP WHERE ROWNUM <= 5;
 SELECT ENAME, DEPTNO, SAL FROM EMP WHERE ROWNUM < 5;
 ```
 
+## SubQuery
+
+- SubQuery는 SELECT문만 올 수 있다.
+
+- Main Query보다는 SubQuery가 먼저 실행된다. 
+
+- 테이블은 구조가 정적으로 이루어졌다. 
+
+- SubQuery를 실행하면? resultSet 결과집합이 만들어 진다.
+
+- resultSet도 생긴 모양은 테이블과 똑같다. (row + column , 2차원 구조)
+
+- 테이블은 정적인 구조이다. 
+
+- SubQuery은 테이블이 아니기 때문에 유연하게 사용할 수 있다.
+
+
 ## 6. 논리 연산자
 
 - 종류 : AND, OR
