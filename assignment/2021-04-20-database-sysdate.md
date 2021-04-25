@@ -92,11 +92,6 @@ SELECT TO_CHAR(SYSTIMESTAMP, 'YYYY-MM-DD HH24:MI:SS.FF3') "NOW" FROM DUAL;
 
 ## YY/RR 차이는?
 
-- Y2k compatibility의 차이이다. 
-
-
-## YY/RR 차이는?
-
 - Y2k compatibility의 차이이다.
 
 - YY : 입력년도를 오라클 서버의 현재 날짜와 동시간대로 계산한다. 21을 쓰면 2021년으로, 55를 쓰면 2055년으로 인식한다.
