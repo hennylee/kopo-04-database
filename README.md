@@ -45,22 +45,17 @@ SELECT SAL,COMM,NVL(COMM,SAL),nvl2(COMM,SAL,0), NULLIF(JOB,'MANAGER') FROM emp;
 
 ### 0421 과제
 
-1. [실행 결과가 Oracle 9i 에서는 정렬되어 나타나지만 Oracle 10g이후 버전부터는 정렬된 결과가 나타나지 않는다. 이유를 찾아 설명 하십시요]()
+1. [실행 결과가 Oracle 9i 에서는 정렬되어 나타나지만 Oracle 10g이후 버전부터는 정렬된 결과가 나타나지 않는다. 이유를 찾아 설명 하십시요](https://github.com/hennylee/kopo-04-database/blob/main/assignment/2021-04-22-database-10g-HashSort.md)
  
 2. [다음의 집합 연산자 UNION, UNION ALL,INTERSECT, MINUS를 공부한후 각각의 예제 SQL을 만든 후 결과가 왜 정렬되는지 설명 하십시오.](https://github.com/hennylee/kopo-04-database/blob/main/assignment/2021-04-22-database-SetOperator.md)
 
     - 명시적 정렬, 암시적 정렬과 연관되어 있다. 
 
-3. [묵시(암시)적 정렬의 사례는?]()
-
-    - 명시적 정렬 : ORDER BY 처럼 의도적으로 SQL을 통해 정렬하는 경우
-    - 암시적 정렬 : DBMS가 내부적으로 정렬 : SORT, MERGE
-
-4. [Interactive SQL 과 Embeded SQL를 설명 하고 각각의 사용예를 찾아서 기록하고 해석 하십시요]()
+3. [Interactive SQL 과 Embeded SQL를 설명 하고 각각의 사용예를 찾아서 기록하고 해석 하십시요](https://github.com/hennylee/kopo-04-database/blob/main/assignment/2021-04-22-database-EmbededSQL.md)
 
     - 사례는 인터넷 검색으로 찾아서 직접 보여줘야 함
 
-5. [부서별 차등 보너스 계산 SQL을 작성하시오]()
+4. 부서별 차등 보너스 계산 SQL을 작성하시오
 
 ```SQL
 -- CASE 중복 변수 처리 O + TRUC() 내림 함수
@@ -79,15 +74,14 @@ FROM EMP
 ORDER BY bonus; 
 ```
 
-6. [Pseudo 컬럼 정의 및 예제 SQL문장들]()
+5. [Pseudo 컬럼 정의 및 예제 SQL문장들](https://github.com/hennylee/kopo-04-database/blob/main/assignment/2021-04-22-database-PseudoColumn.md)
 
-7. [Top-N, Bottom-M의 개념, 최상의 급여자 5명을 조회하는 SQL문을 작성하기(Sub Query)]()
+6. Top-N, Bottom-M의 개념, 최상의 급여자 5명을 조회하는 SQL문을 작성하기(Sub Query)
+    - Top-N, Bottom-M
 
-- Top-N, Bottom-M
+    - Psuecode인 ROWNUM을 사용하여 구한다.
 
-- Psuecode인 ROWNUM을 사용하여 구한다.
-
-- ROWNUM은 1부터 생성된 뒤, 순차적으로 증가한다. 
+    - ROWNUM은 1부터 생성된 뒤, 순차적으로 증가한다. 
 
 ```SQL
 -- ROWNUM까지 상위 5명만 출력하고 싶다면
@@ -98,3 +92,14 @@ WHERE ROWNUM <= 5 ORDER BY ROWNUM;
 SELECT * FROM (SELECT DEPTNO, ENAME, SAL FROM EMP ORDER BY SAL DESC) 
 WHERE ROWNUM <= 5 ORDER BY ROWNUM;
 ```
+
+
+## 0423 과제
+
+1. [to_date()날짜 포맷 YY, RR yy가 안나오는 이유 ,차이점 조사 후 설명]()
+
+2. [SELECT * FROM SALGRADE WHERE 3000 BETWEEN LOSAL AND HISAL; 해석]()
+
+3. [SCOTT.EMP 해석 & Schema 설명]()
+
+4. [형 변환 우선순위 문자와 날짜 설명]()
