@@ -15,6 +15,9 @@
 - 이를 위해서는 ODBC 소프트웨어 외에, 액세스 할 각 데이터베이스마다 별도의 모듈이나 드라이버가 필요하다.
 
 
+![image](https://user-images.githubusercontent.com/77392444/115997688-0ac7df00-a61f-11eb-92f0-27ed72c56f15.png)
+
+
 ## ODBC 다운로드
 
 - 다운로드 : https://www.oracle.com/kr/database/technologies/instant-client/winx64-64-downloads.html
