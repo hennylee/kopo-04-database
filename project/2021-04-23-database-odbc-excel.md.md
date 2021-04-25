@@ -1,5 +1,20 @@
 # Oracle Database의 데이터 Excel에 연동하기
 
+## ODBC란?
+
+- ODBC란 Open DataBase Connectivity의 약자이다.
+
+- 즉 ODBC란 어떤 응용프로그램을 사용하는지에 관계없이, 데이터베이스를 자유롭게 사용하기 위하여 만든 응용프로그램의 표준방법을 말한다.
+
+- ODBC란 마이크로소프트 사에 의해 만들어진 데이터베이스에 접근하기 위한 소프트웨어의 표준 규격으로, 프로그램 내에 ODBC 문장을 사용하면 MS-Access, dBase, DB2, Excel, Text 등의 여러종류의 데이터베이스에 접근할 수 있다.
+
+- 각 데이터베이스의 차이는 ODBC 드라이버에 의해서 흡수되기 때문에 유저는 ODBC에 정해진 순서에 따라서 프로그램을 쓰면 접속처의 데이터베이스가 어떠한 데이터베이스 관리 시스템에 관리되고 있는지 의식할 필요 없이 접근할 수 있다는 것이 특징이다.
+
+- ODBC가 SQL 요청을 받아서 그것을 개개의 데이터베이스 시스템들이 이해할 수 있도록 변환하기 때문이다.
+
+- 이를 위해서는 ODBC 소프트웨어 외에, 액세스 할 각 데이터베이스마다 별도의 모듈이나 드라이버가 필요하다.
+
+
 ## ODBC 다운로드
 
 - 다운로드 : https://www.oracle.com/kr/database/technologies/instant-client/winx64-64-downloads.html
@@ -58,16 +73,15 @@ ORCL=
 - Test Connection을 클릭한 후, 계정명과 비밀번호를 입력한다. (이때 Oracle DBMS 서버가 반드시 가동중이어야 한다)
 
 
-## 실습해보기
+## Excel에서 Oracle DB에 저장된 데이터 활용하기
 
-- EXCEL에서 Oracle 데이터 불러오기
+- EXCEL에서 ODBC 데이터 불러오기
 
 ![image](https://user-images.githubusercontent.com/77392444/115861291-98fc6380-a46d-11eb-8fd8-d16a9e38754d.png)
 
 - 연결한 DNS 선택하고, SQL문 작성하기
 
 ![image](https://user-images.githubusercontent.com/77392444/115861546-dfea5900-a46d-11eb-97d4-a8bab858d933.png)
-
 
 
 - 데이터 로드 혹은 데이터 변환 하기
