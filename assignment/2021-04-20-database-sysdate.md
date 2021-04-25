@@ -91,3 +91,5 @@ SELECT TO_CHAR(SYSTIMESTAMP, 'YYYY-MM-DD HH24:MI:SS.FF3') "NOW" FROM DUAL;
 
 
 ## YY/RR 차이는?
+
+- Y2k compatibility의 차이이다. 
