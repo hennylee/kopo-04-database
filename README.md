@@ -96,10 +96,12 @@ WHERE ROWNUM <= 5 ORDER BY ROWNUM;
 
 ## 0423 과제
 
-1. [to_date()날짜 포맷 YY, RR yy가 안나오는 이유 ,차이점 조사 후 설명]()
+1. [to_date()날짜 포맷 YY, RR yy가 안나오는 이유 ,차이점 조사 후 설명](https://github.com/hennylee/kopo-04-database/blob/main/assignment/2021-04-20-database-sysdate.md#yyrr-차이는)
 
-2. [SELECT * FROM SALGRADE WHERE 3000 BETWEEN LOSAL AND HISAL; 해석]()
+2. `SELECT * FROM SALGRADE WHERE 3000 BETWEEN LOSAL AND HISAL;` 해석
 
-3. [SCOTT.EMP 해석 & Schema 설명]()
 
-4. [형 변환 우선순위 문자와 날짜 설명]()
+
+3. [SCOTT.EMP 해석 & Schema 설명](https://github.com/hennylee/kopo-04-database/blob/main/assignment/2021-04-26-database-schema.md)
+
+4. [형 변환 우선순위 문자와 날짜 설명](https://github.com/hennylee/kopo-04-database/blob/main/assignment/2021-04-26-database-TypeConversion.md)
