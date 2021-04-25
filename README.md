@@ -100,7 +100,9 @@ WHERE ROWNUM <= 5 ORDER BY ROWNUM;
 
 2. `SELECT * FROM SALGRADE WHERE 3000 BETWEEN LOSAL AND HISAL;` 해석
 
+    - WHERE조건이 참이 되는 경우의 ROW를 출력하는 것이다.
 
+    - LOSAL컬럼의 값과 HISAL컬럼의 값 사이에 3000이 있을 때 WHERE 조건이 참이 되어 해당 ROW를 출력하게 되는 것이다.
 
 3. [SCOTT.EMP 해석 & Schema 설명](https://github.com/hennylee/kopo-04-database/blob/main/assignment/2021-04-26-database-schema.md)
 
