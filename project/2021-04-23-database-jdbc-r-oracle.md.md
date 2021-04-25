@@ -4,7 +4,7 @@
 
 ## JDBC란?
 
-- JDBC란 Java DataBase Connectivity
+- JDBC란 Java DataBase Connectivity의 약자이다.
 
 - 데이터베이스에 연결 및 작업을 하기 위한 자바 표준 인터페이스이다.
 
@@ -14,19 +14,25 @@
 
 - JDBC 드라이버는 각 밴드사에서 jar파일로 제공된다.
 
+- 쿼리를 실행하면 JDBC는 결과 값을 담은 ResultSet을 반환하게 된다.
+
 
 ![image](https://user-images.githubusercontent.com/77392444/115996778-a8211400-a61b-11eb-8b23-e8474ca30b2b.png)
 
 
 
-## 설치과정
+## 연동 과정
 
-1. (자바, 오라클이 설치되어 있다는 가정 하에) R을 설치한다. 
-2. 그 다음으로 R을 쉽게 사용할 수 있게 해주는 Rstudio를 설치한다.
-3. Oracle과 R을 연동시키기 위해 JDBC(ojdbc8.jar)을 다운로드한다.
-4. R에서 JDBC 드라이버를 로딩한다.
-5. R에서 데이터베이스 Connection 연결한다.
-6. 쿼리 문장 실행한다.
+1. (자바, 오라클이 설치되어 있다는 가정 하에) R과 R을 쉽게 사용할 수 있게 해주는 Rstudio를 설치한다.
+
+2. Oracle과 R을 연동시키기 위해 JDBC(ojdbc8.jar)을 다운로드한다.
+
+3. R에서 JDBC 드라이버를 로딩한다.
+
+4. R에서 데이터베이스 Connection 연결한다.
+
+5. 쿼리 문장을 실행해 ResultSet에 담긴 결과를 받는다.
+
 
 ## R 패키지 설치
 
@@ -53,9 +59,9 @@
 
 - DBI 실행 : `library(DBI)`
 
-- rJava 실행 : library(rJava)
+- rJava 실행 : `library(rJava)`
 
-- RJDBC 실행 : library(RJDBC)
+- RJDBC 실행 : `library(RJDBC)`
 
 
 - 드라이버 설정 : 
@@ -69,7 +75,6 @@ drv<-JDBC("oracle.jdbc.driver.OracleDriver", "C:/Program Files/Java/jdk1.8.0_241
 ```r
 conn<-dbConnect(drv, "jdbc:oracle:thin:@//192.168.119.119:1521/dink","scott","tiger")
 ```
-
 
 - 쿼리 변수에 저장 : `query<-"SELECT * FROM EMP"`
 
