@@ -24,24 +24,35 @@
 
 - 데이터를 쭉 정렬하면서 읽어들이면서 중복 데이터를 찾아낸다. 
 
-## Hash 정렬
+## Hash 정렬이란
 
 - Hash 알고리즘이란?
+  - 임의로 만든 HASH함수를 통해서 KEY들이 일정 규칙을 가진 hashes로 변형된다.
+
+- Hash의 용도란?
+  - 무결성
+  - Direct Access Method : 데이터에 접근하는 가장 빠른 방법은 hash이고, 그 다음 빠른 방법은 rowid이다.
+  - 암호화 : 해시함수로 변환되기 때문에 입력값을 알아내기 힘들어 보안에 용이하다.
 
 
+- Hash의 특징은?
+  - 고정길이 : hash 함수의 Input(Key)은 가변길이, Output(Value)은 고정길이를 갖는다. 
+  - 충돌회피 : Chaining
+  - 단방향
 
 
 – 충분한 Memory일 경우 (즉 In-Memory Sort)일 경우 효과적
 – Sort operation이 기존 방식에 비해 최대 5~10%까지 빠를 수 있다.
 
-– 높은 cardinality (Row들의 Distinct가 많은 경우)일 경우 특히 효과적 (HASH방식 이므로)
+– 반면 높은 cardinality (Row들의 Distinct가 많은 경우)일 경우 HASH방식이 효과적이다.
 – Faster CPU일 경우 더욱 효과적
-– 적은 Column을 Select 했을 경우 특히 효과적 (Hash는 Memory부족에 의해 Disk로 내려가면 꽝)
+– 적은 Column을 Select 했을 경우 Sort operation이 효과적이다. (Hash는 Memory부족에 의해 Disk로 내려가면 꽝)
 
 - “GROUP BY”를 사용한 App가 “ORDER BY”를 기술하지 않더라도 Ordering된 결과를 Display하던
 App들이 10g R2로 오면서 이 기능이 깨지게 되었음.
 즉 반드시 Ordering이 필요하면 “GROUP BY”와 함께 “ORDER BY”를 기술해야 함.
 (참고. 이는 Oracle의 Bug은 아니며 App의 잘못임)
+
 
 ## Oracle 10g에서 hash 정렬이 필요해진 이유는?
 
