@@ -98,6 +98,8 @@ SELECT TO_CHAR(SYSTIMESTAMP, 'YYYY-MM-DD HH24:MI:SS.FF3') "NOW" FROM DUAL;
 
 - RR : 입력년도가 50 ~ 99 일 경우 전 세기로 계산한다. 21을 쓰면 20201년으로, 55를 쓰면 1955년으로 인식한다.
 
+
+
 ## 아래 YY 조회 결과가 출력되지 않는 이유는?
 
 ```sql
