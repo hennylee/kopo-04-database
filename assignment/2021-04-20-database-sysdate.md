@@ -98,3 +98,39 @@ SELECT TO_CHAR(SYSTIMESTAMP, 'YYYY-MM-DD HH24:MI:SS.FF3') "NOW" FROM DUAL;
 
 - RR : 입력년도가 50 ~ 99 일 경우 전 세기로 계산한다. 21을 쓰면 20201년으로, 55를 쓰면 1955년으로 인식한다.
 
+## 아래 YY 조회 결과가 출력되지 않는 이유는?
+
+```sql
+SELECT ENAME,HIREDATE,SAL FROM EMP
+WHERE HIREDATE between to_date('81/02/20','yy/mm/dd') and to_date('82/12/09','yy/mm/dd');
+```
+
+![image](https://user-images.githubusercontent.com/77392444/116014385-f19b4e80-a66f-11eb-83ce-7a9d95efe73c.png)
+
+-  HIREDATE의 입력년도를 확인해보면, 1900년대임을 알 수 있다.
+
+```sql
+SELECT ENAME,HIREDATE,to_CHAR(HIREDATE,'YYYY'),SAL FROM EMP;
+SELECT ENAME,HIREDATE,to_CHAR(HIREDATE,'YEAR'),SAL FROM EMP;
+SELECT ENAME,HIREDATE,to_CHAR(HIREDATE,'YYYY-MM-DD'),SAL FROM EMP;
+SELECT ENAME,HIREDATE,to_CHAR(HIREDATE,'RRRR-MM-DD'),SAL FROM EMP;
+```
+
+![image](https://user-images.githubusercontent.com/77392444/116015044-e8f84780-a672-11eb-8279-bd6d996cbb78.png)
+
+
+- 이때, YY로 형변환을 하게 되면 현재 년도의 세기와 같은 2081년과 2082년으로 변환된다.
+
+```sql
+SELECT ENAME,HIREDATE,SAL FROM EMP
+WHERE HIREDATE between to_date('81/02/20','yy/mm/dd') and to_date('82/12/09','yy/mm/dd');
+```
+
+- 반면, RR로 형변환을 하게 되면 이전 세기의 년도인 1981년과 1982년으로 변환된다. 
+
+```sql
+SELECT ENAME,HIREDATE,SAL FROM EMP
+WHERE HIREDATE between to_date('81/02/20','rr/mm/dd') and to_date('82/12/09','rr/mm/dd');
+```
+
+- 그래서 RR로 형변환했을 때에만 WHERE 조건이 참이되는 ROW가 존재하게 되는 것이다.
