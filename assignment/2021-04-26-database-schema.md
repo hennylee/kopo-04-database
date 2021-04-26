@@ -10,6 +10,8 @@
 
 - There is no relationship between a tablespace and a schema. Objects in the same schema can use storage in different tablespaces, and a tablespace can contain data from different schemas.
 
+- 스키마 관련 기사  : [국민은행, 메인프레임 다운사이징 또 물건너가나](http://webcache.googleusercontent.com/search?q=cache:0Cwii2IPq4UJ:www.bikorea.net/news/articleView.html%3Fidxno%3D30246+&cd=1&hl=ko&ct=clnk&gl=kr)
+
 
 ## scott.emp
 
