@@ -94,7 +94,7 @@ WHERE ROWNUM <= 5 ORDER BY ROWNUM;
 ```
 
 
-## 0423 과제
+### 0423 과제
 
 1. [to_date()날짜 포맷 YY, RR yy가 안나오는 이유 ,차이점 조사 후 설명](https://github.com/hennylee/kopo-04-database/blob/main/assignment/2021-04-20-database-sysdate.md#yyrr-차이는)
 
@@ -105,6 +105,8 @@ WHERE ROWNUM <= 5 ORDER BY ROWNUM;
     - WHERE조건이 참이 되는 경우의 ROW를 출력하는 것이다.
 
     - LOSAL컬럼의 값과 HISAL컬럼의 값 사이에 3000이 있을 때 WHERE 조건이 참이 되어 해당 ROW를 출력하게 되는 것이다.
+
+    - L value에는 컬럼이 아니라 숫자가 나올 수도 있다.
 
 3. [SCOTT.EMP 해석 & Schema 설명](https://github.com/hennylee/kopo-04-database/blob/main/assignment/2021-04-26-database-schema.md)
 
