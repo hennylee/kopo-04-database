@@ -27,6 +27,6 @@
 
 ![image](https://user-images.githubusercontent.com/77392444/116014245-51452a00-a66f-11eb-9778-5112dea81252.png)
 
-- 조회 권한 있는 테이블 조회 : `SELECT * FROM SCOTT.EMP;`
+- 다른 스키마의 테이블 조회 : `SELECT * FROM SCOTT.EMP;`
 
 ![image](https://user-images.githubusercontent.com/77392444/116014255-602bdc80-a66f-11eb-89f7-1e9593b32348.png)
