@@ -1,4 +1,4 @@
-# JDBC를 이용해서 R과 Oracle 연동하기
+# JDBC를 이용해서 R과 Oracle 연동 & 시각화하기
 
 
 
