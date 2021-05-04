@@ -1,4 +1,4 @@
-# Oracle Database의 데이터를 Excel로 시각화하기
+# ODBC를 이용해서 excel과 Oracle 연동 & 시각화하기
 
 ## ODBC란?
 
