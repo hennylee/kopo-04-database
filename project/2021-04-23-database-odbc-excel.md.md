@@ -86,6 +86,24 @@ ORCL=
 
 ![image](https://user-images.githubusercontent.com/77392444/115861546-dfea5900-a46d-11eb-97d4-a8bab858d933.png)
 
+```sql
+SELECT city, gender, 
+CASE
+    WHEN age BETWEEN 10 AND 19 THEN '10대'
+    WHEN age BETWEEN 20 AND 29 THEN '20대'
+    WHEN age BETWEEN 30 AND 39 THEN '30대'
+    WHEN age BETWEEN 40 AND 49 THEN '40대'
+    WHEN age BETWEEN 50 AND 59 THEN '50대'
+    WHEN age BETWEEN 60 AND 69 THEN '60대'
+    WHEN age BETWEEN 70 AND 79 THEN '70대'
+    ELSE '기타'
+END as age_range, count(*) as count 
+FROM (SELECT substr(address1, 1,2) as city, gender,
+             trunc((sysdate - birth_dt) / 365) as age
+      FROM customer)
+GROUP BY city, age, gender
+ORDER BY age, city, gender
+```
 
 - 데이터 로드 혹은 데이터 변환 하기
 
@@ -95,3 +113,20 @@ ORCL=
 - 데이터 로드 완료
 
 ![image](https://user-images.githubusercontent.com/77392444/115861706-145e1500-a46e-11eb-8dad-fc9ee5110b3b.png)
+
+
+## 데이터 시각화 하기
+
+- 로드된 데이터에 적절한 시각화 방법 결정하기
+
+![image](https://user-images.githubusercontent.com/77392444/117035577-6e4cbd80-ad3f-11eb-8f0d-07d07d820ed3.png)
+
+
+- 피벗차트 만들기 (표 전체 선택 - 삽입 - 피벗테이블)
+
+![image](https://user-images.githubusercontent.com/77392444/117035743-a3591000-ad3f-11eb-9264-67ee95b4cf04.png)
+
+
+- 피벗 차트 필드 설정하기
+
+![image](https://user-images.githubusercontent.com/77392444/117036004-efa45000-ad3f-11eb-9092-e963c38a7a57.png)
