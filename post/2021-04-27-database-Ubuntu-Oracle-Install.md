@@ -23,6 +23,8 @@ Ubuntu IOS 파일을 통해 VMware에 우분투 서버를 생성한다.
 
 ### 1.2 우분투 서버 고정 IP 설정하기
 
+- root 계정으로 전환하기 : `sudo passwd root` - `su`
+
 - vmnetcfg에 설정된 VM웨어 네트워크 IP 정보들은 아래와 같다. 
 
 ```
