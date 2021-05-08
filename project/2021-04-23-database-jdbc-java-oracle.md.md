@@ -146,6 +146,7 @@ public class Jdbc extends HttpServlet {
 	
 	public static void main(String[] args) {
 		
+//		
 //		Jdbc jdbc = new Jdbc();
 //		jdbc.results();
 		
@@ -260,3 +261,9 @@ public class CustomerServlet extends HttpServlet {
   </body>
 </html>
 ```
+
+
+#### 결과 
+
+![image](https://user-images.githubusercontent.com/77392444/117551119-0075fe00-b07f-11eb-9726-b22bf503795b.png)
+
