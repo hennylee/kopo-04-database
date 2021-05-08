@@ -1,3 +1,20 @@
+## Oracle Linux 8 다운로드
+
+- https://edelivery.oracle.com/ 에서 Oracle Linux8 검색
+
+
+![image](https://user-images.githubusercontent.com/77392444/117553757-4be3d880-b08e-11eb-8d79-8db270aa59e7.png)
+
+
+- 아래 항목 다운로드 
+
+![image](https://user-images.githubusercontent.com/77392444/117553734-2525a200-b08e-11eb-934c-f79b346db5d8.png)
+ 
+
+![image](https://user-images.githubusercontent.com/77392444/117553716-1343ff00-b08e-11eb-9eb7-e4924e0bdcf5.png)
+
+- 다운로드된 ext 파일 실행
+
 ![image](https://user-images.githubusercontent.com/77392444/117552030-028e8b80-b084-11eb-93ac-5abcafedaca2.png)
 
 
