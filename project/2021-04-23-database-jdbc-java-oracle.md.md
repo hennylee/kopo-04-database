@@ -263,7 +263,7 @@ public class CustomerServlet extends HttpServlet {
 ```
 
 
-#### 결과 
+#### 결과 : http://localhost:8080/database-project-1/index.jsp
 
 ![image](https://user-images.githubusercontent.com/77392444/117551119-0075fe00-b07f-11eb-9726-b22bf503795b.png)
 
