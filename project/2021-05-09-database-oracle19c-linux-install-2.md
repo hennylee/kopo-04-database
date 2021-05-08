@@ -8,7 +8,7 @@
 ![image](https://user-images.githubusercontent.com/77392444/117553939-679bae80-b08f-11eb-898c-36bafe9d0f57.png)
 
 
-## Host File
+## Host File 설정
 
 - `vi /etc/hosts` : 본인의 ip 번호 작성 후 저장
 
@@ -18,7 +18,7 @@
 
 ![image](https://user-images.githubusercontent.com/77392444/117554934-bcdabe80-b095-11eb-9235-30cbd349edef.png)
 
-## 자동 설정
+## 패키지 설치
 
 - `dnf install -y https://yum.oracle.com/repo/OracleLinux/OL8/baseos/latest/x86_64/getPackage/oracle-database-preinstall-19c-1.0-1.el8.x86_64.rpm`
 - 자동 설정 패키지들을 설치한다. 
@@ -82,6 +82,7 @@ dnf install -y libnsl2.i686
 ![image](https://user-images.githubusercontent.com/77392444/117555427-1218cf00-b09a-11eb-841c-f047215e0e4b.png)
 
 
+## 자동 설정 
 
 - Oracle이 속할 그룹 추가하기 
 
@@ -92,6 +93,9 @@ groupadd -g 54323 oper
 ```
 
 - 앞서 만든 그룹에 Oracle 유저 추가하기  : `useradd -u 54321 -g oinstall -G dba,oper oracle`
+
+
+## 추가 설정
 
 - Oralce 패스워드 설정하기 : `passwd oracle`
 
@@ -133,10 +137,10 @@ chmod -R 775 /u01 /u02
 ![image](https://user-images.githubusercontent.com/77392444/117555483-8c495380-b09a-11eb-8546-99c06f600d63.png)
 
 
-- `mkdir /home/oracle/scripts`
+- scripts 파일 만들기 : `mkdir /home/oracle/scripts`
 
-- 환경 설정 변수들을 저장하기 
-- 환경 설정 파일을 setEnv.sh 라고 한다. 
+- setEnv.sh 파일 만들기 
+    - 환경 설정 파일을 setEnv.sh 라고 한다. 
 
 ```shell
 cat > /home/oracle/scripts/setEnv.sh <<EOF
@@ -165,3 +169,46 @@ EOF
 
 ![image](https://user-images.githubusercontent.com/77392444/117555578-5a84bc80-b09b-11eb-8a0d-0802e2d2640f.png)
 
+- /home/oracle/.bash_profile 파일 뒤에 setEnv.sh 내용 넣기 
+
+```shell
+echo ". /home/oracle/scripts/setEnv.sh" >> /home/oracle/.bash_profile
+```
+
+
+-  startup/shutdown service 로부터 호출되는 "start_all.sh" 과 "stop_all.sh" 스크립트 만들기 
+
+```shell
+cat > /home/oracle/scripts/start_all.sh <<EOF
+```
+
+```shell
+export ORAENV_ASK=NO
+. oraenv
+export ORAENV_ASK=YES
+
+dbstart \$ORACLE_HOME
+EOF
+```
+
+```shell
+cat > /home/oracle/scripts/stop_all.sh <<EOF
+export ORAENV_ASK=NO
+. oraenv
+export ORAENV_ASK=YES
+
+dbshut \$ORACLE_HOME
+EOF
+```
+
+```shell
+chown -R oracle:oinstall /home/oracle/scripts
+chmod u+x /home/oracle/scripts/*.sh
+```
+
+- 만든 스크립트 파일들의 소유와 권한 설정/변경하기
+
+```shell
+chown -R oracle:oinstall /home/oracle/scripts
+chmod u+x /home/oracle/scripts/*.sh
+```
