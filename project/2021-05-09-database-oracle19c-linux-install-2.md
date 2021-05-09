@@ -227,7 +227,7 @@ chmod u+x /home/oracle/scripts/*.sh
 ![image](https://user-images.githubusercontent.com/77392444/117556004-64a8ba00-b09f-11eb-92e8-dd976e060fd6.png)
 
 
-## Oracle Database (RPM) 파일 다운로드
+## Oracle Database (zip) 파일 다운로드
 
 - 인터넷에서 `Oracle Database 19c (19.3) for Linux x86-64 (zip)`을 다운받는다. 
 
@@ -259,7 +259,7 @@ unzip -oq /path/to/software/LINUX.X64_193000_db_home.zip
 
 
 
-
+## Oracle Database GUI 환경에서 설치
 
 - gui 프로그램이 참조할 DISPLY 환경 변수 설정 : `DISPLAY=<본인의 machine-name>:0.0; export DISPLAY`
 
@@ -274,3 +274,67 @@ export DISPLAY
 ```shell
 export CV_ASSUME_DISTID=OEL7.6
 ```
+
+- Oracle DBMS GUI환경에서 설치하기
+
+```shell
+cd /home/oracle/
+./runInstaller 
+```
+
+![image](https://user-images.githubusercontent.com/77392444/117559704-8a938600-b0c2-11eb-953d-733188d85e01.png)
+
+
+
+- 선택
+
+![image](https://user-images.githubusercontent.com/77392444/117559758-02fa4700-b0c3-11eb-9d3a-a2b832f631f1.png)
+
+![image](https://user-images.githubusercontent.com/77392444/117559762-10afcc80-b0c3-11eb-81d0-a66cb6f85127.png)
+
+![image](https://user-images.githubusercontent.com/77392444/117559775-1e655200-b0c3-11eb-9508-39b0758e50d0.png)
+
+![image](https://user-images.githubusercontent.com/77392444/117559783-2e7d3180-b0c3-11eb-9932-a39f0d26193e.png)
+
+![image](https://user-images.githubusercontent.com/77392444/117559789-3ccb4d80-b0c3-11eb-8820-a9745b36347d.png)
+
+![image](https://user-images.githubusercontent.com/77392444/117559793-494fa600-b0c3-11eb-8e82-2c006ac458d6.png)
+
+![image](https://user-images.githubusercontent.com/77392444/117559804-5a98b280-b0c3-11eb-9dd4-e0edd4bb050a.png)
+
+![image](https://user-images.githubusercontent.com/77392444/117559816-6be1bf00-b0c3-11eb-995a-aa919908ba04.png)
+
+![image](https://user-images.githubusercontent.com/77392444/117559822-7ac87180-b0c3-11eb-913d-215ae1a7f196.png)
+
+![image](https://user-images.githubusercontent.com/77392444/117559837-93d12280-b0c3-11eb-8f90-d478193ab40d.png)
+
+![image](https://user-images.githubusercontent.com/77392444/117559841-a21f3e80-b0c3-11eb-91f3-905ddeef2da9.png)
+
+![image](https://user-images.githubusercontent.com/77392444/117559851-bbc08600-b0c3-11eb-9c37-92b303329898.png)
+
+![image](https://user-images.githubusercontent.com/77392444/117559857-d561cd80-b0c3-11eb-893c-1c8a1bafb7dd.png)
+
+![image](https://user-images.githubusercontent.com/77392444/117559864-e0b4f900-b0c3-11eb-8146-9e951d85b0f3.png)
+
+![image](https://user-images.githubusercontent.com/77392444/117559909-32f61a00-b0c4-11eb-816e-4b19c3e0c941.png)
+
+![image](https://user-images.githubusercontent.com/77392444/117559914-3c7f8200-b0c4-11eb-82c6-797020eb887b.png)
+
+![image](https://user-images.githubusercontent.com/77392444/117559915-443f2680-b0c4-11eb-8ae5-e885c100380c.png)
+
+![image](https://user-images.githubusercontent.com/77392444/117559918-50c37f00-b0c4-11eb-8f4e-d15644aa65b6.png)
+
+![image](https://user-images.githubusercontent.com/77392444/117559946-75b7f200-b0c4-11eb-937a-07db812729d7.png)
+
+- 터미널에서 새 윈도우창을 연 뒤, 아래 폴더로 이동해서 스크립트 파일을 실행한다. 
+
+
+![image](https://user-images.githubusercontent.com/77392444/117560126-06db9880-b0c6-11eb-8f52-9ccf61cdc161.png)
+
+- 그런 다음 GUI 세션에서 이전 화면으로 돌아가서 확인을 클릭하여 설치를 계속할 수 있다.
+
+![image](https://user-images.githubusercontent.com/77392444/117560143-28d51b00-b0c6-11eb-8ed7-67a3b032b8a6.png)
+
+
+- 설치 완료되면 close
+![image](https://user-images.githubusercontent.com/77392444/117560357-1c51c200-b0c8-11eb-925b-e3b1ac528c4d.png)
