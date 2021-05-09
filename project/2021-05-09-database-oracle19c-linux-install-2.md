@@ -327,11 +327,13 @@ cd /home/oracle/
 
 ![image](https://user-images.githubusercontent.com/77392444/117559918-50c37f00-b0c4-11eb-8f4e-d15644aa65b6.png)
 
+- 이 창이 뜨면 터미널에서 새 윈도우창을 연 뒤, 아래 폴더로 이동해서 스크립트 파일을 실행해야 한다. 
+
+- 이 과정을 생략하려면, script 실행을 root 한다는 부분에 체크했어야 한다. 
+
 ![image](https://user-images.githubusercontent.com/77392444/117559946-75b7f200-b0c4-11eb-937a-07db812729d7.png)
 
-- 터미널에서 새 윈도우창을 연 뒤, 아래 폴더로 이동해서 스크립트 파일을 실행한다. 
-
-- 위의 경고가 뜨기 않게 하려면, script 실행을 root 한다는 부분에 체크했어야 한다. 
+- 새 윈도우창을 연 뒤, 각 스크립트가 위치한 폴더로 이동해서 스크립트 파일 실행하기
 
 ![image](https://user-images.githubusercontent.com/77392444/117560126-06db9880-b0c6-11eb-8f52-9ccf61cdc161.png)
 
