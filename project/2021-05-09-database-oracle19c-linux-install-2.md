@@ -1,5 +1,8 @@
 
+## 설치 메뉴얼 찾기
+
 - 구글에서 `Oracle-Base Oracle Install in Linx 8` 검색
+
 - 접속 : https://oracle-base.com/articles/19c/oracle-db-19c-installation-on-oracle-linux-8
 
 ![image](https://user-images.githubusercontent.com/77392444/117553860-e04e3b00-b08e-11eb-8df7-c7e764c07877.png)
@@ -18,7 +21,7 @@
 
 ![image](https://user-images.githubusercontent.com/77392444/117554934-bcdabe80-b095-11eb-9235-30cbd349edef.png)
 
-## 패키지 설치
+## 오라클 dbms 설치에 필요한 패키지 설치
 
 - `dnf install -y https://yum.oracle.com/repo/OracleLinux/OL8/baseos/latest/x86_64/getPackage/oracle-database-preinstall-19c-1.0-1.el8.x86_64.rpm`
 - 자동 설정 패키지들을 설치한다. 
@@ -328,6 +331,7 @@ cd /home/oracle/
 
 - 터미널에서 새 윈도우창을 연 뒤, 아래 폴더로 이동해서 스크립트 파일을 실행한다. 
 
+- 위의 경고가 뜨기 않게 하려면, script 실행을 root 한다는 부분에 체크했어야 한다. 
 
 ![image](https://user-images.githubusercontent.com/77392444/117560126-06db9880-b0c6-11eb-8f52-9ccf61cdc161.png)
 
