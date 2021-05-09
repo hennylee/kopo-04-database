@@ -1,3 +1,4 @@
+# Oracle Linux 8 에 Oracle19c 설치하기
 
 ## 1. 설치 메뉴얼 찾기
 
