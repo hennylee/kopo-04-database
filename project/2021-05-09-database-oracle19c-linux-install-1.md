@@ -75,9 +75,6 @@
 
 - https://yum.oracle.com/index.html 접속
 
-![image](https://user-images.githubusercontent.com/77392444/117552734-42577200-b088-11eb-807e-0b7cffc171f7.png)
-
-
 - Home 에서 [Browse the Repositories - Oracle Linux 8 - x86_64] 선택
 
 ![image](https://user-images.githubusercontent.com/77392444/117552794-906c7580-b088-11eb-9d56-9b172c089d4b.png)
