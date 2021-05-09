@@ -94,11 +94,15 @@ groupadd -g 54323 oper
 
 - 앞서 만든 그룹에 Oracle 유저 추가하기  : `useradd -u 54321 -g oinstall -G dba,oper oracle`
 
+- 폴더로 확인해보면 oracle 이라는 계정의 설정을 변경하는 것이다. 
+- 추후에 oracle 폴더에는 Oracle DBMS 파일이 위치하게 된다. 
 
-## 추가 설정
+![image](https://user-images.githubusercontent.com/77392444/117555965-eba96280-b09e-11eb-9886-1dc3da5c6039.png)
 
 - Oralce 패스워드 설정하기 : `passwd oracle`
 
+
+## 추가 설정
 
 - SELinux Permissive 로 변경하기 : `SELinux=permissive`
   - SELinux 는 어느 프로세스가 파일, 디렉토리, 포트에 액세스 할 수 있는지 결정하는 보안 규칙의 집합이다.
@@ -138,6 +142,11 @@ chmod -R 775 /u01 /u02
 
 
 - scripts 파일 만들기 : `mkdir /home/oracle/scripts`
+- 파일을 만들때, GUI 환경에서 말고 터미널 환경에서 위의 명령어로 파일을 만들어야 오류가 없다. 
+
+![image](https://user-images.githubusercontent.com/77392444/117555990-332fee80-b09f-11eb-9b85-915b1da3e31b.png)
+
+
 
 - setEnv.sh 파일 만들기 
     - 환경 설정 파일을 setEnv.sh 라고 한다. 
@@ -211,4 +220,52 @@ chmod u+x /home/oracle/scripts/*.sh
 ```shell
 chown -R oracle:oinstall /home/oracle/scripts
 chmod u+x /home/oracle/scripts/*.sh
+```
+
+- 참고 : 만든 스크립트 파일들
+
+![image](https://user-images.githubusercontent.com/77392444/117556004-64a8ba00-b09f-11eb-92e8-dd976e060fd6.png)
+
+
+## Oracle Database (RPM) 파일 설치
+
+- 인터넷에서 `Oracle Database 19c (19.3) for Linux x86-64 (zip)`을 다운받는다. 
+
+- 다운 받을 파일명 : `LINUX.X64_193000_db_home.zip`
+
+- 링크 : https://www.oracle.com/kr/database/technologies/oracle19c-linux-downloads.html
+
+- 다운 받은 zip 파일은 $ORACLE_HOME인 oracle 폴더에 위치하도록 한다. 
+
+![image](https://user-images.githubusercontent.com/77392444/117558898-e27abe80-b0bb-11eb-91ec-cbaaa3357bfc.png)
+
+- 터미널에서 oracle 계정으로 접속하기  : `su oracle`
+
+![image](https://user-images.githubusercontent.com/77392444/117556076-00d2c100-b0a0-11eb-868e-acbff8ee00a3.png)
+
+
+- $ORACLE_HOME 환경변수 설정하기 : `echo $ORACLE_HOME`
+
+![image](https://user-images.githubusercontent.com/77392444/117556138-9e2df500-b0a0-11eb-9953-ee036a094106.png)
+
+
+- 압축 풀기 
+
+![image](https://user-images.githubusercontent.com/77392444/117559029-b90e6280-b0bc-11eb-92c7-a9ffdf9c75ae.png)
+
+
+
+
+
+
+
+- gui 프로그램이 참조할 DISPLY 환경 변수 설정 : `DISPLAY=<본인의 machine-name>:0.0; export DISPLAY`
+
+![image](https://user-images.githubusercontent.com/77392444/117556237-aa668200-b0a1-11eb-86f4-61714a7e7e22.png)
+
+- 오라클 zip 파일 압출 풀기
+
+```shell
+cd $ORACLE_HOME
+unzip -oq /path/to/software/LINUX.X64_193000_db_home.zip
 ```
