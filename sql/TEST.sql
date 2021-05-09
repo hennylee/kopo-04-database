@@ -1,0 +1,1 @@
+@C:\kopo-04-database\sql\spool.sql
