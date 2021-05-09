@@ -272,7 +272,18 @@ DISPLAY=:0.0;
 export DISPLAY
 ```
 
+- 만약 xhost 오류가 발생하면  아래 과정을 실행한다. 
 
+```
+1) Log on to XWindows as root
+2) Open a terminal
+3) enter 'xhost +'
+4) enter 'su - oracle'
+5) enter 'export DISPLAY=:0.0'
+6) runInstaller (or use whatever installer is required)
+```
+
+- 설치 오류를 피하기 위한 Fake Oracle Linux 7 환경변수 설정
 
 ```shell
 export CV_ASSUME_DISTID=OEL7.6
@@ -343,4 +354,5 @@ cd /home/oracle/
 
 
 - 설치 완료되면 close
+
 ![image](https://user-images.githubusercontent.com/77392444/117560357-1c51c200-b0c8-11eb-925b-e3b1ac528c4d.png)
