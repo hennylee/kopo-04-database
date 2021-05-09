@@ -3,9 +3,11 @@
 
 - 구글에서 `Oracle-Base Oracle Install in Linx 8` 검색
 
+![image](https://user-images.githubusercontent.com/77392444/117553860-e04e3b00-b08e-11eb-8df7-c7e764c07877.png)
+
 - 접속 : https://oracle-base.com/articles/19c/oracle-db-19c-installation-on-oracle-linux-8
 
-![image](https://user-images.githubusercontent.com/77392444/117553860-e04e3b00-b08e-11eb-8df7-c7e764c07877.png)
+![image](https://user-images.githubusercontent.com/77392444/117560511-5e2f3800-b0c9-11eb-8bd3-3219f5688750.png)
 
 - Host File 부분부터 보면서 맞춰서 환경 설정 하기
 ![image](https://user-images.githubusercontent.com/77392444/117553939-679bae80-b08f-11eb-898c-36bafe9d0f57.png)
