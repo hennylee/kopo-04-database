@@ -1,5 +1,5 @@
 
-## 설치 메뉴얼 찾기
+## 1. 설치 메뉴얼 찾기
 
 - 구글에서 `Oracle-Base Oracle Install in Linx 8` 검색
 
@@ -13,7 +13,7 @@
 ![image](https://user-images.githubusercontent.com/77392444/117553939-679bae80-b08f-11eb-898c-36bafe9d0f57.png)
 
 
-## Host File 설정
+## 2. Host File 설정
 
 - `vi /etc/hosts` : 본인의 ip 번호 작성 후 저장
 
@@ -23,7 +23,7 @@
 
 ![image](https://user-images.githubusercontent.com/77392444/117554934-bcdabe80-b095-11eb-9235-30cbd349edef.png)
 
-## 오라클 dbms 설치에 필요한 패키지 설치
+## 3. 오라클 dbms 설치에 필요한 패키지 설치
 
 - `dnf install -y https://yum.oracle.com/repo/OracleLinux/OL8/baseos/latest/x86_64/getPackage/oracle-database-preinstall-19c-1.0-1.el8.x86_64.rpm`
 - 자동 설정 패키지들을 설치한다. 
@@ -87,7 +87,7 @@ dnf install -y libnsl2.i686
 ![image](https://user-images.githubusercontent.com/77392444/117555427-1218cf00-b09a-11eb-841c-f047215e0e4b.png)
 
 
-## 자동 설정 
+## 4. Oracle 계정 설정 
 
 - Oracle이 속할 그룹 추가하기 
 
@@ -107,7 +107,7 @@ groupadd -g 54323 oper
 - Oralce 패스워드 설정하기 : `passwd oracle`
 
 
-## 추가 설정
+## 5. 추가 설정
 
 - SELinux Permissive 로 변경하기 : `SELinux=permissive`
   - SELinux 는 어느 프로세스가 파일, 디렉토리, 포트에 액세스 할 수 있는지 결정하는 보안 규칙의 집합이다.
@@ -232,7 +232,7 @@ chmod u+x /home/oracle/scripts/*.sh
 ![image](https://user-images.githubusercontent.com/77392444/117556004-64a8ba00-b09f-11eb-92e8-dd976e060fd6.png)
 
 
-## Oracle Database (zip) 파일 다운로드
+## 6. Oracle Database (zip) 파일 다운로드
 
 - 인터넷에서 `Oracle Database 19c (19.3) for Linux x86-64 (zip)`을 다운받는다. 
 
@@ -264,7 +264,7 @@ unzip -oq /path/to/software/LINUX.X64_193000_db_home.zip
 
 
 
-## Oracle Database GUI 환경에서 설치
+## 7. Oracle Database GUI 환경에서 설치
 
 - gui 프로그램이 참조할 DISPLY 환경 변수 설정 : `DISPLAY=<본인의 machine-name>:0.0; export DISPLAY`
 
