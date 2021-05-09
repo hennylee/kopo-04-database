@@ -227,7 +227,7 @@ chmod u+x /home/oracle/scripts/*.sh
 ![image](https://user-images.githubusercontent.com/77392444/117556004-64a8ba00-b09f-11eb-92e8-dd976e060fd6.png)
 
 
-## Oracle Database (RPM) 파일 설치
+## Oracle Database (RPM) 파일 다운로드
 
 - 인터넷에서 `Oracle Database 19c (19.3) for Linux x86-64 (zip)`을 다운받는다. 
 
@@ -249,10 +249,12 @@ chmod u+x /home/oracle/scripts/*.sh
 ![image](https://user-images.githubusercontent.com/77392444/117556138-9e2df500-b0a0-11eb-9953-ee036a094106.png)
 
 
-- 압축 풀기 
+- 오라클 zip 파일 압출 풀기
 
-![image](https://user-images.githubusercontent.com/77392444/117559029-b90e6280-b0bc-11eb-92c7-a9ffdf9c75ae.png)
-
+```shell
+cd $ORACLE_HOME
+unzip -oq /path/to/software/LINUX.X64_193000_db_home.zip
+```
 
 
 
@@ -261,11 +263,14 @@ chmod u+x /home/oracle/scripts/*.sh
 
 - gui 프로그램이 참조할 DISPLY 환경 변수 설정 : `DISPLAY=<본인의 machine-name>:0.0; export DISPLAY`
 
-![image](https://user-images.githubusercontent.com/77392444/117556237-aa668200-b0a1-11eb-86f4-61714a7e7e22.png)
+```shell
+xhost +ol8-19
+DISPLAY=:0.0;
+export DISPLAY
+```
 
-- 오라클 zip 파일 압출 풀기
+
 
 ```shell
-cd $ORACLE_HOME
-unzip -oq /path/to/software/LINUX.X64_193000_db_home.zip
+export CV_ASSUME_DISTID=OEL7.6
 ```
