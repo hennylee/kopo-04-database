@@ -15,7 +15,7 @@
 
 - `vi /etc/hosts` : 본인의 ip 번호 작성 후 저장
 
-![image](https://user-images.githubusercontent.com/77392444/117554887-76855f80-b095-11eb-9c05-4843e53cab90.png)
+![image](https://user-images.githubusercontent.com/77392444/117560497-4788e100-b0c9-11eb-881f-104f8843e037.png)
 
 - `vi /etc/hostname` : 호스트 네임 수정
 
