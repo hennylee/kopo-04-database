@@ -1,3 +1,5 @@
+# Vmware에 Oracle Linux 8설치하기
+
 ## 1. Oracle Linux 8 다운로드
 
 - https://edelivery.oracle.com/ 에서 Oracle Linux8 검색
