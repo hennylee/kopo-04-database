@@ -1,4 +1,4 @@
-## Oracle Linux 8 다운로드
+## 1. Oracle Linux 8 다운로드
 
 - https://edelivery.oracle.com/ 에서 Oracle Linux8 검색
 
@@ -19,7 +19,7 @@
 
 
 
-## VMware 에서 Oracle Linux 8 설치
+## 2. VMware 에 Oracle Linux 8 설치
 
 ![image](https://user-images.githubusercontent.com/77392444/117552061-4386a000-b084-11eb-952a-c8baa5dbeee9.png)
 
@@ -50,6 +50,9 @@
 - 프로세스 4개 설정
 
 ![image](https://user-images.githubusercontent.com/77392444/117552311-78472700-b085-11eb-9385-6579e4e61417.png)
+
+
+## 3. Oracle Linux 8 설치
 
 - 만들어진 Oracle Linux 실행
 
