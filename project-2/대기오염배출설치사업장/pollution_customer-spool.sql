@@ -1,0 +1,69 @@
+-- 한글 깨짐
+SET FEEDBACK OFF
+SET HEAD ON
+SPOOL C:\kopo-04-database\project-2\pollution_customer.CSV
+SELECT /*csv*/ * FROM (
+    SELECT ID, NAME, MOBILE_NO, EMAIL, ADDRESS1,BIRTH_DT, GU,
+    CASE
+        WHEN AGE BETWEEN 10 AND 19 THEN '10대'
+        WHEN AGE BETWEEN 20 AND 29 THEN '20대'
+        WHEN AGE BETWEEN 30 AND 39 THEN '30대'
+        WHEN AGE BETWEEN 40 AND 49 THEN '40대'
+        WHEN AGE BETWEEN 50 AND 59 THEN '50대'
+        WHEN AGE BETWEEN 60 AND 69 THEN '60대'
+        WHEN AGE BETWEEN 70 AND 79 THEN '70대'
+        ELSE '기타'
+    END AS AGE_RANGE
+    FROM (
+        SELECT ID, NAME, MOBILE_NO, EMAIL, ADDRESS1,BIRTH_DT,substr(ADDRESS1, 4,3) as GU, trunc((sysdate - BIRTH_DT) / 365) as AGE FROM  (
+            SELECT * FROM (SELECT * FROM CUSTOMER WHERE SUBSTR(ADDRESS1, 0,2) = '서울') SEOUL
+        )
+    )
+)
+WHERE AGE_RANGE = (
+SELECT AGE_RANGE FROM (SELECT GU, AGE_RANGE, COUNT(*) AS COUNT FROM (
+        SELECT GU,
+        CASE
+            WHEN AGE BETWEEN 10 AND 19 THEN '10대'
+            WHEN AGE BETWEEN 20 AND 29 THEN '20대'
+            WHEN AGE BETWEEN 30 AND 39 THEN '30대'
+            WHEN AGE BETWEEN 40 AND 49 THEN '40대'
+            WHEN AGE BETWEEN 50 AND 59 THEN '50대'
+            WHEN AGE BETWEEN 60 AND 69 THEN '60대'
+            WHEN AGE BETWEEN 70 AND 79 THEN '70대'
+            ELSE '기타'
+        END AS AGE_RANGE
+        FROM (
+            SELECT substr(ADDRESS1, 4,3) as GU, trunc((sysdate - BIRTH_DT) / 365) as AGE FROM (
+                SELECT * FROM (SELECT * FROM CUSTOMER WHERE SUBSTR(ADDRESS1, 0,2) = '서울') SEOUL
+            )
+        )
+    )
+    GROUP BY GU, AGE_RANGE
+    ORDER BY COUNT(*) DESC) C
+INNER JOIN (SELECT GU FROM (
+        SELECT COUNT(*), GU FROM(
+            SELECT NVL(ADDR1, ADDR2) AS GU FROM (
+                SELECT * FROM (
+                    SELECT LOCATION_ADDR, ROAD_ADDR, SUBSTR(LOCATION_ADDR,7,3) AS ADDR1, SUBSTR(ROAD_ADDR,7,3) AS ADDR2 FROM 
+                        (SELECT * FROM POLLUTION WHERE LOCATION_ADDR LIKE '%서울특별시%' OR ROAD_ADDR LIKE '%서울특별시%')
+                )
+            )
+        ) GROUP BY GU ORDER BY COUNT(*) DESC 
+    ) WHERE ROWNUM = 1) P ON
+C.GU = P.GU
+WHERE ROWNUM = 1
+) AND GU = (
+    SELECT GU FROM (
+        SELECT COUNT(*), GU FROM(
+            SELECT NVL(ADDR1, ADDR2) AS GU FROM (
+                SELECT * FROM (
+                    SELECT LOCATION_ADDR, ROAD_ADDR, SUBSTR(LOCATION_ADDR,7,3) AS ADDR1, SUBSTR(ROAD_ADDR,7,3) AS ADDR2 FROM 
+                        (SELECT * FROM POLLUTION WHERE LOCATION_ADDR LIKE '%서울특별시%' OR ROAD_ADDR LIKE '%서울특별시%')
+                )
+            )
+        ) GROUP BY GU ORDER BY COUNT(*) DESC 
+    ) WHERE ROWNUM = 1
+);
+SPOOL OFF;
+EXIT;
