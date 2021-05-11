@@ -1,5 +1,16 @@
 # 일일과제
 
+## 0507 과제
+
+#### 1. []()
+
+#### 2. []()
+
+#### 3. []()
+
+#### 4. []()
+
+
 ## 0423 과제
 
 #### 1. [to_date()날짜 포맷 YY, RR yy가 안나오는 이유 ,차이점 조사 후 설명](https://github.com/hennylee/kopo-04-database/blob/main/assignment/2021-04-20-database-Date.md#yyrr-%EC%B0%A8%EC%9D%B4%EB%8A%94)
@@ -14,7 +25,7 @@
 
     - L value에는 컬럼이 아니라 숫자가 나올 수도 있다.
 
-#### 3. [SCOTT.EMP 해석 & Schema 설명](https://github.com/hennylee/kopo-04-database/blob/main/assignment/2021-04-26-database-schema.md)
+#### 3. [SCOTT.EMP 해석 & Schema 설명](https://github.com/hennylee/kopo-04-database/blob/main/assignment/2021-04-26-database-Schema.md)
 
 #### 4. [형 변환 우선순위 문자와 날짜 설명](https://github.com/hennylee/kopo-04-database/blob/main/assignment/2021-04-26-database-TypeConversion.md)
 
@@ -72,7 +83,7 @@ WHERE ROWNUM <= 5 ORDER BY ROWNUM;
 
 ## 0420 과제
 
-#### 1. [DATE, TIMESTAMP](https://github.com/hennylee/kopo-04-database/blob/main/assignment/2021-04-20-database-sysdate.md)
+#### 1. [DATE, TIMESTAMP](https://github.com/hennylee/kopo-04-database/blob/main/assignment/2021-04-20-database-Date.md#sysdate-%EA%B3%B5%EC%8B%9D%EB%AC%B8%EC%84%9C)
     - 현재 시간, 분, 초, 1/100초 까지 표현하는 SQL 작성하기
 
     - 현재 시간, 분, 초, 1/1000초 까지 표현하는 SQL 작성하기
