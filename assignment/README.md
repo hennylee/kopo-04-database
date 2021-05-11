@@ -1,6 +1,6 @@
+# 일일과제
 
-
-### 0423 과제
+## 0423 과제
 
 #### 1. [to_date()날짜 포맷 YY, RR yy가 안나오는 이유 ,차이점 조사 후 설명](https://github.com/hennylee/kopo-04-database/blob/main/assignment/2021-04-20-database-sysdate.md#yyrr-차이는)
 
@@ -20,7 +20,7 @@
 
 
 
-### 0421 과제
+## 0421 과제
 
 #### 1. [실행 결과가 Oracle 9i 에서는 정렬되어 나타나지만 Oracle 10g이후 버전부터는 정렬된 결과가 나타나지 않는다. 이유를 찾아 설명 하십시요](https://github.com/hennylee/kopo-04-database/blob/main/assignment/2021-04-22-database-10g-HashSort.md)
  
@@ -70,7 +70,7 @@ SELECT * FROM (SELECT DEPTNO, ENAME, SAL FROM EMP ORDER BY SAL DESC)
 WHERE ROWNUM <= 5 ORDER BY ROWNUM;
 ```
 
-### 0420 과제
+## 0420 과제
 
 #### 1. [DATE, TIMESTAMP](https://github.com/hennylee/kopo-04-database/blob/main/assignment/2021-04-20-database-sysdate.md)
     - 현재 시간, 분, 초, 1/100초 까지 표현하는 SQL 작성하기
@@ -88,7 +88,7 @@ SELECT SAL,COMM,NVL(COMM,SAL),nvl2(COMM,SAL,0), NULLIF(JOB,'MANAGER') FROM emp;
 ```
 
 
-### 0419 과제
+## 0419 과제
 #### 1. [DB vs DBMS 정의, 사례, 차이점](https://github.com/hennylee/kopo-04-database/blob/main/assignment/2021-04-19-database-DB-DBMS.md)
 
 #### 2. [RDBMS 정의 및 개념, RDBMS의 R이란?](https://github.com/hennylee/kopo-04-database/blob/main/assignment/2021-04-19-database-RDBMS.md)
