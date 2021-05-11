@@ -2,7 +2,7 @@
 
 ## 0423 과제
 
-#### 1. [to_date()날짜 포맷 YY, RR yy가 안나오는 이유 ,차이점 조사 후 설명](https://github.com/hennylee/kopo-04-database/blob/main/assignment/2021-04-20-database-sysdate.md#yyrr-차이는)
+#### 1. [to_date()날짜 포맷 YY, RR yy가 안나오는 이유 ,차이점 조사 후 설명](https://github.com/hennylee/kopo-04-database/blob/main/assignment/2021-04-20-database-Date.md#yyrr-%EC%B0%A8%EC%9D%B4%EB%8A%94)
 
 #### 2. `SELECT * FROM SALGRADE WHERE 3000 BETWEEN LOSAL AND HISAL;` 해석
 
