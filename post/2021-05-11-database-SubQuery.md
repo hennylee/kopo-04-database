@@ -61,10 +61,10 @@
 ## 6. Top-N , Bottom-M
 
 
-## Scalar Subquery
+## 7. Scalar Subquery
 
-- 내부적으로 캐싱 기법이 적용된다.
+- 내부적으로 캐싱(caching) 기법이 적용된다.
 
-
+- cache : 자주 쓰는 것을 짱박아 두는 것이다. 
 
 
