@@ -10,10 +10,42 @@ FROM EMP E,EMP M
 WHERE E.MGR = M.EMPNO(+) 
 ORDER BY M.ENAME;
 
+SELECT E.ENAME||' ''S MANAGER IS '||M.ENAME AS MANAGER
+FROM EMP E,EMP M 
+WHERE E.MGR = M.EMPNO
+ORDER BY M.ENAME;
+
+SELECT * FROM EMP;
+
+SELECT E.ENAME,M.ENAME
+FROM EMP E,EMP M 
+WHERE E.MGR = M.EMPNO
+ORDER BY M.ENAME;
+
+SELECT E.*, M.*
+FROM EMP E,EMP M 
+WHERE E.MGR = M.EMPNO(+)
+ORDER BY M.ENAME;
+
+SELECT E.*, M.*
+FROM EMP E,EMP M 
+WHERE E.MGR(+) = M.EMPNO
+ORDER BY M.ENAME;
+
+SELECT E.ENAME,M.ENAME,E.*, M.*
+FROM EMP E,EMP M 
+WHERE E.MGR = M.EMPNO(+)
+ORDER BY M.ENAME;
+
+SELECT E.ENAME,M.ENAME, E.*, M.*
+FROM EMP E,EMP M 
+WHERE E.MGR(+) = M.EMPNO
+ORDER BY M.ENAME;
 
 -- 2번
 
 -- MAKE_ENV.SQL
+/*
 DROP TABLE SYSTEM;
 COMMIT;
 CREATE TABLE SYSTEM( SYSTEM_ID VARCHAR2(5),
@@ -31,20 +63,139 @@ INSERT INTO RESOURCE_USAGE VALUES('YYY','FTP');
 INSERT INTO RESOURCE_USAGE VALUES('YYY','TELNET');
 INSERT INTO RESOURCE_USAGE VALUES('YYY','EMAIL');
 COMMIT;
+*/
 
 SELECT * FROM SYSTEM;
 SELECT * FROM RESOURCE_USAGE;
 
+-- 11G부터는 WM_CONCAT 사용 불가
+SELECT SYSTEM_ID, 
+WM_CONCAT(RESOURCE_NAME)
+FROM RESOURCE_USAGE 
+GROUP BY SYSTEM_ID;
 
-SELECT S.*, R.*
+SELECT SYSTEM_ID, 
+LISTAGG(RESOURCE_NAME,',') WITHIN GROUP(ORDER BY SYSTEM_ID)
+FROM RESOURCE_USAGE;
+
+
+
+SELECT S.*, R.RESOURCE_NAME
+FROM SYSTEM S, RESOURCE_USAGE R
+WHERE S.SYSTEM_ID = R.SYSTEM_ID(+);
+
+SELECT S.*, R.RESOURCE_NAME, R.RESOURCE_NAME, R.RESOURCE_NAME
+FROM SYSTEM S, RESOURCE_USAGE R
+WHERE S.SYSTEM_ID = R.SYSTEM_ID(+);
+
+SELECT S.*, 
+R.RESOURCE_NAME AS FTP, 
+R.RESOURCE_NAME AS TELNET, 
+R.RESOURCE_NAME AS EMAIL
 FROM SYSTEM S, RESOURCE_USAGE R
 WHERE S.SYSTEM_ID = R.SYSTEM_ID(+);
 
 
 
-SELECT S.SYSTEM_ID SYSTE, NULLIF(S.RESOURCE_USAGE) AS SYSTEM_NAME, R.FTP, R.TELNET, R.EMAIL
+SELECT S.*, 
+CASE 
+    WHEN S.SYSTEM_ID = 'XXX' AND R.RESOURCE_NAME = 'FTP' THEN '사용'
+    WHEN S.SYSTEM_ID = 'YYY' AND R.RESOURCE_NAME = 'FTP' THEN '사용'
+    WHEN S.SYSTEM_ID = 'ZZZ' AND R.RESOURCE_NAME = 'FTP' THEN '사용'
+    ELSE '미사용'
+END AS FTP, 
+CASE 
+    WHEN S.SYSTEM_ID = 'XXX' AND R.RESOURCE_NAME = 'TELNET' THEN '사용'
+    WHEN S.SYSTEM_ID = 'YYY' AND R.RESOURCE_NAME = 'TELNET' THEN '사용'
+    WHEN S.SYSTEM_ID = 'ZZZ' AND R.RESOURCE_NAME = 'TELNET' THEN '사용'
+    ELSE '미사용'
+END AS TELNET, 
+CASE 
+    WHEN S.SYSTEM_ID = 'XXX' AND R.RESOURCE_NAME = 'EMAIL' THEN '사용'
+    WHEN S.SYSTEM_ID = 'YYY' AND R.RESOURCE_NAME = 'EMAIL' THEN '사용'
+    WHEN S.SYSTEM_ID = 'ZZZ' AND R.RESOURCE_NAME = 'EMAIL' THEN '사용'
+    ELSE '미사용'
+END AS EMAIL
 FROM SYSTEM S, RESOURCE_USAGE R
-WHERE S.SYSTEM_ID = R.SYSTEM_ID;
+WHERE S.SYSTEM_ID = R.SYSTEM_ID(+);
+
+SELECT S.*, 
+CASE 
+    WHEN S.SYSTEM_ID = 'XXX' AND R.RESOURCE_NAME = 'FTP' THEN '사용'
+    WHEN S.SYSTEM_ID = 'YYY' AND R.RESOURCE_NAME = 'FTP' THEN '사용'
+    WHEN S.SYSTEM_ID = 'ZZZ' AND R.RESOURCE_NAME = 'FTP' THEN '사용'
+    ELSE '미사용'
+END AS FTP, 
+CASE 
+    WHEN S.SYSTEM_ID = 'XXX' AND R.RESOURCE_NAME = 'TELNET' THEN '사용'
+    WHEN S.SYSTEM_ID = 'YYY' AND R.RESOURCE_NAME = 'TELNET' THEN '사용'
+    WHEN S.SYSTEM_ID = 'ZZZ' AND R.RESOURCE_NAME = 'TELNET' THEN '사용'
+    ELSE '미사용'
+END AS TELNET, 
+CASE 
+    WHEN S.SYSTEM_ID = 'XXX' AND R.RESOURCE_NAME = 'EMAIL' THEN '사용'
+    WHEN S.SYSTEM_ID = 'YYY' AND R.RESOURCE_NAME = 'EMAIL' THEN '사용'
+    WHEN S.SYSTEM_ID = 'ZZZ' AND R.RESOURCE_NAME = 'EMAIL' THEN '사용'
+    ELSE '미사용'
+END AS EMAIL
+FROM SYSTEM S, RESOURCE_USAGE R
+WHERE S.SYSTEM_ID = R.SYSTEM_ID(+);
+
+
+
+
+SELECT 
+(
+    SELECT S.*, 
+    CASE 
+        WHEN S.SYSTEM_ID = 'XXX' AND R.RESOURCE_NAME = 'FTP' THEN '사용'
+        WHEN S.SYSTEM_ID = 'YYY' AND R.RESOURCE_NAME = 'FTP' THEN '사용'
+        WHEN S.SYSTEM_ID = 'ZZZ' AND R.RESOURCE_NAME = 'FTP' THEN '사용'
+        ELSE '미사용'
+    END AS FTP, 
+    CASE 
+        WHEN S.SYSTEM_ID = 'XXX' AND R.RESOURCE_NAME = 'TELNET' THEN '사용'
+        WHEN S.SYSTEM_ID = 'YYY' AND R.RESOURCE_NAME = 'TELNET' THEN '사용'
+        WHEN S.SYSTEM_ID = 'ZZZ' AND R.RESOURCE_NAME = 'TELNET' THEN '사용'
+        ELSE '미사용'
+    END AS TELNET, 
+    CASE 
+        WHEN S.SYSTEM_ID = 'XXX' AND R.RESOURCE_NAME = 'EMAIL' THEN '사용'
+        WHEN S.SYSTEM_ID = 'YYY' AND R.RESOURCE_NAME = 'EMAIL' THEN '사용'
+        WHEN S.SYSTEM_ID = 'ZZZ' AND R.RESOURCE_NAME = 'EMAIL' THEN '사용'
+        ELSE '미사용'
+    END AS EMAIL
+    FROM SYSTEM S, RESOURCE_USAGE R
+    WHERE S.SYSTEM_ID = R.SYSTEM_ID(+)
+);
+
+
+
+
+
+-- 답안
+select  s.system_id, s.system_name,
+        decode((select  count(*) 
+                from    system s2, resource_usage r2
+                where   s2.system_id = r2.system_id 
+                        and s2.system_id = s.system_id 
+                        and r2.resource_name = 'FTP'), 1, '사용','미사용') as ftp,
+        decode((select  count(*) 
+                from    system s2, resource_usage r2 
+                where   s2.system_id = r2.system_id 
+                        and s2.system_id = s.system_id 
+                        and r2.resource_name = 'TELNET'), 1, '사용','미사용') as telnet,
+        decode((select  count(*) 
+                from    system s2, resource_usage r2
+                where   s2.system_id = r2.system_id 
+                        and s2.system_id = s.system_id 
+                        and r2.resource_name = 'EMAIL'), 1, '사용','미사용') as email
+from system s, resource_usage r
+where s.system_id = r.system_id(+)
+group by s.system_id, s.system_name
+order by s.system_id;
+
+
 
 
 -- 3번
@@ -93,7 +244,7 @@ WHERE E1.DEPTNO = E2.DEPTNO AND E1.SAL <= E2.SAL
 GROUP BY E1.DEPTNO, E1. ENAME, E1. JOB, E1.SAL
 ORDER BY E1.DEPTNO, COUNT(*);
 
--- 예린이 풀이
+-- 답안
 SELECT E1.DEPTNO, E1.ENAME, E1.JOB, E1.SAL, 
     COUNT(DECODE(E1.DEPTNO, E2.DEPTNO,1)) + 1 as RANK 
 FROM EMP E1, EMP E2
@@ -103,7 +254,7 @@ ORDER BY DEPTNO, RANK;
 
 -- 3.2 
 
-
+-- DENSE_RANK를 활용한 방법
 SELECT DEPTNO, ENAME, JOB, SAL, 
     DENSE_RANK() OVER (PARTITION BY DEPTNO ORDER BY SAL DESC) AS GRADE
 FROM EMP ORDER BY DEPTNO, SAL DESC;
