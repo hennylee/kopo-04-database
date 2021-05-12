@@ -59,3 +59,12 @@
 ## 5. 1:M / M:1
 
 ## 6. Top-N , Bottom-M
+
+
+## Scalar Subquery
+
+- 내부적으로 캐싱 기법이 적용된다.
+
+
+
+
