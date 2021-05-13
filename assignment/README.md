@@ -5,7 +5,7 @@
 
 #### 1. [MERGE 설명 및 예제 SQL 작성하기](https://github.com/hennylee/kopo-04-database/blob/main/assignment/2021-05-13-database-MERGE.md)
 
-#### 2. [트랜젝션의 4가지 특성 : 일관성, 원자성, 고립성, 지속성]()
+#### 2. [트랜젝션의 4가지 특성 : 일관성, 원자성, 고립성, 지속성](https://github.com/hennylee/kopo-04-database/blob/main/assignment/2021-05-12-database-ACID.md)
 
 
 ## 0507 과제
