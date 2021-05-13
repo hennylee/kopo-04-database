@@ -2,7 +2,9 @@
 
 - MERGE란 INSERT와 UPDATE, DELETE를 한 문장의 쿼리로 실행할 수 있게 만든 것이다. 
 
-- 두 테이블을 비교해서 특정 조건을 만족하면 `UPDATE|DELETE|INSERT`을 실행하고, 특정 조건을 만족하지 못하면 `UPDATE|DELETE|INSERT`을 실행하도록 처리를 하는 것이다.
+- 두 테이블을 비교해서 특정 조건을 만족하면 `UPDATE|DELETE|INSERT`을 실행하고, 
+
+- 특정 조건을 만족하지 못하면 `UPDATE|DELETE|INSERT`을 실행하도록 처리를 하는 것이다.
 
 
 - 형식 : 
@@ -17,6 +19,13 @@ WHEN NOT MATCHED THEN -- 조건을 만족하지 못하면?
 	[ UPDATE|DELETE|INSERT을 실행 ] 
 ```
 
+
+## 실습
+
+- MERGE_CHART 와 MERGE_CHART_NEW를 비교해서 MERGE_CHART 테이블을 업데이트 한다.
+
+![image](https://user-images.githubusercontent.com/77392444/118060241-3d1e5e00-b3cd-11eb-8697-fc4bbbc4d655.png)
+![image](https://user-images.githubusercontent.com/77392444/118060254-45769900-b3cd-11eb-8678-83058c4f5c27.png)
 
 
 ## 테이블 생성
