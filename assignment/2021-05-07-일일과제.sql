@@ -168,10 +168,12 @@ order by s.system_id;
 
 -- 더 짧은 버전
 select distinct s.system_id as system , s.system_name, 
-decode((select count(*) 
-            from RESOURCE_USAGE where system_id=s.system_id and RESOURCE_NAME = 'FTP'  ),1,'사용','미사용') as FTP,
-decode((select count(*) from RESOURCE_USAGE where system_id=s.system_id and RESOURCE_NAME = 'TELNET'  ),1,'사용','미사용') as TELNET, 
-decode((select count(*) from RESOURCE_USAGE where system_id=s.system_id and RESOURCE_NAME = 'EMAIL'  ),1,'사용','미사용') as EMAIL 
+decode(
+    (select count(*) from RESOURCE_USAGE where system_id=s.system_id and RESOURCE_NAME = 'FTP'  ),1 ,'사용', '미사용') as FTP,
+decode(
+    (select count(*) from RESOURCE_USAGE where system_id=s.system_id and RESOURCE_NAME = 'TELNET'  ),1,'사용','미사용') as TELNET, 
+decode(
+    (select count(*) from RESOURCE_USAGE where system_id=s.system_id and RESOURCE_NAME = 'EMAIL'  ),1,'사용','미사용') as EMAIL 
 from system s, RESOURCE_USAGE r 
 where s.system_id = r.system_id(+)
 ORDER BY S.SYSTEM_ID;
@@ -221,7 +223,8 @@ SELECT E1.DEPTNO, E1.ENAME,E1.JOB, E1.SAL, COUNT(*)
 FROM EMP E1, EMP E2
 WHERE E1.DEPTNO = E2.DEPTNO AND E1.SAL <= E2.SAL 
 GROUP BY E1.DEPTNO, E1. ENAME, E1. JOB, E1.SAL
-ORDER BY E1.DEPTNO, COUNT(*);
+ORDER BY E1.DEPTNO, COUNT(*) ASC;
+
 
 -- 답안
 SELECT E1.DEPTNO, E1.ENAME, E1.JOB, E1.SAL, 
