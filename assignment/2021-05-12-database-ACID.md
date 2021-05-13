@@ -10,8 +10,11 @@
 
 - The transaction takes the database from one consistent state to another consistent state. For example, in a banking transaction that debits a savings account and credits a checking account, a failure must not cause the database to credit only one account, which would lead to inconsistent data.
 
+- consistent는 내부적 일관성을 의미한다.
+
 - 트랜잭션이 성공적인 경우에는 일관성있는 상태에 있어야 한다. 만약 테이블의 글자 수를 설정해놨다면 그 설정을 따라야 한다는 뜻이다.
-- 즉, 제약조건은 일관성 있게 적용되어야 한다.
+
+- 즉, 트랜잭션에 무결성에 위배된 쿼리문이 있어선 안된다는 뜻 아니엽?
 
 ## 3. 고립성(Isolation)
 
