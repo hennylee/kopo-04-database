@@ -146,6 +146,7 @@ WHERE E.DEPTNO(+) = D.DEPTNO(+)
 ORDER BY D.DNAME;
 
 -- [요구] 아래의 2개 SQL을 실행하여 데이터를 비교 한후 원하는 결과집합이 나오도록 2번째 SQL을 수정 하십시오
+-- [의도] 결과는 같게 나오지만, 아래 SQL은 불필요한 OUTER JOIN을 수행했기 때문에 성능저하를 일으킨다. 왜 그럴까?
 SELECT D.DEPTNO, D.DNAME, E.ENAME, E.JOB, E.SAL FROM EMP E, DEPT D
 WHERE E.DEPTNO = D.DEPTNO AND
         E.SAL > 2000
