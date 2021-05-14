@@ -2,9 +2,7 @@
 
 ## 0513 과제
 
-#### 1. [DEFAULT 에 TO_CHAR(SYSDATE,'YY/MM/DD')를 사용할수 있는지 확인 하는 SQL을 작성하십시요]()
-
-- 테이블 만들기?
+#### 1. [DEFAULT 에 TO_CHAR(SYSDATE,'YY/MM/DD')를 사용할수 있는지 확인 하는 SQL을 작성하십시요](https://github.com/hennylee/kopo-04-database/blob/main/assignment/2021-05-14-database-DEFAULT.md)
 
 #### 2. [테이블명과 컬럼명을 한글로 생성할수 있는지를 확인할수 있는 SQL예제를 작성하십시요]()
 
