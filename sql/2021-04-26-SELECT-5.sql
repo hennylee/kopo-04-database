@@ -235,6 +235,7 @@ to_char(sysdate,'MM')||'월'||to_char(sysdate,'DD')||'일' as mmdd2
 FROM dual;
 
 -- 12. EXTRACT(a FROM 날짜) : 날짜에서 a요소를 뽑아내 NUMBER 데이터 타입으로 출력한다.
+-- TIMEZOND_ ~ -> VARCHAR2 문자열 타입이다
 SELECT SYSDATE,
 EXTRACT(YEAR FROM SYSDATE),
 EXTRACT(MONTH FROM SYSDATE),
@@ -245,4 +246,125 @@ FROM DUAL;
 SELECT HIREDATE, EXTRACT(YEAR FROM HIREDATE) FROM EMP;
 
 
+-- 아래 SQL을 참고하여 해당월의 마지막 법정 영업일자를 구하는 SQL을 작성 하십시요(법정 영업일은 월~금요일)
+SELECT TO_CHAR(SYSDATE,'DDD'),TO_CHAR(SYSDATE,'DD'),TO_CHAR(SYSDATE,'D') FROM DUAL;
+SELECT LAST_DAY(SYSDATE) FROM DUAL;
+SELECT sysdate, last_day(sysdate), next_day(sysdate,'일요일'), next_day(sysdate,1),next_day(sysdate,2) FROM dual;
+
+
+-- 요일 구하기
+select to_char(sysdate, 'day') from dual
+--결과 : 금요일
+;
+select to_char(sysdate, 'dy') from dual
+--결과 : 금
+;
+select to_char(sysdate, 'd') from dual
+--결과 : 3 (1:일, 2:월, 3:화, 4:수, 5:목, 6:금, 7:토)
+;
+
+/*
+1. 이번 달의 마지막 날짜를 구한다.
+2. 토요일 혹은 일요일이면 그 전 날짜를 구한다.
+*/
+
+SELECT SYSDATE FROM DUAL;
+
+-- 마지막 날 구하기
+SELECT last_day(SYSDATE) FROM DUAL;
+
+-- 마지막 날의 요일 구하기
+SELECT last_day(SYSDATE), to_char(last_day(SYSDATE), 'dy')
+FROM DUAL;
+
+-- 마지막 날의 요일이 토 혹은 일이면 그 전날짜 출력하기
+SELECT last_day(SYSDATE), to_char(last_day(SYSDATE), 'dy'), 
+CASE to_char(last_day(SYSDATE), 'dy') 
+    WHEN '일' THEN (last_day(SYSDATE) - 2) 
+    WHEN '토' THEN (last_day(SYSDATE) - 1) 
+    ELSE last_day(SYSDATE)
+END AS 법정휴일
+FROM DUAL;
+
+SELECT last_day(SYSDATE), to_char(last_day(SYSDATE), 'dy'), 
+decode(to_char(last_day(SYSDATE), 'dy'), '토', last_day(SYSDATE) - 1 , '일', last_day(SYSDATE) -2, last_day(SYSDATE))
+FROM DUAL;
+
+SELECT last_day('21/02/03'), to_char(last_day('21/02/03'), 'dy'), 
+    decode(to_char(last_day('21/02/03'), 'dy'), '토', last_day('21/02/03') - 1 , '일', last_day('21/02/03') - 2)
+FROM DUAL;
+
+
+SELECT 
+DECODE (
+    TO_CHAR(LAST_DAY(SYSDATE),'D'), 7, LAST_DAY(SYSDATE)-1, 1, LAST_DAY(SYSDATE)-2, LAST_DAY(SYSDATE)
+) 
+AS "LAST BUSINESS"  
+FROM DUAL;
+
+
+-- SCOTT과 부서가 같은 사원들의 이름과 사번을 구하시오
+SELECT DEPTNO, ENAME, EMPNO FROM EMP;
+
+SELECT DEPTNO FROM EMP WHERE ENAME = 'SCOTT';
+
+SELECT ENAME, EMPNO
+FROM EMP
+WHERE DEPTNO = (SELECT DEPTNO FROM EMP WHERE ENAME = 'SCOTT') AND ENAME ^= 'SCOTT';
+
+SELECT ENAME,EMPNO 
+FROM EMP E 
+WHERE DEPTNO = (SELECT DEPTNO FROM EMP M WHERE M.DEPTNO = E.DEPTNO AND ENAME = 'SCOTT') 
+AND ENAME !='SCOTT';
+
+-- 안전하지 않은 프로그래밍 방식을 해결하십시오.
+
+
+
+
+-- [단일행 변환함수 (TO_CHAR)]
+-- 성능, 오류 발생 가능성을 조심해야 한다.
+
+-- 1.
+SELECT SYSDATE,
+TO_CHAR(SYSDATE,'YEAR'),TO_CHAR(SYSDATE,'Year'),
+TO_CHAR(SYSDATE,'YYYY'),TO_CHAR(SYSDATE,'YY')
+FROM DUAL;
+
+-- 2.
+SELECT TO_CHAR(SYSDATE,'MONTH'),TO_CHAR(SYSDATE,'MON'), --  MONTH:9자, MON:3자
+TO_CHAR(SYSDATE,'Mon'),TO_CHAR(SYSDATE,'mon'),
+TO_CHAR(SYSDATE,'MM'),TO_CHAR(SYSDATE,'mm')
+FROM DUAL;
+
+-- 3.
+SELECT SYSDATE,
+TO_CHAR(SYSDATE,'DAY'), TO_CHAR(SYSDATE,'Day'),
+TO_CHAR(SYSDATE,'DY'), TO_CHAR(SYSDATE,'dy'),
+TO_CHAR(SYSDATE,'DD'),TO_CHAR(SYSDATE,'dd')
+FROM DUAL;
+
+-- 4.
+SELECT 123456, TO_CHAR(123456,'999999'), 
+LENGTH(TO_CHAR(123456,'999999')),
+-- fm이 없으면 앞에 +/- 부호가 추가되어 length가 하나 더 추가된다.
+LENGTH(TO_CHAR(123456,'fm999999'))
+-- fm: remove padded blanks 
+FROM DUAL;
+
+-- 5. 포맷은 변환하려는 숫자보다 길어야한다.
+SELECT TO_CHAR(12345*123.45,'999,999.99'),TO_CHAR(12345*123.45,'99,999,999.99') FROM DUAL;
+
+-- 6. 
+SELECT TO_CHAR(SAL,'$999,999'), REPLACE(TO_CHAR(SAL,'$999,999'),' ','?'),
+TO_CHAR(SAL,'L999,999'),REPLACE(TO_CHAR(SAL,'L999,999'),' ','?'),
+TO_CHAR(SAL,'999,999L'),REPLACE(TO_CHAR(SAL,'999,999L'),' ','?'),
+TO_CHAR(SAL,'fm999,999L'),REPLACE(TO_CHAR(SAL,'fm999,999L'),' ','?')
+FROM EMP;
+
+-- 7. 
+SELECT 
+0012345600,                              -- 앞의 0 제거
+TO_CHAR(00123456,'999999999'),           -- 9자리 공백으로 채우기
+TO_CHAR(00123456,'000000000') FROM DUAL; -- 9자리 0으로 채우기
 
