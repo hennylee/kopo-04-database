@@ -10,11 +10,19 @@
 ## CONSTRAINT의 종류
 
 ① 선언적 무결성 제약사항(Declarative Integrity Constraint)
-- '선언적'의 의미란?
 
 ② TRIGGER
 
 ③ APPLICATION LOGIC
+
+![image](https://user-images.githubusercontent.com/77392444/118456495-47758a80-b734-11eb-8cc8-f4885faee1ae.png)
+
+## 만약 CONSTRAINT가 공존한다면 비효율적인 것일까? 
+
+![image](https://user-images.githubusercontent.com/77392444/118457288-93283400-b734-11eb-95c3-35ca0a2f1f53.png)
+
+- 아니다. 데이터 무결성을 보장하기 위해서는 2중 안전 장치가 필요하기 때문에 효율적인 코딩이라고 볼 수 있다. 
+
 
 
 ## 선언적 무결성 제약사항 종류
