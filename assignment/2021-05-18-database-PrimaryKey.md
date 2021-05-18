@@ -50,3 +50,13 @@ INSERT INTO TST_PK VALUES(2021,'001','0000001','0000001', '이해니'); -- 오�
 ```SQL
 SELECT GRADE, MAJOR, CLASS, NUM,  GRADE||MAJOR||CLASS||NUM AS "학번" FROM TST_PK;
 ```
+
+
+#### 데이터 딕셔너리로 인덱스 확인하기
+
+```SQL
+SELECT * FROM USER_INDEXES;
+SELECT * FROM USER_IND_COLUMNS;
+```
+
+- 사용자의 인덱스 확인하는 데이터 딕셔너리 : USER_INDEXES , USER_IND_COLUMNS
