@@ -56,6 +56,8 @@
 - F.K는 다른 테이블의 P.K나 U.K를 참조한다. 
 - 참조 당하는 테이블 = Parent , 참조 하는 테이블 = Child로 이해하면 쉽다. (물론 예외도 존재한다)
 
+![image](https://user-images.githubusercontent.com/77392444/118615396-a8b46100-b7fb-11eb-80dd-2d4149c59cb1.png)
+
 
 ## 선언적 무결성 제약사항 레벨
 
