@@ -101,35 +101,101 @@ INSERT INTO TST_부서(부서ID, 부서명) VALUES('20', '전산실');
 SELECT * FROM TST_부서;
 SELECT * FROM TST_EMPLOYEE;
 
--- 4.  
+-- 4. 부서가 10인 직원을 추가하시오
 INSERT INTO TST_EMPLOYEE VALUES('XMAN', '10');
 
--- 5. 
+-- 5. 부서가 XX인 직원을 추가하시오
 -- ORA-02291: 무결성 제약조건(SCOTT.TST_EMPLOYEE_부서_부서ID_FK)이 위배되었습니다- 부모 키가 없습니다
 INSERT INTO TST_EMPLOYEE VALUES('XMAN','XX');
 
--- 6. 참조하는 주체(자식) 데이터를 DML할 때 부모 데이터를 확인하나? 부모 테이블을 DML할 때에도 자식 테이블에 관계를 끼치는가?
+/*
+- 참조하는 주체(자식) 데이터를 DML할 때 부모 데이터를 확인하나? 부모 테이블을 DML할 때에도 자식 테이블에 관계를 끼치는가?
+    - 부모 테이블 : 
+    - 자식 테이블 : 
+*/
+
+-- 6. 부모 테이블 DEL : 에러
 -- ORA-02292: 무결성 제약조건(SCOTT.TST_EMPLOYEE_부서_부서ID_FK)이 위배되었습니다- 자식 레코드가 발견되었습니다
 DELETE FROM TST_부서 WHERE 부서ID = '10';
 
--- 참조하는 주체(자식) 데이터를 DDL할 때 부모 데이터를 확인하나? 부모 테이블을 DDL할 때에도 자식 테이블에 관계를 끼치는가?
--- 7. 부모 테이블을 삭제할 때
+-- 6-2. 자식 테이블 DEL : ???
+
+
+/*
+- 참조하는 주체(자식) 데이터를 DDL할 때 부모 데이터를 확인하나? 부모 테이블을 DDL할 때에도 자식 테이블에 관계를 끼치는가?
+    - 부모 테이블 : 
+    - 자식 테이블 : 
+*/
+
+-- 7. 부모 테이블을 DROP : 에러
 -- ORA-02449: 외래 키에 의해 참조되는 고유/기본 키가 테이블에 있습니다
 DROP TABLE TST_부서;
 
--- 8. 자식테이블을 삭제할 때
+-- 8. 자식테이블을 DROP : 정상 삭제
 -- Table TST_EMPLOYEE이(가) 삭제되었습니다
 DROP TABLE TST_EMPLOYEE;
 
-
-@T_CONS5.SQL
 -- 부모 TABLE을 DROP 시키는 방법은?
 -- CASCADE 조건을 뒤에 붙인다. 
 -- CASCADE로 DROP 하면 자식은 살아있고, 부모는 DROP된다.
-DROP TABLE TST_부서; -- 에러
 DROP TABLE TST_부서 CASCADE CONSTRAINTS;
 
+
 -- FK 관계가 걸려있었을 때, 제약조건은도 삭제되는가? 인덱스는? 
+@T_CONS5.SQL
+DROP TABLE TST_부서 CASCADE CONSTRAINTS;
+
 -- 제약조건도 전부 삭제된다. 
 SELECT * FROM USER_INDEXES;
 SELECT * FROM USER_IND_COLUMNS; 
+
+
+@T_CONS5_2.SQL
+
+-- 1.
+SELECT TABLE_NAME, CONSTRAINT_NAME, CONSTRAINT_TYPE FROM DBA_CONSTRAINTS WHERE TABLE_NAME IN ('TST_DEPARTMENT', 'TST_EMPLOYEE');
+
+-- 2. 사번 : 'XMAN', 이름 : 'TUNER', DEPTNO : '10'인 사원을 추가하시오
+-- ORA-02291: 무결성 제약조건(SCOTT.TST_EMPLOYEE_DEPARTMENT_DEPTNO_FK)이 위배되었습니다- 부모 키가 없습니다
+INSERT INTO TST_EMPLOYEE(사번, 이름, DEPTNO) VALUES('XMAN', 'TUNER', '10');
+
+-- 3. 부서정보 10(관리팀), 20(전산팀), 30(영업팀)을 입력하시오
+INSERT INTO TST_DEPARTMENT VALUES(10, '관리팀');
+INSERT INTO TST_DEPARTMENT VALUES(20, '전산팀');
+INSERT INTO TST_DEPARTMENT VALUES(30, '영업팀');
+
+-- 4. 10번, 20번, 30번 DEPARTMENT에 근무하는 사원을 추가하시오
+INSERT INTO TST_EMPLOYEE VALUES('XMAN', 'TUNER', '10');
+INSERT INTO TST_EMPLOYEE VALUES('YMAN', 'DBA', '20');
+INSERT INTO TST_EMPLOYEE VALUES('ZMAN', 'DEVELOPER', '30');
+
+SELECT * FROM TST_DEPARTMENT;
+SELECT * FROM TST_EMPLOYEE;
+
+-- 5. 40번 부서에 근무하는 사원을 추가하시오
+-- 부서 TABLE에 40번 부서가 없다. 
+-- ORA-02291: 무결성 제약조건(SCOTT.TST_EMPLOYEE_DEPARTMENT_DEPTNO_FK)이 위배되었습니다- 부모 키가 없습니다
+INSERT INTO TST_EMPLOYEE VALUES('KMAN', 'DEVELOPER', '40');
+
+/*
+- FK로 참조되고 있는 부모테이블의 레코드를 삭제할 수 있는가?
+    - 자식 레코드가 있는 경우 : 삭제 불가
+    - 자식 레코드가 없는 경우 : 삭제 가능
+*/
+-- 6. 근무자가 없는 40번 부서를 만든 후 삭제해보기
+-- 삭제 되는가? YES
+INSERT INTO TST_DEPARTMENT VALUES(40, '기획팀');
+DELETE FROM TST_DEPARTMENT WHERE DEPTNO = 40;
+
+-- 7. 근무자가 있는 30번 부서를 삭제해보기
+-- 삭제 되는가? NO
+-- ORA-02292: 무결성 제약조건(SCOTT.TST_EMPLOYEE_DEPARTMENT_DEPTNO_FK)이 위배되었습니다- 자식 레코드가 발견되었습니다
+DELETE FROM TST_DEPARTMENT WHERE DEPTNO = 30;
+
+-- 8. 근무자가 있는 30번 DEPARTMENT 폐지 방법은?
+-- 30번 부서 직원의 부서를 10번으로 바꾼 뒤, 30번 부서를 삭제한다. 
+UPDATE TST_EMPLOYEE SET DEPTNO = 10 WHERE DEPTNO = 30;
+DELETE FROM TST_DEPARTMENT WHERE DEPTNO = 30;
+
+SELECT * FROM TST_EMPLOYEE;
+SELECT * FROM TST_DEPARTMENT;

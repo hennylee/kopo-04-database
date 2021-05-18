@@ -38,13 +38,16 @@ SELECT
 FROM
     (SELECT last_day(SYSDATE) AS l_day FROM DUAL);
     
--- 가독성 리팩토링 후 : 서브쿼리 없이 재사용
+-- 가독성 리팩토링 후 : 서브쿼리 없이 DEFINE으로 재사용
+DEFINE l_day = 'last_day(SYSDATE)';
 SELECT
-    CASE TO_CHAR(l_day, 'DAY', 'NLS_DATE_LANGUAGE = KOREAN')
-        WHEN '토요일' THEN l_day - 1
-        WHEN '일요일' THEN l_day - 2
-        ELSE l_day
+    CASE TO_CHAR(&l_day, 'DAY', 'NLS_DATE_LANGUAGE = KOREAN')
+        WHEN '토요일' THEN &l_day - 1
+        WHEN '일요일' THEN &l_day - 2
+        ELSE &l_day
     END
     AS "법정 영업일"
-FROM
-    (SELECT last_day(SYSDATE) AS l_day FROM DUAL);
+FROM DUAL;
+
+
+-- 가독성 리팩토링 후 : 서브쿼리 없이 CASE문을 활용해서 재사용
