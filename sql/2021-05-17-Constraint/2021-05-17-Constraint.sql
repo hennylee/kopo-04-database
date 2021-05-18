@@ -1,4 +1,4 @@
--- <05/17> Constraint
+-- <05/17 ~ 05/18> Constraint
 
 -- [ NOT NULL (필수입력사항 ]
 @T_CONS.SQL
@@ -78,3 +78,58 @@ SELECT INDEX_NAME, INDEX_TYPE, UNIQUENESS FROM USER_INDEXES WHERE TABLE_NAME = '
 
 SELECT INDEX_NAME, COLUMN_POSITION, COLUMN_NAME FROM USER_IND_COLUMNS
 WHERE TABLE_NAME = 'TST_CUSTOMER4' ORDER BY INDEX_NAME, COLUMN_POSITION;
+
+
+
+
+
+
+-- [ FOREIGN KEY : 테이블간(테이블내)의 참조 무결성(REFERNTIAL INTEGRITY)을 보장 ]
+
+@T_CONS5.SQL
+
+-- 1. 부서 테이블에 10번 부서가 존재하지 않을 때, 직원 테이블에 10번 부서 데이터를 추가할 수 있는가?
+-- ORA-02291: 무결성 제약조건(SCOTT.TST_EMPLOYEE_부서_부서ID_FK)이 위배되었습니다- 부모 키가 없습니다
+-- 10번 부서에 직원을 추가하려면, 추가하기 전에 PK에 해당 값인 10번 부서가 있는지 확인한다. 
+INSERT INTO TST_EMPLOYEE VALUES('XMAN', '10');
+
+-- 2. 부서 테이블에 10번 부서(관리실)를 추가하시오
+INSERT INTO TST_부서(부서ID, 부서명) VALUES('10', '관리실');
+-- 3. 부서 테이블에 20번 부서(전산실)를 추가하시오
+INSERT INTO TST_부서(부서ID, 부서명) VALUES('20', '전산실'); 
+
+SELECT * FROM TST_부서;
+SELECT * FROM TST_EMPLOYEE;
+
+-- 4.  
+INSERT INTO TST_EMPLOYEE VALUES('XMAN', '10');
+
+-- 5. 
+-- ORA-02291: 무결성 제약조건(SCOTT.TST_EMPLOYEE_부서_부서ID_FK)이 위배되었습니다- 부모 키가 없습니다
+INSERT INTO TST_EMPLOYEE VALUES('XMAN','XX');
+
+-- 6. 참조하는 주체(자식) 데이터를 DML할 때 부모 데이터를 확인하나? 부모 테이블을 DML할 때에도 자식 테이블에 관계를 끼치는가?
+-- ORA-02292: 무결성 제약조건(SCOTT.TST_EMPLOYEE_부서_부서ID_FK)이 위배되었습니다- 자식 레코드가 발견되었습니다
+DELETE FROM TST_부서 WHERE 부서ID = '10';
+
+-- 참조하는 주체(자식) 데이터를 DDL할 때 부모 데이터를 확인하나? 부모 테이블을 DDL할 때에도 자식 테이블에 관계를 끼치는가?
+-- 7. 부모 테이블을 삭제할 때
+-- ORA-02449: 외래 키에 의해 참조되는 고유/기본 키가 테이블에 있습니다
+DROP TABLE TST_부서;
+
+-- 8. 자식테이블을 삭제할 때
+-- Table TST_EMPLOYEE이(가) 삭제되었습니다
+DROP TABLE TST_EMPLOYEE;
+
+
+@T_CONS5.SQL
+-- 부모 TABLE을 DROP 시키는 방법은?
+-- CASCADE 조건을 뒤에 붙인다. 
+-- CASCADE로 DROP 하면 자식은 살아있고, 부모는 DROP된다.
+DROP TABLE TST_부서; -- 에러
+DROP TABLE TST_부서 CASCADE CONSTRAINTS;
+
+-- FK 관계가 걸려있었을 때, 제약조건은도 삭제되는가? 인덱스는? 
+-- 제약조건도 전부 삭제된다. 
+SELECT * FROM USER_INDEXES;
+SELECT * FROM USER_IND_COLUMNS; 
