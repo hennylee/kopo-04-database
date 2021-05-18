@@ -1,4 +1,4 @@
-# 컬럼 조합으로 구성되는 PK를 가지는 테이블을 설계(자신만의)한후 SQL Script를 작성 하십시오
+# 컬럼 조합으로 구성되는 PK를 가지는 테이블을 설계한 후 SQL Script를 작성 하십시오
 
 
 
@@ -19,7 +19,7 @@
 
 ## SQL Script 작성
 
-#### 테이블 생성
+#### 테이블 생성 및 복합컬럼 제약조건 설정
 
 ```SQL
 DROP TABLE TST_PK;
@@ -51,12 +51,17 @@ INSERT INTO TST_PK VALUES(2021,'001','0000001','0000001', '이해니'); -- 오�
 SELECT GRADE, MAJOR, CLASS, NUM,  GRADE||MAJOR||CLASS||NUM AS "학번" FROM TST_PK;
 ```
 
-
 #### 데이터 딕셔너리로 인덱스 확인하기
 
 ```SQL
-SELECT * FROM USER_INDEXES;
-SELECT * FROM USER_IND_COLUMNS;
+SELECT * FROM USER_INDEXES WHERE TABLE_NAME = 'TST_PK';
+SELECT * FROM USER_IND_COLUMNS WHERE TABLE_NAME = 'TST_PK';
 ```
 
 - 사용자의 인덱스 확인하는 데이터 딕셔너리 : USER_INDEXES , USER_IND_COLUMNS
+
+- 복합컬럼으로 PK, UK를 정의하면, 인덱스 POSITION은 컬럼 정의 순서대로 만들어진다. 
+
+![image](https://user-images.githubusercontent.com/77392444/118573459-93b8dd00-b7bd-11eb-8ee0-07051c6f5502.png)
+![image](https://user-images.githubusercontent.com/77392444/118573477-9ddadb80-b7bd-11eb-8253-0e9cdf0566ef.png)
+
