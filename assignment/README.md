@@ -3,7 +3,9 @@
 
 ## 0518 과제
 
-#### 1. [Transaction 각 유형(OLTP / DSS(= Batch = OLAP) / DTP)의 정의, 특징, 사례를 찾으시오]()
+#### 1-1. [Transaction 각 유형(OLTP / DSS(= Batch = OLAP) / DTP)의 정의, 특징, 사례를 찾으시오]()
+
+#### 1-2. [Java : SQL Statement, Prepared Statement, Callable Statement]()
 
 #### 2. [계정계 시스템 vs 정보계 시스템 (용어 정의, 사례 정리)]()
 
