@@ -1,5 +1,11 @@
 # 일일과제
 
+
+## 0518 과제
+
+#### 1. [Transaction 각 유형(OLTP / DSS(= Batch = OLAP) / DTP)의 정의, 특징, 사례를 찾으시오]()
+
+
 ## 0517 과제
 
 #### 1. [컬럼 조합으로 구성되는 PK를 가지는 테이블을 설계(자신만의)한후 SQL Script를 작성 하십시오](https://github.com/hennylee/kopo-04-database/blob/main/assignment/2021-05-18-database-PrimaryKey.md)
