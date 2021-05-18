@@ -7,4 +7,4 @@
 
 ## Java : SQL Statement, Prepared Statement, Callable Statement
 
-- Transaction Type과 연계해서 정의, 장단점
+- Transaction Type과 연계해서 정의, 장단점, 개발 시 차이점, 실습
