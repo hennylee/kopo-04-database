@@ -1,5 +1,10 @@
 # 일일과제
 
+## 0517 과제
+
+#### 1. [컬럼 조합으로 구성되는 PK를 가지는 테이블을 설계(자신만의)한후 SQL Script를 작성 하십시오](https://github.com/hennylee/kopo-04-database/blob/main/assignment/2021-05-18-database-PrimaryKey.md)
+
+
 ## 0513 과제
 
 #### 1. [DEFAULT 에 TO_CHAR(SYSDATE,'YY/MM/DD')를 사용할수 있는지 확인 하는 SQL을 작성하십시요](https://github.com/hennylee/kopo-04-database/blob/main/assignment/2021-05-14-database-DEFAULT.md)
