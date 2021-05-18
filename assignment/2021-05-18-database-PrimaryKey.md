@@ -7,7 +7,9 @@
 학생 정보를 등록하는 테이블을 설계한다.
 - 입학년도, 전공, 반, 반 내 번호, 이름이 등록되어 있다. 
 
-- (입학년도, 전공, 반, 반 내 번호) 의 조합으로 학번이 만들어지기 때문에 PK로 설정해야 한다. 
+- [ 입학년도, 전공, 반, 반 내 번호 ] 의 조합으로 학번이 만들어지기 때문에 PK로 설정해야 한다. 
+
+- 여러 개의 컬럼 조합으로 이루어지기 때문에 TABLE LEVEL CONSTRAINT 이다.
 
 - 이름은 중복 가능하다.
 
@@ -28,7 +30,7 @@ CREATE TABLE TST_PK(
     CLASS  VARCHAR2(3) NOT NULL, -- 반
     NUM VARCHAR2(3) NOT NULL, -- 반 내 번호    
     NAME VARCHAR2(20) NOT NULL ,
-    CONSTRAINT TST_PK_PK PRIMARY KEY (GRADE, MAJOR, CLASS, NUM)
+    CONSTRAINT TST_PK_PK PRIMARY KEY (GRADE, MAJOR, CLASS, NUM) -- TABLE LEVEL CONSTRAINT
 );
 ```
 
