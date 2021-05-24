@@ -56,7 +56,7 @@ public class Customer {
 
 #### Jdbc.java : Oracle과 OJDBC Connection 연결하고 ResultSet 받기
 
-```
+```java
 package ac.kr.kopo;
 import java.sql.*;
 import java.util.ArrayList;
