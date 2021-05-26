@@ -16,6 +16,8 @@
 
 ## Web Server, WAS Server : Session Cluster
 
+- [3Tier Architecture](https://github.com/hennylee/kopo-03-linux/blob/main/post/2021-04-07-linux-3Tier-Architecture.md)
+
 - 세션 클러스터링이란?
 
 두 대 이상의 WAS를 이용하는 경우 로드 밸런싱(대용량 트래픽 처리시 분산시키는 것) 또는 failover(장애 발생시 예비시스템으로 자동전환, 서버 이중화), auto scaling(AWS에서 EC2 인스턴스를 자동으로 생성하고 삭제해주는 서비스) 등의 대체된 WAS에게도 세션이 공유하게 하는 기술 입니다.
