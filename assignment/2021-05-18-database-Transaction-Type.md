@@ -14,7 +14,8 @@ OLAP : 의사결정에 도움이 되는 데이터 분석에만 관심이 있음.
 #### 정의
 
 ```
-OLTP란 주 컴퓨터와 통신 회선으로 접속되어 있는 복수의 사용자 단말에서 발생한 트랜잭션을 주 컴퓨터에서 처리하여 그 결과를 즉석에서 사용자 단말 측으로 되돌려 보내 주는 처리 형태를 말한다.
+OLTP란 주 컴퓨터와 통신 회선으로 접속되어 있는 복수의 사용자 단말에서 발생한 트랜잭션을 
+주 컴퓨터에서 처리하여 그 결과를 즉석에서 사용자 단말 측으로 되돌려 보내 주는 처리 형태를 말한다.
 ```
 
 - OLTP 란 Oline Transaction Process(온라인 트랜잭션 처리)의 약자이다.
@@ -31,7 +32,7 @@ OLTP란 주 컴퓨터와 통신 회선으로 접속되어 있는 복수의 사�
 
 #### 특징
 
-https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fuof8R%2FbtqF64ICf4J%2Ff9ofsbFZlITAhB2SZeYRM1%2Fimg.png
+![image](https://user-images.githubusercontent.com/77392444/119741060-ef6f1e80-bebf-11eb-841e-215828a95a91.png)
 
 - 트랜잭션의 주 특징이 그루핑된 연산의 실패시 Rollback 이 지원된다는 점인 것처럼, OLTP도 트랜잭션과 동일한 ACID 특징을 가진다.
 
@@ -54,7 +55,8 @@ https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog
     
 #### 사례
 
-https://t1.daumcdn.net/cfile/tistory/165489334E2049652F
+![image](https://user-images.githubusercontent.com/77392444/119741161-22191700-bec0-11eb-84c6-fcedc707fb04.png)
+
 
 - OLTP 방식은 주로 하루에도 대량으로 처리되는 업무상의 트랜잭션을 처리하고 저장할 필요가 있는 경우에 사용한다. 
 
@@ -117,6 +119,7 @@ https://docs.microsoft.com/ko-kr/azure/architecture/data-guide/images/olap-data-
 - DSS란 단순히 정보를 수집, 저장, 분배하기 위한 시스템을 넘어서 사용자들이 기업의 의사결정을 쉽게 내릴 수 있도록 사업 자료를 분석해주는 역할을 하는 컴퓨터 응용 프로그램이다.
 
 #### 특징
+
 - OLAP은 방대한 양의 데이터에 대해 집계 계산을 적용하는 데 특히 유용합니다. 
 
 - OLAP 시스템은 분석 및 비즈니스 인텔리전스 등, 과도한 읽기 시나리오에 대해 최적화되어 있습니다. 
@@ -126,6 +129,9 @@ https://docs.microsoft.com/ko-kr/azure/architecture/data-guide/images/olap-data-
 - OLAP 시스템은 고효율적 방식으로 데이터에서 이러한 비즈니스 인텔리전스 정보를 추출하는 데 도움이 되도록 디자인되었습니다. OLAP 데이터베이스가 과도한 읽기, 낮은 쓰기 워크로드에 최적화되어 있기 때문입니다.
 
 #### 사례
+
+![image](https://user-images.githubusercontent.com/77392444/119741129-10377400-bec0-11eb-83e6-b7a73fafb42a.png)
+
 - 조직의 데이터가 대형 데이터베이스에 저장되어 있습니다. 비즈니스 사용자 및 고객이 자체 보고서를 만들고 분석을 수행하는 데 이 데이터를 사용할 수 있게 하려고 합니다. 
 
 - BI 프로그램들 (Azure 머신러닝, Power BI 등)
