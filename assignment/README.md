@@ -7,7 +7,7 @@
 
 #### 1-2. [Java : SQL Statement, Prepared Statement, Callable Statement]()
 
-#### 2. [계정계 시스템 vs 정보계 시스템 (용어 정의, 사례 정리)]()
+#### 1-3. [계정계 시스템 vs 정보계 시스템 (용어 정의, 사례 정리)]()
 
 #### 3. [Cluster, Clustering 개념, 목적, 구성사례]()
 
