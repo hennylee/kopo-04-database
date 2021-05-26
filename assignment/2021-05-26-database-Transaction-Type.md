@@ -1,8 +1,11 @@
+# Transaction 각 유형(OLTP / DSS(= Batch = OLAP) / DTP의 정의, 특징, 사례를 찾으시오
+
+은행의 업무 현황과 연관지어 자료를 정리하시오.
 
 ## 1. Transaction Type
 
 
-### OLTP와 OLAP차이
+### 1.0 OLTP와 OLAP차이
 
 
 | 	|OLTP	|OLAP|
@@ -35,11 +38,9 @@
 - OLTP가 일상적인 기업의 운영을 지원하는 반면 OLAP는 기업의 방향을 설정하는 역할을 한다.
 ```
 
-## 1. Transaction 각 유형(OLTP / DSS(= Batch = OLAP) / DTP의 정의, 특징, 사례를 찾으시오
 
-은행의 업무 현황과 연관지어 자료를 정리하시오.
 
-### OLTP
+### 1.1 OLTP
 
 #### 정의
 
@@ -157,7 +158,7 @@ ex. 은행업무 (입금/출금...등등)
 
 
 
-### 2. DSS = OLAP = Batch
+### 1.2 DSS = OLAP = Batch
 
 #### 정의
 
@@ -215,7 +216,7 @@ https://docs.microsoft.com/ko-kr/azure/architecture/data-guide/images/olap-data-
 
 
 
-### 3. DTP
+### 1.3 DTP
 
 #### 정의
 - 분산 트랜잭션(Distributed Transaction)
