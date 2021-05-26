@@ -93,4 +93,18 @@ http://hanbiro.net/img/tech/db_clus03.gif
 
 - 실시간으로 데이터 복제가 가능하며, 서버에 거의 영향을 주지 않습니다.
 
+### Oracle RAC(Real Application Cluster)
+
+![image](https://user-images.githubusercontent.com/77392444/119744659-6e1b8a00-bec7-11eb-83c3-9448b514fb01.png)
+
+- Oracle RAC는 하나의 Database에 여러개의 Instance로 구성하는 방식이다.
+
+-  이는 Application에서 접속할 수 있는 통로는 여러개이고, DB는 하나인 형태.
+
+- 1번 노드에서 트랜잭션을 수행하다가 노드가 죽었을 경우, 2번 노드에서 자동으로 수행한다.
+
+- 8i까지는 OPS(Oracle Parallel Server)라고 하였다. (Interconnect가 없음)
+
+![image](https://user-images.githubusercontent.com/77392444/119744729-930ffd00-bec7-11eb-8ea7-a3f13484b87a.png)
+
 
