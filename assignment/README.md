@@ -7,7 +7,7 @@
 
 #### 1-2. [Java : SQL Statement, Prepared Statement, Callable Statement](https://github.com/hennylee/kopo-04-database/blob/main/assignment/2021-05-26-database-Transaction-Type.md#2-java--sql-statement-prepared-statement-callable-statement)
 
-#### 1-3. [계정계 시스템 vs 정보계 시스템 (용어 정의, 사례 정리)](https://github.com/hennylee/kopo-01-InformationSystem/blob/main/2021-03-05-financial-architecture.md)
+#### 2. [계정계 시스템 vs 정보계 시스템 (용어 정의, 사례 정리)](https://github.com/hennylee/kopo-01-InformationSystem/blob/main/2021-03-05-financial-architecture.md)
 
 #### 3. [Cluster, Clustering 개념, 목적, 구성사례](https://github.com/hennylee/kopo-04-database/blob/main/assignment/2021-05-26-database-Cluster.md)
 
