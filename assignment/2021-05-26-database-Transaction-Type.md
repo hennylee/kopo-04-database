@@ -1,4 +1,5 @@
-# Transaction Type
+
+## 1. Transaction Type
 
 
 ### OLTP와 OLAP차이
@@ -275,7 +276,7 @@ https://technet.tmaxsoft.com/upload/download/online/tibero/pver-20131217-000019/
 
 
 
-## 5. Java : SQL Statement, Prepared Statement, Callable Statement
+## 2. Java : SQL Statement, Prepared Statement, Callable Statement
 
 ```
 Transaction Type과 연계해서 정의, 장단점, 개발 시 차이점, 코딩 실습
