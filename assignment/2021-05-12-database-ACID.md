@@ -4,7 +4,7 @@
 
 - All tasks of a transaction are performed or none of them are. There are no partial transactions. For example, if a transaction starts updating 100 rows, but the system fails after 20 updates, then the database rolls back the changes to these 20 rows.
 
-- 트랜잭션의 포함된 오퍼레이션(작업)들은 모두 수행되거나, 아니면 전혀 수행되지 않아야 한다.
+- 트랜잭션의 포함된 오퍼레이션(연산, 작업)들은 모두 수행되거나, 아니면 전혀 수행되지 않아야 한다.
 
 ## 2. 일관성(Consistency)
 
@@ -24,10 +24,14 @@
 
 - 각 트랜잭션은 다른 트랜잭션과 독립적으로 수행되는 것처럼 보여야 한다.
 
+- 트랜잭션이 실행되는 도중에 다른 트랜잭션의 영향을 받아 잘못된 결과를 만들어서는 안된다. 
+
 ## 4. 지속성(Durability)
 
 - Changes made by committed transactions are permanent. After a transaction completes, the database ensures through its recovery mechanisms that changes from the transaction are not lost.
 
 - 성공적으로 수행된 트랜잭션의 결과는 지속성이 있어야 한다
+
+- 트랜잭션이 성공적으로 수행되면 그 트랜잭션이 갱신한 데이터베이스의 내용은 영구적으로 저장된다. 
 
 출처: https://priceless.tistory.com/362 [Pasture]
