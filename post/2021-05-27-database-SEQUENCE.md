@@ -59,6 +59,10 @@ CREATE SEQUENCE 스키마(소유주).테이블명_SEQ
 
 
 
+![image](https://user-images.githubusercontent.com/77392444/119797547-4b17c700-bf15-11eb-9451-e6f7d489c5cf.png)
+
+
+
 ## SEQUENCE의 특징
 
 - NEXTVAL : 새로운 일련번호를 만들어낸다.
