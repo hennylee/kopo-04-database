@@ -173,15 +173,25 @@ https://junshock5.tistory.com/91
 
 ![image](https://user-images.githubusercontent.com/77392444/119744659-6e1b8a00-bec7-11eb-83c3-9448b514fb01.png)
 
-- Oracle RAC는 하나의 Database에 여러개의 Instance로 구성하는 방식이다.
+- Oracle RAC는 하나의 Database에 여러개의 Instance(= Node)로 구성하는 방식이다.
 
   - Database : 데이터를 저장하고 있는 창고의 역할
 
-  - Instance : 창고의 데이터를 가져와 작업하는 작업장
+  - Instance : 창고의 데이터를 가져와 작업하는 작업장 
 
 -  이는 Application에서 접속할 수 있는 통로는 여러개이고, DB는 하나인 형태.
 
 - 1번 노드에서 트랜잭션을 수행하다가 노드가 죽었을 경우, 2번 노드에서 자동으로 수행한다.
+
+- HA구성이란 High Availability의 약자로 고가용성이란 뜻이다.
+
+![image](https://user-images.githubusercontent.com/77392444/119757812-77fdb700-bee0-11eb-861f-cbf97386e46a.png)
+
+- HA구성은 이름 그대로 서버의 사용 가능시간을 최대한 늘이는 것이 목표인 서버 구성방법이다. 
+
+- 두 대의 서버를 동일하게 구성해서 서버 1대는 Active로 두고 서버 1대는 Standby 로 설정해서 만약 Active 상태의 서버가 장애가 발생 할 경우 Srandby 상태의 서버가 즉시 Active 상태로 바뀌여서 투입되어 서비스 중단이 발생하지 않도록 조치되는 구성이다. 
+
+- Oracle에서는 HA방식을 한 단계 더 발전시킨 OPS라는 방식을 도입하였다. 
 
 - 8i까지는 OPS(Oracle Parallel Server)라고 하였다. (OPS에는 Interconnect가 없음)
 
