@@ -1,0 +1,207 @@
+-- 05/27 : View
+
+--------------------------------------------------------------------------------
+-- [View merge (in all possible case) : VIEW 생성하고 처리방식 확인해보기]
+
+/*
+DBA 계정(system / manager33)에서 : grant create view to scott;
+*/
+
+-- VIEW 정의 : VIEW를 만들어보기
+CREATE VIEW V_DEPTEMP AS SELECT E.EMPNO, E.ENAME, E.SAL, D.DNAME
+FROM EMP E, DEPT D WHERE E.DEPTNO = D.DEPTNO;
+
+
+-- VIEW 질의 : VIEW를 가지고 질의해보기
+SELECT * FROM V_DEPTEMP WHERE DNAME = 'SALES';
+
+
+-- VIEW 처리방식 : 위의 질의를 날리면 DBMS는 아래와 같이 merge해서 결과값을 출력한다. 
+SELECT E.EMPNO, E.ENAME, E.SAL, D.DEPTNO, D.DNAME
+FROM EMP E, DEPT D
+WHERE E.DEPTNO = D.DEPTNO AND D.DNAME = 'SALES';
+
+
+--------------------------------------------------------------------------------
+
+-- [Oject Dependency  : VIEW STATUS 확인해보기]
+
+-- 1. 기초 셋팅
+
+-- BASE_TBL 생성
+CREATE TABLE BASE_TBL(EMPNO_NEW, ENAME_NEW)
+AS SELECT EMPNO, ENAME FROM EMP;
+
+-- DEPEN VIEW 생성
+CREATE VIEW DEPEN AS SELECT EMPNO_NEW, ENAME_NEW FROM BASE_TBL;
+
+-- VIEW STATUS 조회
+SELECT OBJECT_NAME, STATUS FROM USER_OBJECTS WHERE OBJECT_NAME = 'DEPEN'; -- DEPEN , VALID
+
+
+-- 2. BASE_TBL 삭제
+
+-- BASE TABLE이 사라지면 VIEW STATUS는? : VALID에서 INVALID 상태로 변경된다.  
+
+-- BASE_TBL 삭제
+DROP TABLE BASE_TBL;
+
+-- VIEW STATUS 조회
+SELECT OBJECT_NAME, STATUS FROM USER_OBJECTS WHERE OBJECT_NAME = 'DEPEN'; -- DEPEN	INVALID
+
+
+-- 3. BASE_TBL 재생성
+
+-- BASE_TBL 생성
+CREATE TABLE BASE_TBL(EMPNO_NEW, ENAME_NEW)
+AS SELECT EMPNO, ENAME FROM EMP;
+
+-- VIEW STATUS 조회
+SELECT OBJECT_NAME, STATUS FROM USER_OBJECTS WHERE OBJECT_NAME = 'DEPEN'; -- DEPEN	INVALID
+
+-- VIEW 데이터 조회
+SELECT * FROM DEPEN;
+
+-- VIEW STATUS 조회
+SELECT OBJECT_NAME, STATUS FROM USER_OBJECTS WHERE OBJECT_NAME = 'DEPEN'; -- DEPEN	VALID
+
+
+
+--------------------------------------------------------------------------------
+-- [VIEW 용도]
+
+-- 1. 보안성 (RESTRICT DATABASE ACCESS)
+-- 보여지는 데이터를 선택하여 제한한다. 
+
+
+-- RESTRICT_SELECT라는 VIEW 만들기
+CREATE VIEW RESTRICT_SELECT(EMPNO_NEW, ENAME_NEW, DEPTNO_NEW)
+AS SELECT EMPNO, ENAME, DEPTNO FROM EMP WHERE SAL > 1500;
+
+-- 만들어진 VIEW 조회하기
+SELECT * FROM RESTRICT_SELECT;
+
+
+
+
+-- 2. 편리성
+-- TABLE의 NOT NULL, DATA TYPE도 복사되는가?
+
+-- VIEW를 통해서 데이터를 수정할 수 있다. 
+-- 사실 VIEW의 목적은 데이터를 잘 보기 위함이기 때문에 잘 쓰이진 않는다. 
+
+
+-- SIMPLE_VIEW 생성
+CREATE VIEW SIMPLE_VIEW
+AS SELECT EMP.EMPNO, EMP.ENAME, DEPT.DNAME, SALGRADE.GRADE AS GD
+FROM EMP, DEPT, SALGRADE
+WHERE EMP.DEPTNO = DEPT.DEPTNO AND
+    EMP.SAL BETWEEN SALGRADE.LOSAL AND SALGRADE.HISAL;
+
+
+-- VIEW 구조 확인
+DESC SIMPLE_VIEW
+
+
+-- VIEW 데이터 확인
+SELECT * FROM SIMPLE_VIEW; 
+
+
+
+
+-- 3. 독립성 : 외부스키마, 내부스키마 등의 개념과 연결해서...
+-- 테이블 구조 변경 시, VIEW를 사용하는 응용 프로그램을 변경하지 않아도 된다???
+
+
+DROP TABLE BASE_TBL;
+DROP VIEW IND_VIEW;
+
+
+-- BASE_TBL 생성
+CREATE TABLE BASE_TBL(EMPNO_NEW, ENAME_NEW)
+AS SELECT EMPNO, ENAME FROM EMP;
+
+-- VIEW 생성
+CREATE VIEW IND_VIEW AS SELECT * FROM BASE_TBL;
+
+-- IND_VIEW 조회
+SELECT * FROM IND_VIEW; -- 컬럼 2개
+SELECT COUNT(*) FROM DIFF_RETURN_TBL;
+
+-- BASE_TBL 변경 : 컬럼 추가
+ALTER TABLE BASE_TBL ADD(NEW_COL DATE);
+DESC BASE_TBL;
+
+-- BASE_TBL 변경 : 데이터 추가
+INSERT INTO BASE_TBL VALUES(1000,'HAENI', SYSDATE);
+
+
+-- VIEW 조회
+SELECT * FROM IND_VIEW; -- 컬럼 2개 , 에러 발생 X! , 추가한 데이터가 VIEW에도 추가되어 있음
+SELECT COUNT(*) FROM DIFF_RETURN_TBL;
+
+
+-- 4. DIFFERENT APPEARANCES FOR THE SAME DATA
+-- 동일한 데이터도 USER, 시간에 따라 다른 데이터 결과를 보여줄 수 있다. 
+
+/*
+SYNONYM 개념...
+|Object| DEV|
+|------|----|
+|테이블  |뷰  |
+*/
+
+
+/*
+[DBA 계정에서 실행]
+
+-- DIFF_RETURN_TBL TABLE 생성
+CREATE TABLE DIFF_RETURN_TBL
+AS SELECT OWNER, TABLE_NAME FROM DBA_TABLES;
+
+
+-- DATA 갯수 확인
+SELECT * FROM DIFF_RETURN_TBL;
+
+
+-- DIFF_RETURN_VIEW 생성
+CREATE OR REPLACE VIEW DIFF_RETURN_VIEW
+AS SELECT * FROM DIFF_RETURN_TBL WHERE OWNER = USER;
+
+
+-- DIFF_RETURN_TBL 조회
+SELECT * FROM DIFF_RETURN_TBL;
+
+
+-- DIFF_RETURN_VIEW 조회
+SELECT * FROM DIFF_RETURN_VIEW;
+*/
+
+-- DIFF_RETURN_VIEW 조회해보기 =>  오류 => 권한이 없기 때문이다. 
+SELECT * FROM DIFF_RETURN_VIEW; 
+
+/*
+[DBA 계정에서 실행]
+
+-- DIFF_RETURN_VIEW 권한을 PUBLIC_USER로 변경
+GRANT SELECT ON DIFF_RETURN_VIEW TO PUBLIC;
+*/
+
+-- DBA 계정에서 권한을 부여해도, 앞에 스키마를 명시해주지 않으면 조회 불가하다.
+SELECT * FROM DIFF_RETURN_VIEW; 
+
+
+-- OWNER = SCHEMA = 계정 => 조회 가능
+SELECT * FROM SYSTEM.DIFF_RETURN_VIEW;
+
+/*
+
+GRANT 
+privileges VS roll
+    - privileges : 부여하자마자 즉시 부여됨
+    - ROLL : 새로 로그인 해야 함
+*/
+
+-- DBA_TABLES란?
+
+-- USER : 현재 커넥션을 맺은 계정을 반환하는 함수
