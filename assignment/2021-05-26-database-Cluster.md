@@ -4,7 +4,7 @@
 - WEB, WAS, DB의 관점에서
 ```
 
-## Cluster, Clustering
+## 1. Cluster, Clustering 란?
 
 ### 개념
 
@@ -82,7 +82,7 @@
 
 
 
-## Web Server, WAS Server : Session Cluster
+## 2. Web Server, WAS Server : Session Cluster
 
 - [3Tier Architecture](https://github.com/hennylee/kopo-03-linux/blob/main/post/2021-04-07-linux-3Tier-Architecture.md)
 
@@ -114,7 +114,7 @@
 https://junshock5.tistory.com/91
 
 
-## DB Server : Cluster
+## 3. DB Server : Cluster
 
 - DB 클러스터도 컴퓨터 클러스터와 똑같은 맥락이다. DB 서버를 여러개 둔다고 생각하면 된다. 이에 대한 기본적인 장점은 서버 한 대가 죽어도 대비가 가능하다는 점이다.
 
@@ -169,17 +169,36 @@ https://junshock5.tistory.com/91
 
 실시간으로 데이터 복제가 가능하며, 서버에 거의 영향을 주지 않습니다.
 
-### Oracle RAC(Real Application Cluster)
+## 4. Oracle RAC(Real Application Cluster)
 
 ![image](https://user-images.githubusercontent.com/77392444/119744659-6e1b8a00-bec7-11eb-83c3-9448b514fb01.png)
 
 - Oracle RAC는 하나의 Database에 여러개의 Instance로 구성하는 방식이다.
 
+  - Database : 데이터를 저장하고 있는 창고의 역할
+
+  - Instance : 창고의 데이터를 가져와 작업하는 작업장
+
 -  이는 Application에서 접속할 수 있는 통로는 여러개이고, DB는 하나인 형태.
 
 - 1번 노드에서 트랜잭션을 수행하다가 노드가 죽었을 경우, 2번 노드에서 자동으로 수행한다.
 
-- 8i까지는 OPS(Oracle Parallel Server)라고 하였다. (Interconnect가 없음)
+- 8i까지는 OPS(Oracle Parallel Server)라고 하였다. (OPS에는 Interconnect가 없음)
+
+- Cache Fusion (캐쉬 퓨전)이란? : Interconnect 을 통해 Instance 1과 2 를 연결하여 디스크를 거치지 않고 데이터를 교환하는 것
+
+- Interconnect란? : 블록들이  이동하는  길이다.  
+
+- Interconnect를  통해  이동하는  정보는  크게  
+  - 1) Clusterware가  Cluster  를  유지하고  운영하기  위해 사용하는 정보와 
+  - 2) 실제  데이터  블록, Parallel Query  관련  정보들이  있습니다.
+
+- 일반적으로  Cluster를  유지하고  운영하는  정보인  `GCS/GES  관련  정보`는  256  bytes  정도로  아주 작지만, `실제  데이터  블록`은  DB_BLOCK_SIZE(10g/11g  기준으로  기본  크기는  8k)  나 NonStandard Block Size의  크기로 GCS/GES  정보에  비해  아주  큽니다. (실데 데이터 블록 크기 > Cluster를  유지하고  운영하는  정보)
+
+- 이런  내용들이  얼마나  자주  왕래하느냐가  성능에  아주  중요한  영향을  주게  되어,  당연히  가급적이면 이동하는  양을  줄이는  것이  튜닝에  아주  핵심적인  관점이  된다. 
+
+- 그래서 RAC  튜닝에서  Interconnect의  사용량을  줄이거나  혹은  Interconnect  의  속도를  높이는  것이  RAC  튜닝에서  아주  중요하다.
+
 
 ![image](https://user-images.githubusercontent.com/77392444/119744729-930ffd00-bec7-11eb-8ea7-a3f13484b87a.png)
 
