@@ -18,13 +18,41 @@
 
 
 
-## 3. 고립성(Isolation)
+## 3. 고립성, 격리성 (Isolation)
 
 - The effect of a transaction is not visible to other transactions until the transaction is committed. For example, one user updating the hr.employees table does not see the uncommitted changes to employees made concurrently by another user. Thus, it appears to users as if transactions are executing serially.
 
 - 각 트랜잭션은 다른 트랜잭션과 독립적으로 수행되는 것처럼 보여야 한다.
 
 - 트랜잭션이 실행되는 도중에 다른 트랜잭션의 영향을 받아 잘못된 결과를 만들어서는 안된다. 
+
+### 3.1 낮은 단계의 격리성 수준에서 발생할 수 있는 현상들입니다.
+
+1. Dirty Read : 다른 트랜잭션에 의해 수정되었지만 아직 커밋되지 않은데이터를 읽는 것을 의미합니다.
+
+2. Non-Repeatable Read : 한 트랜잭션 내에서 같은 쿼리를 두 번 수행했는데, 그 사이에 다른 트랜잭션이 값을 수정,삭제하여 두 쿼리의 결과가 다르게 나타나는 현상입니다.
+
+
+
+3. Phantom Read : 한 트랜잭션 내에서 같은 쿼리를 두 번 수행했는데, 첫 번째 쿼리에서 없던 유령(Phantom) 레코드가 두 번째 쿼리에서 나타나는 현상입니다.
+
+
+
+### 3.2 트랜잭션의 격리성 수준
+
+1. Read Uncommitted : 트랜잭션에서 처리 중인 아직 커밋되지 않은 데이터를 다른 트랜잭션이 읽는 것을 허용하는 것 입니다.
+
+2. Read Committed : 트랜잭션이 커밋되어 확정된 데이터만 다른 트랜잭션이 읽도록 허용함으로써, Dirty Read를 방지해줌. 하지만, 커밋된 데이터만 읽더라도  Non-Repeatable Read와 Phantom Read현상을 막지 못합니다.
+
+
+
+3. Repeatable Read : 트랜잭션 내에서 쿼리를 두 번 이상 수행할 때, 첫 번째 쿼리에 있던 레코드가 사라지거나 값이 바뀌는 현상을 방지해 줍니다. 하지만, Phantom Read 현상을 막지 못합니다.
+
+
+
+4. Serializable Read : 트랜잭션 내에서 쿼리를 두 번 이상 수행할 때, 첫 번째 쿼리에 있던 레코드가 사라지거나, 값이 바뀌지 않음은 물론, 세로운 레코드가 나타나지도 않습니다.
+
+
 
 ## 4. 지속성(Durability)
 
