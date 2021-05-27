@@ -150,18 +150,24 @@ https://junshock5.tistory.com/91
 
 - 이런식으로 복수개의 서버를 조합해서 위의 3가지 요구를 만족시키는 시스템의 구성형태를 DB 클러스터라고 한다.
 
-http://hanbiro.net/img/tech/db_clus02.gif
 
-- Master-Server 두대가 동일하게 작동하므로 서버중 한대가 Fail시 나머지 서버가 계속해서 임무 수행 
 
-- 각 서버에 동일한 데이터가 저장되므로 어플리케이션 접근에 의한 부하를 분산시킬 수 있습니다.
+- Master-Server 두대가 동일하게 작동하므로 서버중 한대가 Fail시 나머지 서버가 계속해서 임무 수행하는 방식
 
-http://hanbiro.net/img/tech/db_clus03.gif
 
-- Master-Server 중 한대는 Primary Server로서 기능을 하다가 Fail시 Standby Server가 임무를 수행 
+![image](https://user-images.githubusercontent.com/77392444/119746410-678f1180-becb-11eb-8902-e89a7085a0b9.png)
+
+각 서버에 동일한 데이터가 저장되므로 어플리케이션 접근에 의한 부하를 분산시킬 수 있습니다.
+
+- Master-Server 중 한대는 Primary Server로서 기능을 하다가 Fail시 Standby Server가 임무를 수행하는 방식
+
+
+![image](https://user-images.githubusercontent.com/77392444/119746426-6f4eb600-becb-11eb-9e8e-89cd6636b659.png)
+
+
 데이터 입력(Insert,Update, Delete)은 모두 마스터 서버에서 이루어지고, 데이터 불러오기(Select)는 슬레이브 서버들이 담당하게 되어 Select 쿼리가 많은 사이트에서 최적의 성능을 발휘할 수 있습니다.
 
-- 실시간으로 데이터 복제가 가능하며, 서버에 거의 영향을 주지 않습니다.
+실시간으로 데이터 복제가 가능하며, 서버에 거의 영향을 주지 않습니다.
 
 ### Oracle RAC(Real Application Cluster)
 
