@@ -88,6 +88,8 @@ DROP MATERIALIZED VIEW TST_MView;
 SELECT ENAME,SAL,DNAME FROM TST_MView;
 ```
 
+- 결과 : `COST = 3`
+
 ![image](https://user-images.githubusercontent.com/77392444/119910996-6a553980-bf93-11eb-9607-7fd5a5f80ea4.png)
 
 
@@ -108,4 +110,6 @@ SELECT A.ENAME,
  WHERE A.RANKING = 1;
  ```
  
+- 결과 : `COST = 3`
+
 ![image](https://user-images.githubusercontent.com/77392444/119911130-a9838a80-bf93-11eb-9424-b1773a26b590.png)
