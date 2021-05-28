@@ -1,4 +1,22 @@
 
+## 목차
+[필요성]
+Display data from multiple tables
+(한 개 이상의 테이블로부터 데이터를 읽어야 할때) (수평적 결합)
+
+[종류]
+EQUI JOIN .
+NON EQUI JOIN
+OUTER JOIN
+SELF JOIN
+
+[내부 알고리즘]
+NESTED LOOP JOIN
+SORT MERGE JOIN
+HASH JOIN
+
+
+
 ## JOIN 의 내부처리 알고리즘
 
 - SQL은 DBMS 서버만 처리할 수 있다.
