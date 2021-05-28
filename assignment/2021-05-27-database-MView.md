@@ -20,6 +20,8 @@ REVOKE CREATE MATERIALIZED VIEW FROM SCOTT;
 
 ## 비효율적인 쿼리 실행해보기
 
+- 각 부서별 급여 1위 구하기
+
 ```SQL
 SELECT A.ENAME,
       A.SAL,
@@ -81,6 +83,13 @@ ENABLE QUERY REWRITE AS
 ```sql
 DROP MATERIALIZED VIEW TST_MView;
 ```
+
+
+- MView 관련 파라미터
+
+![image](https://user-images.githubusercontent.com/77392444/119911887-4266d580-bf95-11eb-8e7d-50455811f0a8.png)
+
+
 
 ## MView 실행해보기
 
