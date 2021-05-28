@@ -1,89 +1,157 @@
 -- <05/10> 서브쿼리
 
 
+--------------------------------------------------------------------------------------
+
+-- [SINGLE COLUMN, SINGLE ROW]
+
 -- 1. SMITH와 부서가 같은 애들을 출력하시오
 SELECT ENAME,JOB
 FROM EMP
 WHERE DEPTNO = (SELECT DEPTNO FROM EMP WHERE ENAME = 'SMITH' );
 
+-- 결과가 1건이다.
+SELECT DEPTNO FROM EMP WHERE ENAME = 'SMITH';
+
 -- 2. 전체 평균보다 급여가 작은 애들을 출력하시오
 SELECT ENAME,SAL FROM EMP 
 WHERE SAL < ( SELECT AVG(SAL) FROM EMP);
 
+-- 결과가 1건이다.
+SELECT AVG(SAL) FROM EMP;
+
+--------------------------------------------------------------------------------------
+
 -- [SINGLE COLUMN, MULTIPLE ROW RETURN SUBQUERY]
 
 -- 1~2.
-SELECT ENAME,JOB FROM EMP WHERE DEPTNO = 10 OR DEPTNO = 30;
+SELECT ENAME,JOB FROM EMP WHERE DEPTNO = 10 OR DEPTNO = 30;     -- 9개
 
 SELECT ENAME,JOB FROM EMP WHERE DEPTNO IN (10,30); -- // Multiple Rows
 
 
-
 -- 그림 잘 이해하기
 -- 3. 
--- WHERE 조건이 두 개 이상일 때는 = 대신 IN을 써야 한다.
 SELECT DNAME,LOC FROM DEPT
 WHERE DEPTNO = (SELECT DEPTNO FROM EMP GROUP BY DEPTNO HAVING COUNT(*) > 3 );
 
+-- 리턴되는 결과가 2건이니까 WHERE 조건 = 뒤에 사용할 수 없다. 
 SELECT COUNT(*), DEPTNO FROM EMP GROUP BY DEPTNO HAVING COUNT(*) > 3;
 
+-- WHERE 조건이 두 개 이상일 때는 = 대신 IN을 써야 한다.
 SELECT DNAME,LOC FROM DEPT
 WHERE DEPTNO IN (SELECT DEPTNO FROM EMP GROUP BY DEPTNO HAVING COUNT(*) > 3 );
 
 
+--------------------------------------------------------------------------------------
+
+-- [MULTIPLE COLUMN, MULTIPLE ROW RETURN]
 -- 서브쿼리가 여러개의 컬럼을 리턴할 때 확인하기
--- 4. 급여 평균이 2000보다 많은 애들의 부서와 직무를 출력하시오
+
+-- 4. 
+
+-- 급여 평균이 2000보다 많은 직원들의 부서와 직무를 출력하시오
 SELECT DEPTNO,JOB,ENAME,SAL FROM EMP
 WHERE (DEPTNO,JOB) 
-IN (SELECT DEPTNO,JOB FROM EMP
+    IN (SELECT DEPTNO,JOB FROM EMP
+        GROUP BY DEPTNO,JOB 
+            HAVING AVG(SAL) > 2000
+        );
+    
+-- 부서별, 직업별 평균 급여가 2000 이상인 부서
+SELECT DEPTNO,JOB,AVG(SAL) FROM EMP
 GROUP BY DEPTNO,JOB 
-HAVING AVG(SAL) > 2000);
+    HAVING AVG(SAL) > 2000;
 
-SELECT DEPTNO,JOB FROM EMP
-GROUP BY DEPTNO,JOB 
-HAVING AVG(SAL) > 2000;
+
+--------------------------------------------------------------------------------------
 
 -- [스칼라 서브쿼리]
--- SELECT LIST 자리에 서브쿼리가 올 때 
 
--- 5. 
+-- 5. SELECT LIST 자리에 서브쿼리가 오는 스칼라 서브쿼리
+
+-- 부서별 평균과 부서번호, 이름, 직업, 급여, 직업별 평균 급여를 출력하시오
 SELECT DEPTNO,ENAME,JOB,SAL, 
-(SELECT ROUND(AVG(SAL),0) FROM EMP S WHERE S.JOB=M.JOB) AS JOB_AVG_SAL 
+    (SELECT ROUND(AVG(SAL),0) FROM EMP S WHERE S.JOB=M.JOB) AS JOB_AVG_SAL 
 FROM EMP M
 ORDER BY JOB;
 
+SELECT DEPTNO,ENAME,JOB,SAL, 
+    (SELECT ROUND(AVG(SAL),0) FROM EMP WHERE JOB=M.JOB) AS JOB_AVG_SAL 
+FROM EMP M
+ORDER BY JOB;
+
+-- GROUP BY로 실행한 경우 사원들의 이름, 부서번호를 출력하기 어렵다.
+SELECT JOB, ROUND(AVG(SAL),0) FROM EMP GROUP BY JOB;
+
+
+--------------------------------------------------------------------------------------
 
 -- [CORRELATED SUBQUERY(상관서브쿼리)]
--- Corealted SubQuery : 메인쿼리가 실행된 후에야 서브쿼리를 사용할 수 있을 때!
 
--- 6.
+-- Corealted SubQuery : 메인쿼리가 실행된 후에야 서브쿼리를 사용할 수 있을 때!
+-- Subquery는 Mainquery의 컬럼을 참조할수 있지만 Mainquery는 Subquery의 컬럼을 참조할수 없다
+-- Mainquery에서 Subquery의 컬럼을 참조 하려면  ① Join 으로 변환 ② Scalar Subquery
+
+
+-- 6. 
+-- 급여가 부서별 평균급여보가 높은 직원들의 목록을 출력하시오
 SELECT DEPTNO,ENAME,JOB,SAL
 FROM EMP M
-WHERE SAL > ( SELECT AVG(SAL) AS AVG_SAL FROM EMP WHERE JOB = M.JOB );
+WHERE SAL 
+    > ( SELECT AVG(SAL) AS AVG_SAL FROM EMP WHERE JOB = M.JOB );
 
 
+-- 급여가 부서별 평균급여보가 높은 직원들의 목록과 직업별 평균급여를 함께 출력하시오
+SELECT DEPTNO,ENAME,JOB,SAL,
+    (SELECT ROUND(AVG(SAL),0) FROM EMP WHERE JOB=M.JOB) AS JOB_AVG_SAL 
+FROM EMP M
+WHERE SAL 
+    > ( SELECT AVG(SAL) AS AVG_SAL FROM EMP WHERE JOB = M.JOB );
 
+
+--------------------------------------------------------------------------------------
 
 -- [인라인 뷰]
+
 -- 테이블은 정형화된 데이터 구조인데, 인라인뷰 서브쿼리를 사용하면 동적 테이블 구조를 생성해내서 활용할 수 있어서 편리하다.
 -- 이때 활용한 동적 테이블 구조는 메모리 상에서만 실행되고 쿼리가 끝나면 사라진다. 
 -- 정적 데이터 구조는 디스크 상에서 저장되어 사용된다는 차이가 있다. 
 
+
 -- 7. 
-SELECT DEPTNO, ENAME,EMP.JOB,SAL,IV.AVG_SAL
-FROM EMP, (SELECT JOB,ROUND(AVG(SAL)) AS AVG_SAL FROM EMP GROUP BY JOB ) IV
-WHERE EMP.JOB = IV.JOB AND SAL > IV.AVG_SAL
+-- 급여가 부서별 평균급여보가 높은 직원들의 목록과 직업별 평균급여를 함께 출력하시오
+SELECT DEPTNO, ENAME, EMP.JOB, SAL, IV.AVG_SAL
+FROM 
+    EMP, 
+    (SELECT JOB,ROUND(AVG(SAL)) AS AVG_SAL FROM EMP GROUP BY JOB ) IV
+WHERE 
+    EMP.JOB = IV.JOB 
+AND 
+    SAL > IV.AVG_SAL
 ORDER BY DEPTNO ,SAL DESC;
 
+
+--------------------------------------------------------------------------------------
 -- [1:M vs M:1]
-SELECT * FROM SCOTT.EMP WHERE DEPTNO IN (SELECT DEPTNO FROM SCOTT.DEPT);
 
-SELECT * FROM SCOTT.DEPT WHERE DEPTNO IN (SELECT DEPTNO FROM SCOTT.EMP);
+SELECT * FROM SCOTT.EMP WHERE DEPTNO IN (SELECT DEPTNO FROM SCOTT.DEPT); -- 14개 행
 
+SELECT * FROM SCOTT.DEPT WHERE DEPTNO IN (SELECT DEPTNO FROM SCOTT.EMP); -- 3개 행
+
+-- 원래 테이블과 비교해보면서 결과가 이렇게 나온 이유를 예측해보면?
 SELECT * FROM EMP;
 SELECT * FROM DEPT;
 
+/*
+1번은 EMP 테이블과 DEPT 테이블의 DEPTNO가 일치하는 경우 EMP를 전부 출력
+2번은 EMP 테이블과 DEPT 테이블의 DEPTNO가 일치하는 경우 DEPT를 전부 출력
+*/
+
+
+--------------------------------------------------------------------------------------
 -- [TOP-N,BOTTOM-M]
+
 SELECT * FROM 
 ( SELECT EMPNO,ENAME,SAL FROM EMP ORDER BY SAL ASC) BM
 WHERE ROWNUM <= 5;
