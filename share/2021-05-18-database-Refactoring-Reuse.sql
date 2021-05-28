@@ -2,6 +2,16 @@
 
 -- 꿀팁 : Ctrl + F7 , [마우스 우클릭 - 형식]
 
+
+SELECT TO_CHAR(SYSDATE,'DDD') AS DAYINYEAR, 
+
+    TO_CHAR(SYSDATE,'DD')   AS DAYINMONTH, 
+
+    TO_CHAR(SYSDATE,'D')     AS DAYNUM  -- 일요일 = 1 ~ 토요일 = 7
+
+FROM DUAL;
+
+
 -- 리팩토링 전
 SELECT
     DECODE(
