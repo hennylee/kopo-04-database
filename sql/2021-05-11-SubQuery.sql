@@ -151,40 +151,72 @@ SELECT * FROM DEPT;
 
 --------------------------------------------------------------------------------------
 -- [TOP-N,BOTTOM-M]
+-- IN-LINE VIEW 에서 ORDER BY
 
+-- 급여가 낮은 상위 5명의 정보
 SELECT * FROM 
-( SELECT EMPNO,ENAME,SAL FROM EMP ORDER BY SAL ASC) BM
+    ( SELECT EMPNO,ENAME,SAL FROM EMP ORDER BY SAL ASC)
+WHERE ROWNUM <= 5;
+
+-- 급여가 높은 상위 5명
+SELECT TN.EMPNO,TN.ENAME,TN.SAL FROM 
+    (SELECT EMPNO,ENAME,SAL FROM EMP ORDER BY SAL DESC) TN
+WHERE ROWNUM <= 5;
+
+-- 급여 순으로 정렬한 결과
+SELECT * FROM EMP ORDER BY SAL ASC;
+
+
+--------------------------------------------------------------------------------------
+/*
+    ROWNUM은 ORDER BY보다 먼저 실행된다.
+*/
+
+-- 급여순으로 정렬하지 않고, 5명 뽑은 뒤 급여순으로 정렬
+SELECT EMPNO,ENAME,SAL FROM EMP
+WHERE ROWNUM <= 5
+ORDER BY SAL ASC;
+
+-- 급여순으로 정렬하지 않은 상위 5명
+SELECT EMPNO,ENAME,SAL FROM EMP
 WHERE ROWNUM <= 5;
 
 
-SELECT TN.EMPNO,TN.ENAME,TN.SAL FROM 
-(SELECT EMPNO,ENAME,SAL FROM EMP ORDER BY SAL DESC) TN
-WHERE ROWNUM < 5;
- 
 
-
+--------------------------------------------------------------------------------------
 -- [DML]
--- SELECT가 서브쿼리 + INSERT가 메인 쿼리이다. 
+-- SELECT가 서브쿼리이고, INSERT가 메인 쿼리이다. 
 INSERT INTO BONUS(ENAME,JOB,SAL,COMM)
-SELECT ENAME,JOB,SAL,COMM FROM EMP;
-
+    SELECT ENAME,JOB,SAL,COMM FROM EMP;
 ROLLBACK;
+
+
 
 -- DML 내의 SELECT 문에는 DECODE, WHERE IN 등을 모두 사용할 수 있다.
+
+/*
+    DECODE(a, b, c, d, e)
+        if ( a = b )?     b
+        else if( a = c )? d
+        else?             e
+*/
+
+-- 10번 부서는 급여의 30% + 커미션, 20번 부서는 급여의 20% + 커미션을 보너스로 주어라. 
 INSERT INTO BONUS(ENAME,JOB,SAL,COMM)
-SELECT ENAME,JOB,SAL,DECODE(DEPTNO,10,SAL*0.3,20,SAL*0.2)+NVL(COMM,0)
+    SELECT ENAME,JOB,SAL,DECODE(DEPTNO,10,SAL*0.3,20,SAL*0.2)+NVL(COMM,0)
 FROM EMP 
 WHERE DEPTNO IN (10,20);
-
 ROLLBACK;
+
 
 -- 평상시에 COMM을 받지 못하는 사원들에게 평균 COMM 금액의 50%를 보너스로 지급
 UPDATE EMP SET COMM = (SELECT AVG(COMM)/2 FROM EMP)
 WHERE COMM IS NULL OR COMM = 0;
-
 ROLLBACK;
 
--- 평균 이상의 급여를 받는 사원들은 보너스 지급 대상자에서 제외
-DELETE FROM BONUS WHERE SAL > (SELECT AVG(SAL) FROM EMP) ;
 
+-- 평균 이상의 급여를 받는 사원들은 보너스 지급 대상자에서 제외
+DELETE FROM BONUS
+WHERE 
+    SAL > (SELECT AVG(SAL) FROM EMP) ;
 ROLLBACK;

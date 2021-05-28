@@ -1,6 +1,8 @@
 -- <04/26>
 -- 함수는 많이 아는 것이 좋다. WHY? 생산성과 품질이 높이지니까
 
+
+---------------------------------------------------------------------------------
 -- [단일행 함수] (Single Row Function)
 -- 단일행 함수 : 함수에 한 개의 INPUT이 들어가서 한 개의 OUTPUT이 나온다.
 
@@ -9,11 +11,15 @@
 SELECT ENAME, EMPNO, SAL, COMM FROM EMP;
 SELECT ENAME, LOWER(ENAME),UPPER(LOWER(ENAME)), LENGTH(ENAME), ABS(SAL-EMPNO), COMM FROM EMP;
 
+
 -- 2. substr : 부분문자 추출함수
 SELECT ENAME, substr(ENAME, 1, 3) FROM EMP
 WHERE HIREDATE between to_date('81/01/01', 'RR/MM/DD') and to_date('82/12/31','RR/MM/DD') 
 ORDER BY length(ENAME);
 
+
+
+---------------------------------------------------------------------------------
 -- [그룹행 함수] (Group Row Function)
 -- 그룹행 함수 : INPUT이 여러개의 ROW, 그룹당 1개의 결과를 RETURN
 
@@ -28,24 +34,34 @@ ORDER BY length(ENAME);
 SELECT AVG(SAL), SUM(SAL), SUM(COMM), COUNT(*) FROM EMP;
 SELECT COMM FROM EMP;
 
+
+---------------------------------------------------------------------------------
 -- 4. GROUP BY란?
 -- SINGLE ROW, GROUP ROW의 차이는?
+
 -- 9i에서의 GROUP BY : ORDER BY가 자동으로 적용됨
 -- 10g에서의 GROUP BY : ORDER BY가 적용되지 않음
+
 SELECT DEPTNO, COUNT(*), SUM(SAL), AVG(SAL) FROM EMP ORDER BY DEPTNO;
 SELECT DEPTNO, COUNT(*), SUM(SAL), AVG(SAL) FROM EMP GROUP BY DEPTNO;
 
+
+---------------------------------------------------------------------------------
 -- 5. 다중 그룹
 SELECT * FROM EMP ORDER BY DEPTNO, JOB;
 SELECT DEPTNO, JOB, COUNT(*), SUM(SAL), AVG(SAL) FROM EMP GROUP BY DEPTNO, JOB ORDER BY DEPTNO, JOB;
 
 
+---------------------------------------------------------------------------------
 -- [단일행 : 문자함수]
 -- INSTR/INSTRB 의 차이는? ASCII, UNICODE 차이...
 -- LENGTH/LENGTHB의 차이는? ASCII, UNICODE 차이...
 
+
 -- 1. 
 SELECT ENAME, lower(ENAME), upper(ENAME), initcap(ENAME) FROM EMP;
+
+
 
 -- 2. substr(a, b, c)
 /*
@@ -54,6 +70,8 @@ SELECT ENAME, lower(ENAME), upper(ENAME), initcap(ENAME) FROM EMP;
 - c : 자를 갯수 (생략 시, 끝까지)
 */
 SELECT ENAME, substr(ENAME, 1, 3), substr(ENAME, 4), substr(ENAME, -3, 2) FROM EMP;
+
+
 
 -- 3. INSTR : 특정 위치 반환 (없으면 0)
 /*
@@ -65,10 +83,12 @@ SELECT ENAME, substr(ENAME, 1, 3), substr(ENAME, 4), substr(ENAME, -3, 2) FROM E
 */
 SELECT ENAME, instr(ENAME, 'A'), instr(ENAME, 'A', 2), instr(ENAME, 'A', 1, 2) FROM EMP;
 
--- 4. pad : 채우는 것
 
+
+-- 4. pad : 채우는 것
 SELECT ENAME, rpad(ENAME, 10, '*'), lpad(ENAME, 10, '+') FROM EMP;
 SELECT rpad(ENAME, 10,' ')||' ''S JOB is'||lpad(JOB,10,' ') as JOB_list FROM EMP;
+
 
 -- 이게 뭘까?
 -- INSERT시에 TESTCODE짜보기
@@ -76,26 +96,42 @@ SELECT rpad(ENAME, 10,'')||' ''S JOB is'||lpad(JOB,10,'') as JOB_list FROM EMP;
 
 SELECT replace(rpad(ENAME, 10,''),'','*')||' ''S JOB is'||lpad(JOB,10,'') as JOB_list FROM EMP;
 
+
+
+---------------------------------------------------------------------------------
 -- 아래 예제 확인해보기
 SELECT 'AND'||NULL FROM DUAL;
+SELECT NULL||'AND' FROM DUAL;
 SELECT 'AND'||'' FROM DUAL;
-Select rpad(NVL(NULL,' '),4) from dual;
+SELECT ''||'AND' FROM DUAL;
+Select rpad(NVL(NULL,' '),4,'*') from dual;
+
 
 -- 5. REPLACE()
 SELECT ENAME, REPLACE(ENAME, 'S', 's') FROM EMP;
 
+
+---------------------------------------------------------------------------------
 -- 6. 함수와 연산차의 차이는?
 SELECT ENAME, concat(ENAME, JOB), ENAME || JOB FROM EMP;
 SELECT ENAME, concat(COMM, SAL), COMM || SAL FROM EMP;
 SELECT * FROM EMP WHERE ENAME = 'CLARK'; -- 0과 NULL을 붙이면 0이다.
 
+
+
+---------------------------------------------------------------------------------
 -- 7. 
 SELECT ltrim(' 대한  민국 '), rtrim(' 대한  민국 '), trim(' 대한  민국 ') FROM dual;
 
 SELECT trim('장' from '장발장'),trim('발' from '장발장'),rtrim('장발장  '), ltrim(' 장발장') FROM DUAL;
 
+
+
+---------------------------------------------------------------------------------
 -- 8. 한글은 몇 byte인가?
+
 -- 현재 오라클 DBMS는 어떤 인코딩으로 구성되어 있을까?
+
 /*
 - length('대한민국') = 4
 - lengthb('대한민국') = 12
@@ -103,9 +139,12 @@ SELECT trim('장' from '장발장'),trim('발' from '장발장'),rtrim('장발�
 
 - 한글 한 글자 당, 3 Bytes이다.
 */
+
 SELECT length('대한민국') FROM DUAL;
 SELECT lengthb('대한민국') FROM DUAL;
 SELECT vsize('대한민국') FROM DUAL;
+
+
 
 -- 3바이트씩 자르면 : 
 -- 1  2  3  4  5  6 7  8  9 10 11 12
@@ -119,29 +158,41 @@ SELECT '공백' FROM DUAL WHERE substrb('대한민국',2,2) is null;
 SELECT '공백' FROM DUAL WHERE substrb('대한민국',2,2) is not null;
 
 
+
+---------------------------------------------------------------------------------
 -- [단일행 : 숫자함수]
 
 -- 9. round() : 몇째자리까지 절삭하는가?
 SELECT round(45.923, 2), round(45.923, 1), round(45.923, 0), round(45.923), round(45.923, -1) FROM dual;
 
+
 -- 10. turnc() : 절삭함수
 SELECT trunc(45.923,2), trunc(45.923,1), trunc(45.923,0), trunc(45.923), trunc(45.923,-1) FROM dual;
 
--- 11. mod() : 나눗셈 결과 나머지 값 반환 함수
+
+-- 11. mod() : 나머지 반환 함수
 SELECT mod(100,3), mod(100,2) FROM dual;
+
 
 -- 12.
 SELECT ENAME,SAL,SAL*0.053 as tax,round(SAL*0.053,0) as r_tax FROM EMP;
 
+
 -- 13. ceil() : 입력된 값보다 큰 정수들 중 가장 작은 값 반환, 올림함수
 SELECT CEIL(-45.594),CEIL(-45.294),CEIL(45.294), ROUND(-45.594),ROUND(-45.294),ROUND(45.594) FROM DUAL;
+
 
 -- 14. floor() : 입력된 값보다 작은 정수들 중 가장 큰 값 반환, 내림함수
 SELECT FLOOR(45.245),FLOOR(-45.245),FLOOR(45.545),FLOOR(-45.545) FROM DUAL;
 
+
 -- abs() : 절대값 반환 함수
 SELECT abs(45.923), abs(-45.923), abs(-433) FROM dual;
 
+
+
+
+---------------------------------------------------------------------------------
 -- [DATE TYPE]
 -- DATE TYPE은 연산이 가능하다.
 -- Oracle 내부에 숫자와 날짜는 똑같이 Packed Decimal 형태로 표현되기 때문에 연산이 가능한 것이다.
@@ -158,12 +209,17 @@ SELECT sysdate, sysdate+7, sysdate-2, sysdate+1/24 FROM dual;
 - 날짜 포맷을 활용해보면 시간 찌꺼기가 버려졌는지 확인할 수 있다. 
 */
 
+
 -- 2. 직원들의 부서와 근무일수를 구하시오
 DESC EMP;
 SELECT deptno,ename, (SYSDATE - HIREDATE) as work_day FROM emp ORDER BY deptno,work_day DESC;
 SELECT deptno,ename, trunc((SYSDATE - HIREDATE)/30/12) as work_day FROM emp ORDER BY deptno,work_day DESC;
 
 
+
+
+
+---------------------------------------------------------------------------------
 -- [중요] 
 -- DATE라는 데이터타입은 고정된 7byte의 메모리 공간이 할당된다.
 -- DATE라는 데이터타입은 날짜와 시간 정보를 가지고 있다.
@@ -173,6 +229,9 @@ SELECT deptno,ename, trunc((SYSDATE - HIREDATE)/30/12) as work_day FROM emp ORDE
 -- 3. 날짜는 날짜를 표시하는 포맷에 의해 달리보인다.
 -- SYSDATE도 데이터 타입이 DATE이다. 
 SELECT ENAME, to_char(SYSDATE, 'YYYY-MM-DD:HH24:MI:SS'), to_char(HIREDATE, 'YYYY-MM-DD:HH12:MI:SS') FROM EMP;
+SELECT ENAME, to_char(SYSDATE, 'YYYY-MM-DD HH24:MI:SS'), to_char(HIREDATE, 'YYYY-MM-DD HH12:MI:SS') FROM EMP;
+
+
 
 -- 4. 
 -- ALTER : DDL, Data Object를 변경
@@ -194,22 +253,28 @@ SELECT SYSDATE FROM DUAL;
 -- 다른 세션에는 적용되지 않는다. 
 
 
+
+---------------------------------------------------------------------------------
 -- [단일행 날짜 함수]
 -- 6. months_between() : 두 날짜 사이의 개월수를 반환한다.
 -- months_between(a, b) : (a - b)개월
 SELECT HIREDATE, months_between(sysdate, HIREDATE), trunc(months_between(sysdate,HIREDATE)) FROM EMP;
 
+
 -- 7. add_months(a, b) : a로부터 b개월 증가 함수
 SELECT sysdate, add_months(sysdate,3), add_months(sysdate,-1) FROM dual;
+
 
 -- 8. 
 -- last_day() : 해당 월의 마지막 날짜를 반환하는 함수
 -- next_day() : 지정한 날짜의 다음 요일의 날짜를 반환하는 함수
+
 /*
 - 1 : '일요일'
 - 2 : '월요일'
 */
 SELECT sysdate, last_day(sysdate), next_day(sysdate,'일요일'), next_day(sysdate,1),next_day(sysdate,2) FROM dual;
+
 
 
 -- 9. round() : 날짜 반올림 함수
@@ -228,11 +293,13 @@ SELECT sysdate, round(sysdate, 'YEAR'), round(sysdate, 'MONTH'), round(sysdate, 
 SELECT sysdate,trunc(sysdate,'YEAR'),trunc(sysdate,'MONTH'),trunc(sysdate,'DAY'),trunc(sysdate)
 FROM dual;
 
+
 -- 11. 한글 형식의 숫자로 바꾸기
 SELECT 
 to_char(sysdate,'MM"월"DD"일"') as mmdd1,
 to_char(sysdate,'MM')||'월'||to_char(sysdate,'DD')||'일' as mmdd2
 FROM dual;
+
 
 -- 12. EXTRACT(a FROM 날짜) : 날짜에서 a요소를 뽑아내 NUMBER 데이터 타입으로 출력한다.
 -- TIMEZOND_ ~ -> VARCHAR2 문자열 타입이다
@@ -246,6 +313,8 @@ FROM DUAL;
 SELECT HIREDATE, EXTRACT(YEAR FROM HIREDATE) FROM EMP;
 
 
+
+---------------------------------------------------------------------------------
 -- 아래 SQL을 참고하여 해당월의 마지막 법정 영업일자를 구하는 SQL을 작성 하십시요(법정 영업일은 월~금요일)
 SELECT TO_CHAR(SYSDATE,'DDD'),TO_CHAR(SYSDATE,'DD'),TO_CHAR(SYSDATE,'D') FROM DUAL;
 SELECT LAST_DAY(SYSDATE) FROM DUAL;
@@ -273,9 +342,11 @@ SELECT SYSDATE FROM DUAL;
 -- 마지막 날 구하기
 SELECT last_day(SYSDATE) FROM DUAL;
 
+
 -- 마지막 날의 요일 구하기
 SELECT last_day(SYSDATE), to_char(last_day(SYSDATE), 'dy')
 FROM DUAL;
+
 
 -- 마지막 날의 요일이 토 혹은 일이면 그 전날짜 출력하기
 SELECT last_day(SYSDATE), to_char(last_day(SYSDATE), 'dy'), 
@@ -286,9 +357,11 @@ CASE to_char(last_day(SYSDATE), 'dy')
 END AS 법정휴일
 FROM DUAL;
 
+
 SELECT last_day(SYSDATE), to_char(last_day(SYSDATE), 'dy'), 
 decode(to_char(last_day(SYSDATE), 'dy'), '토', last_day(SYSDATE) - 1 , '일', last_day(SYSDATE) -2, last_day(SYSDATE))
 FROM DUAL;
+
 
 SELECT last_day('21/02/03'), to_char(last_day('21/02/03'), 'dy'), 
     decode(to_char(last_day('21/02/03'), 'dy'), '토', last_day('21/02/03') - 1 , '일', last_day('21/02/03') - 2)

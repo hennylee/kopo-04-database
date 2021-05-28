@@ -1,4 +1,6 @@
 -- <04/19> SELECT (1)
+
+---------------------------------------------------------------------------------
 -- <SELECT>
 -- 1~2. *를 통해서 전체 COLUMN을 조회할 수 있다. 
 -- 컬럼과 컬럼의 구분자는 `,`이다.
@@ -13,6 +15,8 @@ SELECT EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO FROM EMP;
 -- DESC : 테이블 구조를 조회할 수 있다. 
 DESC EMP;
 
+
+---------------------------------------------------------------------------------
 -- <SELECT LIST>
 -- 3~4. 원하는 순서대로 컬럼을 조회할 수 있다.
 SELECT EMPNO, ENAME, JOB, SAL FROM EMP;
@@ -25,6 +29,8 @@ SELECT EMPNO, EMPNO, EMPNO, ENAME, JOB, SAL FROM EMP;
 -- 문자를 표기할 때는 ''로 감싼다.
 SELECT EMPNO, SAL, 8, 'ORACLE' FROM EMP;
 
+
+---------------------------------------------------------------------------------
 -- <WHERE 조건절>
 -- 7. WHERE 조건절을 통해 원하는 ROW(Record)만 조회할 수 있다.
 -- WHERE 조건절은 SELECT LIST와 함께 쓸 수 있다.
@@ -50,6 +56,8 @@ SELECT DEPTNO, ENAME, JOB FROM EMP WHERE 1=1;
 -- 1=2는 항상 거짓이다. 
 SELECT DEPTNO, ENAME, JOB FROM EMP WHERE 1=2;
 
+
+---------------------------------------------------------------------------------
 -- 14. SQL 명령어 안에서 산술연산자를 사용할 수 있다. 
 -- SAL*12 : 데이터 베이스 서버 내에는 사원의 급여 정보만 저장되어 있는데 해당 사원의 연봉을 보고 싶을 때 사용한다. 
 -- (방식1) 쿼리 문장에서 연산을 수행하여 DBMS 연산을 DBMS Server에게 담당시킨다. ==> DBMS를 가공/처리/연산/보관의 용도로 사용하는 경우
@@ -77,6 +85,8 @@ SELECT HIREDATE FROM EMP WHERE HIREDATE >= '82/01/01' AND HIREDATE < '82/12/31';
 SELECT HIREDATE FROM EMP WHERE HIREDATE >= '83/01/01' AND HIREDATE < '83/12/31';
 
 
+
+---------------------------------------------------------------------------------
 -- <COLUMN ALIAS>
 -- 1. COLUMN ALIAS 방법은 3가지가 존재한다.
 SELECT ENAME, SAL+200 bonus, SAL*12 as annual_SAL, COMM, COMM+300 "Special Bonus" FROM EMP;
@@ -102,23 +112,30 @@ SELECT ENAME||JOB FROM EMP;
 SELECT DNAME||'부서는 '||LOC||'에 위치하고 있습니다' FROM DEPT;
 SELECT ENAME||'is a '||JOB FROM EMP;
 
+
 -- 9. 바깥에 있는 ''은 문자열을 묶어준다. 안쪽에 있는 ''은 문자 데이터 싱글 포텐셜?이다.
 -- 헷갈리기 쉬우니 잘 기억해야 한다.
 SELECT ENAME||'''s JOB is '||JOB FROM EMP;
+
 
 -- 10. COLUMN ALIAS 를 수행하면 COLUMN HEAD를 깔끔하게 표현할 수 있다. 
 SELECT ENAME||'''s JOB is'||JOB as JOB_list FROM EMP;
 SELECT DNAME||'부서는 '||LOC||'에 위치하고 있습니다' AS 부서위치 FROM DEPT;
 
+
 -- 11. 데이터베이스에 저장될 수 있는 데이터타입은 대부분 숫자, 문자, 날짜 유형을 벗어나지 않는다.
 
 SELECT EMPNO, ENAME, HIREDATE FROM EMP;
 
+
+---------------------------------------------------------------------------------
 -- 12. Data type Conversion
+
 -- [Implicit Conversion  vs  Explicit Conversion]
 -- Implicit Conversion : 암시적 변환, 자동형변환, DBMS 서버가 자동으로 수행한다.
 -- Explicit Conversion : 명시적 변환, 강제형변환, 개발자가 직접 명기하는 방식이다.
 -- 코드의 명료성과 안정성 때문에 Explicit Conversion을 쓰는 것을 권고한다.
+
 SELECT ENAME, SAL, SAL*100, SAL||'00', to_char(SAL)||'00' FROM EMP;
 
 -- SAL*100  vs  SAL||'00'

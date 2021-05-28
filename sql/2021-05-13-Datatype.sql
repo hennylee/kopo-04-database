@@ -1,15 +1,17 @@
 -- <05/13>
 
+---------------------------------------------------------------------------------
 -- [CHAR]
 -- 오라클에서 '공백 문자'도 ASCII코드를 가지고 있는 엄연한 데이터이다. 
 
-
+---------------------------------------------------------------------------------
 -- [VARCHAR2]
 -- 1~4000 바이트 저장 가능
 -- 입력된 길이만큼 저장 공간이 할당된다. 
 -- 대부분의 문자 데이터에 사용한다. 
 -- 데이터 저장 공간을 유용하게 사용할 수 있다.
 
+---------------------------------------------------------------------------------
 -- [NUMBER]
 -- P, S 부분을 생략하면 정수와 실수 모두 유연하게 사용가능하게 되지만, 명시적으로 표기해줘야 좋은 쿼리이다. 
 -- 예기치못한 오류 발생을 피할 수 있기 때문이다.
@@ -18,16 +20,19 @@
 
 
 
+---------------------------------------------------------------------------------
 -- [ROWID]
 -- ROWID를 저장할 수 있도록 하는 데이터 타입이다. 
 -- INDEX를 제대로 이해하려면 ROWID를 알고 있어야 한다. 
 
 
+---------------------------------------------------------------------------------
 -- [DECIMAL, INTEGER,SMALL INTEGER,FLOAT]
 -- ANSI 호환 및 DB2등과의 TABLE 생성 SQL문장 레벨 호환성을 위해 존재 하며 실제 생성시에는 내부적으로는 ORACLE DATA TYPE으로 바뀐다.
 
 
 
+---------------------------------------------------------------------------------
 -- [테이블 생성 (문자 Data Type) ]
 
 -- 1. 테이블 생성
@@ -54,6 +59,7 @@ INSERT INTO TEST_CUSTOMER(ID,PWD,SEX) VALUES('ORACLE','OCM','F');
 COMMIT;
 
 
+---------------------------------------------------------------------------------
 -- INSERT시에 특정 COLUM에 NULL값 삽입방법
 -- 8~9. 명시적 방법
 -- NULL과 ''의 차이는?
@@ -67,6 +73,8 @@ INSERT INTO TEST_CUSTOMER(ID, PWD) VALUES('NULL3', 'ZMAN');
 COMMIT;
 SELECT * FROM TEST_CUSTOMER;
 
+
+---------------------------------------------------------------------------------
 -- [고정 길이와 가변 길이 차이점 비교]
 
 -- 데이터 저장 시 차이점
@@ -78,7 +86,10 @@ SELECT ID, LENGTH(ID), VSIZE(ID), PWD, LENGTH(PWD), VSIZE(PWD) FROM TEST_CUSTOME
 -- 결론 : 가변 길이에는 남은 길이만큼 공백이 저장되지 않지만, 고정길이 데이터타입은 남은 공간만큼 공백이 채워진다.
 SELECT ID, REPLACE(ID, ' ', '?'), PWD, REPLACE(PWD, ' ', '?') FROM TEST_CUSTOMER;
 
+
+---------------------------------------------------------------------------------
 -- 비교시 차이점 (BLANK-PADDING, NON-BLANK PADDING)]
+
 -- 가변길이와 고정길이 중에 어떤 것으로 암시적 형변환이 되는지 비교시 우선순위 알아보기
 
 -- VARCHAR2 TYPE 비교시에는 NON-BLOCK PADDING 방식
@@ -87,6 +98,7 @@ SELECT ID, REPLACE(ID, ' ', '?'), PWD, REPLACE(PWD, ' ', '?') FROM TEST_CUSTOMER
     ID VARCHAR2(8),
     PWD CHAR(8),
 */
+
 -- 13. VARCHAR2 TYPE은 문자 길이만큼만 공간이 할당됨
 SELECT * FROM TEST_CUSTOMER WHERE ID = 'XMAN';
 SELECT * FROM TEST_CUSTOMER WHERE ID = 'XMAN ';
@@ -94,21 +106,28 @@ SELECT * FROM TEST_CUSTOMER WHERE ID = 'XMAN    ';
 
 
 -- 14. VARCHAR2 와 CHAR를 비교 불가?
+
 -- 둘이 길이가 같으면 비교 가능하지만, 둘이 크기가 다르다면 비교 불가능!
 -- 'XMANXMAN' = 'XMANXMAN'
 -- 'XMAN'    != 'XMAN    '
 -- 큰 타입으로 데이터 형변환이 발생하지 않기 때문이다.
+
 /*
     ID VARCHAR2(8),
     PWD CHAR(8),
 */
+
 INSERT INTO TEST_CUSTOMER VALUES('XMANXMAN','XMANXMAN','M');
 ROLLBACK;
+
+
 
 -- 가변길이를 더 좋아함
 -- 가변길이 방식으로 PWD와 ID를 비교하는 것이다.
 SELECT * FROM TEST_CUSTOMER WHERE ID = PWD;
 SELECT * FROM TEST_CUSTOMER WHERE PWD = ID;
+
+
 
 -- 15. 
 -- SUBSTR('XMAN', 1, 2) = 'XM'
@@ -116,6 +135,9 @@ SELECT * FROM TEST_CUSTOMER WHERE PWD = ID;
 -- SUBSTR('XMAN', 1, 2)|| SUBSTR('XMAN',3,2) = 'XMAN'
 SELECT * FROM TEST_CUSTOMER WHERE ID = SUBSTR('XMAN', 1, 2)|| SUBSTR('XMAN',3,2);
 
+
+
+---------------------------------------------------------------------------------
 -- CHAR TYPE 비교시에는 BLOCK PADDING 방식
 -- 1. 
 /*
@@ -146,6 +168,8 @@ SELECT rpad(ENAME, 10, NVL('','*'))||'@@' FROM EMP;
 
 
 
+
+---------------------------------------------------------------------------------
 -- [테이블 생성 (숫자 DATA TYPE) ]
 
 -- 5. 테이블 생성
@@ -158,23 +182,31 @@ CREATE TABLE TST_NUMBER(
     TAX NUMBER(7, 2)
 );
 
+
 -- 6.
 INSERT INTO TST_NUMBER VALUES(123.5, 123.5, 123.5);
 
+
 -- 7.
 INSERT INTO TST_NUMBER VALUES(123, 123, 123);
+
 
 -- 8~9. 정수형 자리수를 초과하면 ERROR, 실수형 자릿수를 초과하면 ROUND
 INSERT INTO TST_NUMBER VALUES(123, 12345, 123); -- 오류 : 정수형 자리 초과
 INSERT INTO TST_NUMBER VALUES(123, 123, 123.56789); -- 오류 : 소수점 자리 초과
 
+
 -- 10.
 INSERT INTO TST_NUMBER VALUES(123, '123', 123.56789); -- 반올림되어서 들어감
+
 
 -- 11. (오타 : 컬럼명 NUM, TAX로 바꾸기)
 INSERT INTO TST_NUMBER(ALL_NUM,F_TAX) VALUES(456, 456); -- 에러
 SELECT * FROM TST_NUMBER;
 
+
+
+---------------------------------------------------------------------------------
 -- [ 테이블 생성 (날짜 DATA TYPE) ]
 
 -- 날짜 정보를 저장할때 무조건 DATE를 사용해야 하는 것은 아니다.
@@ -190,46 +222,56 @@ CREATE TABLE TST_DATE(
     LOG_DATE DATE DEFAULT SYSDATE
 );
 
+
+---------------------------------------------------------------------------------
 -- [ LOG ]
 -- 보통 기록, ERROR, WARNING, MESSAGE 등을 로그로 남긴다. 
 -- 로그는 주로 FILE에 남기거나 DB에 남긴다. 
 -- 전체 운영시스템의 로그는 주로 각 시스템이 아니라 하나에 공간에 모아져서 기록된다.
-
-
+---------------------------------------------------------------------------------
 
 -- 15. 
+
 -- 날짜 정보를 문자 타입으로 바꿔서 저장할 수 있다.
 -- DEFAULT를 SYSDATE로 설정하고 VALUES를 비워두면, INSERT가 발생한 시각을 기록할 수 있다. 
 
 INSERT INTO TST_DATE(CHAR_HIREDATE, DATE_HIREDATE) VALUES(TO_CHAR(SYSDATE,'YYYYMMDD'), SYSDATE);
 
+
 -- 1. 
 INSERT INTO TST_DATE(CHAR_HIREDATE, DATE_HIREDATE) VALUES('19990921', TO_DATE('990921', 'YYMMDD'));
+
 
 -- 2. 결과 확인
 SELECT * FROM TST_DATE;
 
 
+
+---------------------------------------------------------------------------------
 -- [ ALTER ]
 
--- 3. 
+-- 3. 컬럼 추가
 ALTER TABLE TST_DATE ADD(NAME VARCHAR2(20), AGE NUMBER(3));
 DESC TST_DATE;
 
--- 4.
+-- 4.컬럼 삭제
 ALTER TABLE TST_DATE DROP COLUMN AGE;
 DESC TST_DATE;
 
 
+
+---------------------------------------------------------------------------------
 -- [  DROP ]
 
--- 5.
+-- 5.테이블 삭제
 SELECT * FROM TAB;
 DROP TABLE TST_DATE;
 DESC TST_DATE;
 SELECT * FROM TAB;
 
 
+
+---------------------------------------------------------------------------------
 -- [ SUBQUERY에 의한 TABLE 생성 ]
 
 -- CTAS 테이블 복제
@@ -245,14 +287,17 @@ SELECT * FROM EMP_CTAS_WHERE;
 DROP TABLE EMP_CTAS_WHERE;
 
 CREATE TABLE EMP_CTAS_J
-AS SELECT EMPNO, ENAME, DEPT.DNAME, SAL*12 AS ANNUAL_SAL
-FROM EMP, DEPT
-WHERE EMP.DEPTNO = DEPT.DEPTNO AND EMP.DEPTNO IN (10,20);
+AS 
+    SELECT EMPNO, ENAME, DEPT.DNAME, SAL*12 AS ANNUAL_SAL
+    FROM EMP, DEPT
+    WHERE EMP.DEPTNO = DEPT.DEPTNO AND EMP.DEPTNO IN (10,20);
 
 DESC EMP_CTAS_J;
 SELECT * FROM EMP_CTAS_J;
 
 
+
+---------------------------------------------------------------------------------
 -- [ DELETE,TRUNCATE, DROP 의 차이점 ]
 SHOW USER;
 SELECT COUNT(*) FROM DBA_OBJECTS;
@@ -292,6 +337,8 @@ SELECT SEGMENT_NAME, BYTES/1024/1024 AS SIZE_MB FROM DBA_SEGMENTS WHERE TABLESPA
 DROP TABLE DROP_TBL;
 PURGE RECYCLEBIN;
 
+
+---------------------------------------------------------------------------------
 -- 쿼리수행시간을 조회하는 방법
 SET TIMING ON
 
@@ -314,6 +361,8 @@ DESC DELETE_TBL;
 SELECT * FROM DELETE_TBL;
 
 
+
+---------------------------------------------------------------------------------
 -- ALTER
 ALTER TABLE DELETE_TBL ADD(ADDR VARCHAR2(60));
 
@@ -330,6 +379,8 @@ DROP TABLE TRUNCATE_TBL;
 PURGE RECYCLEBIN;
 
 
+
+---------------------------------------------------------------------------------
 -- [ 테이블명 ]
 
 -- 테이블명은 A~Z, a~z, 0~0, #,_,$ 만 허용한다
