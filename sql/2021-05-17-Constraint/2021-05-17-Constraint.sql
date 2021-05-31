@@ -5,20 +5,21 @@
 -- [ NOT NULL (필수입력사항 ]
 @t_cons.sql
 /*
+    DROP TABLE SCOTT.CUSTOMER; 
 
     CREATE TABLE SCOTT.TST_CUSTOMER(
         ID VARCHAR2(8) NOT NULL,
         PWD VARCHAR2(8) CONSTRAINT TST_CUSTOMER_PWD_NN NOT NULL,
-        NAME VARCHAR2(20), -- 이름
-        SEX CHAR(1), -- 성별
+        NAME VARCHAR2(20),-- 이름
+        SEX CHAR(1),-- 성별
         AGE NUMBER(3) -- 나이
     )TABLESPACE USERS
-        -- PCTFREE, PCTUSED : 블럭 단위의 공간활용 파라미터
+        -- PCTFREE,PCTUSED : 블럭 단위의 공간활용 파라미터
         -- PCTFREE : 프리로 남겨둘 %(퍼센테이지)
         -- INITRANS : 이니셜 트랜젝션
         -- MAXTRANS : 맥시멈 트랜젝션
     PCTFREE 5 PCTUSED 60 INITRANS 2 MAXTRANS 20
-        -- STORAGE : 양을 할당하라, 처음에는 100K, 그 다음에 더 필요하면 100K를 할당해라, 
+        -- STORAGE : 양을 할당하라,처음에는 100K,그 다음에 더 필요하면 100K를 할당해라,
     STORAGE(INITIAL 100K NEXT 100K MINEXTENTS 3 MAXEXTENTS 10 PCTINCREASE 0);
 
 */
@@ -46,6 +47,7 @@ AGE           NUMBER(3)
 */
 
 
+---------------------------------------------------------------------------------
 -- 2. (ID,PWD,NAME,SEX,AGE),('xman','ok','kang','M',21)인 회원 입력
 
 INSERT INTO tst_customer (
@@ -61,8 +63,6 @@ INSERT INTO tst_customer (
     'M',
     21
 );
-
-ROLLBACK;
 
 
 -- 3. (ID,PWD,NAME,SEX,AGE)('XMAN','no','kim','T',-20);
@@ -81,86 +81,265 @@ INSERT INTO tst_customer (
     -20
 );
 
-
 -- 4.
+-- implicit null insert
 
--- CHECK에 NULL값이 들어가는가? YES! 
+/*
+오류 보고 -
+ORA-01400: NULL을 ("SCOTT"."TST_CUSTOMER"."PWD") 안에 삽입할 수 없습니다
+*/
 
-SELECT
-    table_name,
-    constraint_name,
-    constraint_type,
-    search_condition
-FROM
-    user_constraints
-WHERE
-    table_name = 'TST_CUSTOMER';
-    
-    
+INSERT INTO tst_customer ( id,name,age ) VALUES ( 'zman','son',99 );
 
-SELECT
-    table_name,
-    constraint_name,
-    position,
-    column_name
-FROM
-    user_cons_columns
-WHERE
-    table_name = 'CUSOTMER'
-ORDER BY constraint_name,position;
+-- 5.
+-- explicit null insert
 
+/*
+오류 보고 -
+ORA-01400: NULL을 ("SCOTT"."TST_CUSTOMER"."PWD") 안에 삽입할 수 없습니다.
+*/
 
+INSERT INTO tst_customer (
+    id,
+    pwd,
+    name,
+    age
+) VALUES (
+    'rman',
+    NULL,
+    'jjang',
+    24
+);
 
-SELECT
-    table_name,
-    constraint_name,
-    position,
-    column_name
-FROM
-    user_cons_columns
-WHERE
-    table_name = 'CUSOTMER'
-ORDER BY constraint_name,position;
-
-SELECT
-    table_name,
-    constraint_name,
-    position,
-    column_name
-FROM
-    user_cons_columns
-WHERE
-    table_name = 'TST_CUSTOMER'
-ORDER BY constraint_name,position;
+-- 6.
+/*
+오류 보고 -
+ORA-01400: NULL을 ("SCOTT"."TST_CUSTOMER"."ID") 안에 삽입할 수 없습니다
+*/
+INSERT INTO tst_customer (
+    id,
+    pwd,
+    name,
+    age
+) VALUES (
+    '',
+    'pwd',
+    'jjang',
+    24
+);
 
 
-SELECT
-    *
-FROM
-    tst_customer2;
+---------------------------------------------------------------------------------
+-- UPDATE
 
-SELECT
-    *
-FROM
-    tst_customer2;
-    
+-- 7. 
+COMMIT; -- INSERT 저장
+SELECT * FROM TST_CUSTOMER; -- UPDATE 전 조회
 
-SELECT
-    *
-FROM
-    emp
-WHERE
-    deptno = 10;
+UPDATE TST_CUSTOMER SET AGE=-1, NAME = NULL;
+
+SELECT * FROM TST_CUSTOMER; -- UPDATE 후 조회
+
+ROLLBACK;
+
+SELECT * FROM TST_CUSTOMER;
+
+
+-- 8.
+/*
+오류 보고 -
+ORA-01407: NULL로 ("SCOTT"."TST_CUSTOMER"."PWD")을 업데이트할 수 없습니다
+*/
+UPDATE TST_CUSTOMER SET PWD = NULL WHERE ID = 'XMAN'; -- ID가 XMAN인 ROW만 수정
+
+-- 9. 
+/*
+오류 보고 -
+ORA-01407: NULL로 ("SCOTT"."TST_CUSTOMER"."PWD")을 업데이트할 수 없습니다
+*/
+UPDATE TST_CUSTOMER SET PWD = NULL; -- UPDATE시 WHERE절이 없는경우? 전체수정
+
+-- 10. 
+SELECT * FROM TST_CUSTOMER;
+
+---------------------------------------------------------------------------------
+-- DATA DICTIONARY에서 CONSTRAINT 정보 조회
+
+-- 11. 
+SELECT TABLE_NAME,CONSTRAINT_NAME,CONSTRAINT_TYPE,SEARCH_CONDITION
+FROM USER_CONSTRAINTS
+WHERE TABLE_NAME = 'TST_CUSTOMER';
+
+-- 12. 
+SELECT TABLE_NAME,CONSTRAINT_NAME,POSITION,COLUMN_NAME
+FROM USER_CONS_COLUMNS
+WHERE TABLE_NAME = 'TST_CUSTOMER'
+ORDER BY CONSTRAINT_NAME,POSITION;
+
+-- [요구] ⓐ DATA DICTIONARY에 대해서 설명하고 DBA_ , ALL_ , USER_ 에 대해서 설명 하십시요
+
+
+
+
+---------------------------------------------------------------------------------
+-- [ CHECK: BOOLEAN CHECK ]
+@T_CONS2.sql
+/*
+DROP TABLE SCOTT.TST_CUSTOMER2;
+
+CREATE TABLE TST_CUSTOMER2(
+    ID VARCHAR2(8) NOT NULL,
+    PWD VARCHAR2(8) CONSTRAINT TST_CUSTOMER2_PWD_NN NOT NULL,
+    NAME VARCHAR2(20), 
+    SEX CHAR(1) CONSTRAINT TST_CUSTOMER2_SEX_CK CHECK(SEX IN ('M', 'F')), 
+    AGE NUMBER(3) CHECK (AGE > 0 AND AGE < 100)
+);
+*/
+
+SELECT * FROM TST_CUSTOMER2;
+
+-- ⑬ 
+INSERT INTO TST_CUSTOMER2(ID,PWD,NAME,SEX, AGE) VALUES('xman','ok','kang', 'M',21);
+
+-- ⑭ 
+INSERT INTO TST_CUSTOMER2(ID,PWD,NAME,SEX,AGE) VALUES('xman','ok', 'jjang','M',20); -- ID 중복 가능(NN이라서)
+
+-- ① 
+/*
+오류 보고 -
+ORA-02290: 체크 제약조건(SCOTT.SYS_C0012461)이 위배되었습니다
+*/
+INSERT INTO TST_CUSTOMER2(ID,PWD,NAME,SEX,AGE) VALUES('XMAN','no','kim', 'M',-20); -- ID 중복?,나이?
+
+-- ② 
+-- CHECK에 NULL값이 들어가는가? 
+INSERT INTO TST_CUSTOMER2(ID,PWD,NAME,AGE) 
+VALUES('asura','ok', 'joo',99); -- 성별?CONSTRAINT TST_CUSTOMER2_SEX_CK CHECK(SEX IN ('M', 'F'))
+
+SELECT * FROM TST_CUSTOMER2; -- CHECK에 NULL로 들어감! NOT NULL 도 꼭 함께 써줘야 함
+
+-- ③ 
+/*
+오류 보고 -
+ORA-02290: 체크 제약조건(SCOTT.TST_CUSTOMER2_SEX_CK)이 위배되었습니다
+*/
+
+INSERT INTO TST_CUSTOMER2(ID,PWD,NAME,SEX,AGE) VALUES('harisu','ok', 'susu','T',33); -- 성별?
+
+-- ④ 
+/*
+오류 보고 -
+ORA-02290: 체크 제약조건(SCOTT.SYS_C0012461)이 위배되었습니다
+*/
+INSERT INTO TST_CUSTOMER2(ID,PWD,NAME,SEX,AGE) VALUES('shinsun','ok', '도사', 'M',999); -- 나이범위?
+
+-- ⑤ 
+UPDATE TST_CUSTOMER2 SET AGE = AGE + 1;
+
+SELECT * FROM TST_CUSTOMER2; -- 99살이 있어서 나이 체크 오류 발생
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------------
+-- [ UNIQUE: 컬럼 또는 컬럼조합의 고유한 값을 보장 ]
+
+@T_CONS3.sql
+
+/*
+DROP TABLE TST_CUSTOMER3;
+
+CREATE TABLE TST_CUSTOMER3(
+    ID VARCHAR2(8) NOT NULL CONSTRAINT TST_CUSTOMER3_ID_UK UNIQUE,
+    PWD VARCHAR2(8) NOT NULL,
+    NAME VARCHAR2(20), 
+    SEX CHAR(1) DEFAULT 'M' CONSTRAINT TST_CUSTOMER3_SEX_CK CHECK(SEX IN ('M', 'F')), 
+    -- SEX CHAR(1) DEFAULT 'M' CONSTRAINT TST_CUSTOMER2_SEX_CK CHECK(SEX IN ('M', 'F')), 
+    MOBILE VARCHAR2(14) UNIQUE, -- 핸드폰 번호
+    AGE NUMBER(3) DEFAULT 18
+);
+*/
+
+-- // 동일한 이름을 가진 제약사항이 생성될수 있는가? NO~!
+
+SELECT * FROM tst_customer3;
+
+---------------------------------------------------------------------------------
+-- INSERT
+
+-- ⑥ 
+INSERT INTO tst_customer3(ID,PWD,NAME,MOBILE, AGE) VALUES('xman','ok','kang', '011-3333',21); -- 성별? NULL
+
+-- ⑦ 
+/*
+오류 보고 -
+ORA-00001: 무결성 제약 조건(SCOTT.SYS_C0012466)에 위배됩니다
+*/
+INSERT INTO tst_customer3(ID,PWD,NAME, MOBILE,AGE) VALUES('yman','yes','lee', '011-3333',28); --핸폰?
+
+-- ⑧ 
+-- 데이터는 대소문자 구분
+INSERT INTO tst_customer3(ID,PWD,NAME, MOBILE,AGE) VALUES('XMAN','yes','kim','011-3334',33); --ID중복
+
+-- ⑨ 
+/*
+오류 보고 -
+ORA-00001: 무결성 제약 조건(SCOTT.TST_CUSTOMER3_ID_UK)에 위배됩니다
+*/
+INSERT INTO tst_customer3(ID,PWD,NAME, MOBILE,AGE) VALUES('xman','yes','lee', '011-3335',-21);--ID중복
+
+-- ⑩ 
+INSERT INTO tst_customer3(ID,PWD,NAME, MOBILE) VALUES('무명인','yes',NULL, NULL); -- NULL?
+
+-- // 테이블 생성후 제약사항 신규 추가
+-- ⑪ 
+ALTER TABLE tst_customer3 ADD CONSTRAINT CUSTOMER_NAME_SEX_UK UNIQUE(NAME,SEX); --조합,2개
+
+-- ⑫ 
+ALTER TABLE tst_customer3 MODIFY(NAME NOT NULL);
+ 
+-- NOT NULL
+
+-- ⑬ 
+INSERT INTO tst_customer3(ID,PWD,NAME, SEX)  
+VALUES('rman','yes','ksh', 'M');
+
+-- ⑭ 
+INSERT INTO tst_customer3(ID,PWD,NAME, SEX ) VALUES('Rman','yes','ksh', 'F'); -- 이름 중복 허용?
+
+-- ⑮ 
+INSERT INTO tst_customer3(ID,PWD,NAME, SEX) VALUES('RmaN','yes','ksh', 'M');
+ 
+-- 조합의 중복 ??
+SELECT * FROM tst_customer3;
+
+-- // CONSTRAINT(제약사항) 확인
+-- ① 
+SELECT INDEX_NAME,INDEX_TYPE,UNIQUENESS FROM USER_INDEXES
+WHERE TABLE_NAME = 'tst_customer3';
+-- // INDEX 생성 여부 확인
+-- ② 
+SELECT INDEX_NAME,COLUMN_POSITION,COLUMN_NAME FROM USER_IND_COLUMNS
+WHERE TABLE_NAME = 'tst_customer3' 
+ORDER BY INDEX_NAME,COLUMN_POSITION;
+
+-- [요구~캔] 
+-- ⓐ INDEX에 대해서 설명하고 UNIQUE 제약사항이 걸린 컬럼에 UNIQUE INDEX 가 생성되는 이유를 설명 하십시요 
+
+
+
+
+
 
 SELECT
     *
 FROM
     user_triggers;
 
-SELECT
-    *
-FROM
-    tst_customer3;
 
 SELECT
     index_name,
@@ -189,6 +368,17 @@ FROM
 WHERE
     table_name = 'TST_CUSTOMER3'
 ORDER BY index_name,column_position;
+
+
+
+
+
+
+
+
+
+
+
 
 SELECT
     *
@@ -220,6 +410,21 @@ ORDER BY index_name,column_position;
 -- [ FOREIGN KEY : 테이블간(테이블내)의 참조 무결성(REFERNTIAL INTEGRITY)을 보장 ]
 
 @t_cons5.sql
+/*
+CREATE TABLE TST_부서(
+    부서ID VARCHAR2(2) CONSTRAINT TST_DEPARTMENT_부서ID_PK PRIMARY KEY,
+    부서명 VARCHAR2(10) -- 부서명
+);
+
+CREATE TABLE TST_EMPLOYEE(
+    EMPID VARCHAR2(8),-- 사원 고유 ID
+    부서ID VARCHAR2(2),-- 사원 근무 부서 ID
+    CONSTRAINT TST_EMPLOYEE_부서_부서ID_FK FOREIGN KEY(부서ID)
+    REFERENCES TST_부서(부서ID) -- TABLE LEVEL 제약사항
+);
+*/
+
+
 
 -- 1. 부서 테이블에 10번 부서가 존재하지 않을 때,직원 테이블에 10번 부서 데이터를 추가할 수 있는가?
 -- ORA-02291: 무결성 제약조건(SCOTT.TST_EMPLOYEE_부서_부서ID_FK)이 위배되었습니다- 부모 키가 없습니다
@@ -295,6 +500,20 @@ DROP TABLE tst_부서 CASCADE CONSTRAINTS;
 
 @t_cons5.sql
 
+/*
+CREATE TABLE TST_부서(
+    부서ID VARCHAR2(2) CONSTRAINT TST_DEPARTMENT_부서ID_PK PRIMARY KEY,
+    부서명 VARCHAR2(10) -- 부서명
+);
+
+CREATE TABLE TST_EMPLOYEE(
+    EMPID VARCHAR2(8),-- 사원 고유 ID
+    부서ID VARCHAR2(2),-- 사원 근무 부서 ID
+    CONSTRAINT TST_EMPLOYEE_부서_부서ID_FK FOREIGN KEY(부서ID)
+    REFERENCES TST_부서(부서ID) -- TABLE LEVEL 제약사항
+);
+*/
+
 DROP TABLE tst_부서 CASCADE CONSTRAINTS;
 
 -- 제약조건도 전부 삭제된다. 
@@ -313,7 +532,20 @@ FROM
 ---------------------------------------------------------------------------------
 
 @t_cons5_2.sql
+/*
+CREATE TABLE TST_DEPARTMENT(
+    DEPTNO VARCHAR2(2) CONSTRAINT TST_DEPARTMENT_DEPTNO_PK PRIMARY KEY,
+    DNAME VARCHAR2(10) CONSTRAINT TST_DEPARTMENT_DNAME_NN NOT NULL
+);
 
+CREATE TABLE TST_EMPLOYEE(
+    사번 VARCHAR2(8) PRIMARY KEY,
+    이름 VARCHAR2(10),
+    DEPTNO VARCHAR2(2) NOT NULL,
+    CONSTRAINT TST_EMPLOYEE_DEPARTMENT_DEPTNO_FK FOREIGN KEY(DEPTNO) -- TABLE LEVEL 제약사항
+    REFERENCES TST_DEPARTMENT(DEPTNO) 
+);
+*/
 -- 1.
 
 SELECT
@@ -410,7 +642,7 @@ FROM
 ---------------------------------------------------------------------------------
 
 /*
-- EMP 테이블의 EMPNO 컬럼에 P.K 혹은 U.K 제약사항이 걸려있지 않다면, P.K 제약사항 추가하기
+- EMP 테이블의 EMPNO 컬럼에 P.K 혹은 U.K 제약사항이 걸려있지 않다면,P.K 제약사항 추가하기
   - F.K는 다른 테이블의 U.K 또는 P.K를 참조하는 것이다. 
   - EMPNO에 P.K가 걸려있지 않다면,F.K 설정 시 참조가 불가능하기 때문이다.
 - */
