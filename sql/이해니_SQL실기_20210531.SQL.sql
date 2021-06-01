@@ -34,7 +34,48 @@ AND O.RANK <= 100
 ;
 
 
+
+-- 총금액이 가장 많은 고객순으로 나열하기
+SELECT 
+        CUSTOMER_ID, 
+        SUM(ORDER_TOTAL) AS "총 주문금액", 
+        COUNT(ID) AS "구매횟수",
+        DENSE_RANK() OVER(ORDER BY SUM(ORDER_TOTAL) DESC) AS RANK
+    FROM ORDERS
+    WHERE
+        EXTRACT(YEAR FROM ORDER_DT) = 2018
+    AND 
+        STATUS = 10
+    GROUP BY (CUSTOMER_ID)
+    ORDER BY SUM(ORDER_TOTAL) DESC;
+
+
+
+
 -- 3. 가장 많이 주문된 제품 10개
+
+-- 고친 답
+SELECT * FROM (
+    SELECT MAX(I.PRODUCT_ID) "제품번호", 
+    MAX(P.NAME) "제품명", 
+    SUM(I.QUANTITY) "총판매수량", 
+    RANK() OVER(ORDER BY SUM(I.QUANTITY) DESC) AS RANK, 
+    TRUNC( SUM(I.QUANTITY) / COUNT(I.PRODUCT_ID) ) "평균판매수량(1회 주문시)"
+    FROM ORDER_ITEMS I, ORDERS O, PRODUCT P
+    WHERE 
+        I.ORDER_ID = O.ID
+    AND 
+        EXTRACT(YEAR FROM ORDER_DT) = 2019
+    AND 
+        I.PRODUCT_ID = P.ID
+    AND 
+        O.STATUS = 10
+    GROUP BY I.PRODUCT_ID
+)
+WHERE RANK <= 10;
+
+
+-- 틀린 답
 SELECT "제품번호", P.NAME "제품명", "총판매수량","평균판매수량(1회 주문시)" FROM (
     SELECT 
         PRODUCT_ID "제품번호" ,
