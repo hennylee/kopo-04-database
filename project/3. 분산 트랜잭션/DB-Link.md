@@ -36,7 +36,7 @@ select * from user_sys_privs;
 
 
 
-## DB Link 권한 시나리오
+## DB Link 권한별 생성 시나리오
 
 #### 1. VMWarePC DBMS 에 접속하여 분산 트랜잭션을 실행하려고 한다. 
 
@@ -117,6 +117,11 @@ ORA-01031: 권한이 불충분합니다
 ```sql
 GRANT CREATE DATABASE LINK TO SCOTT;
 ```
+
+|                     |로컬 PC|VMWarePC|
+|:--------------------|:-----:|:------:|
+|CREATE SESSION       |    O  |  O     |
+|CREATE DATABASE LINK |    O  |  O     |
 
 - 로컬 PC HR 계정에 대한 DB Link 생성
 
