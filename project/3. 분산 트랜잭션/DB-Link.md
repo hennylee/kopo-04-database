@@ -66,6 +66,9 @@ CREATE DATABASE LINK scottLink CONNECT TO SCOTT IDENTIFIED BY TIGER USING
 )';
 ```
 
+```
+Database link SCOTTLINK이(가) 생성되었습니다.
+```
 
 #### 2. 반대로, 로컬 PC 에 접속하여 분산 트랜잭션을 실행하려고 한다. 
 
