@@ -292,31 +292,133 @@ COMMIT;
 ```
 
 
-
-- 신한은행
+- 분산 트랜잭션 실행
 
 ```sql
-/*
-신한_회원정보
-MEMBER_ID 주민번호 핸드폰번호
-*/
-
-/*
-신한_계좌정보
-계좌번호 MEMBER_ID 잔액 별칭
-*/
+DECLARE
+    p_amount NUMBER(38);
+    p_owner_name VARCHAR2(30);
+    p_owner_code number(3);
+    p_owner_account varchar2(30);
+    
+    p_owner_balance number(30);
+    
+    p_target_name varchar2(30);
+    p_target_code number(3);
+    p_target_account varchar2(30);
+    
+    
+    p_target_balance number(30);
+BEGIN 
+    p_amount :=&p_amount;
+    p_owner_name :=&p_owner_name;
+    p_owner_code :=&p_owner_code;
+    p_owner_account :=&p_owner_account;
+    p_target_name :=&p_target_name;
+    p_target_code :=&p_target_code;
+    p_target_account :=&p_target_account;   
+    select balance into p_owner_balance from HN_ACCOUNT where ACCOUNT_NUMBER=p_owner_account;
+    select balance into p_target_balance from HN_ACCOUNT where ACCOUNT_NUMBER=p_target_account;
+    IF p_owner_balance > p_amount then
+        -- 보낼 사람 계좌 잔액 감소
+        update HN_ACCOUNT set balance = p_owner_balance - p_amount where ACCOUNT_NUMBER=p_owner_account;
+        -- 받는 사람 계좌 잔액 증가
+        update HN_ACCOUNT set balance = p_target_balance + p_amount where ACCOUNT_NUMBER=p_target_account;
+        -- 보낸 사람 계좌 거래 기록
+        INSERT INTO KFTC_BANKING_LOG@scott
+            (SEQ, owner_name, OWNER_CODE, OWNER_ACCOUNT, target_name, TARGET_CODE, TARGET_ACCOUNT, AMOUNT, TYPE_CODE)
+        VALUES(
+            (SELECT nvl(MAX(SEQ)+1,1) FROM KFTC_BANKING_LOG@scott), p_owner_name,
+            p_owner_code, p_owner_account, p_target_name, p_target_code,  p_target_account , p_amount * (-1), 4
+        );
+        -- 받은 사람 계좌 거래 기록
+        INSERT INTO KFTC_BANKING_LOG@scott
+            (SEQ, owner_name, OWNER_CODE, OWNER_ACCOUNT, target_name, TARGET_CODE, TARGET_ACCOUNT, AMOUNT, TYPE_CODE)
+        VALUES(
+            (SELECT nvl(MAX(SEQ)+1,1) FROM KFTC_BANKING_LOG@scott), 
+            p_target_name, p_target_code,  p_target_account , 
+            p_owner_name, p_owner_code, p_owner_account, p_amount , 4
+        );
+        commit;
+        DBMS_OUTPUT.PUT_LINE('이체 완료');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('잔액부족으로 인한 이체 취소');
+        rollback;
+    END IF;
+EXCEPTION
+    WHEN OTHERS THEN
+    ROLLBACK;
+    DBMS_OUTPUT.PUT_LINE('오류발생 롤백 완료');
+END;
 ```
 
 
+- 하나은행 계좌 테이블 변화
 
-```
--- 거래 로그 시퀀스 : 1부터 시작 1/2/3/4
-CREATE SEQUENCE KFTC_BANKING_LOG_SEQ
-    INCREMENT BY 1
-    START WITH 1
-    MAXVALUE 999999999999
-    MINVALUE 1
-    NOCACHE
-    NOCYCLE;
-```
+![image](https://user-images.githubusercontent.com/77392444/121141527-06295400-c876-11eb-970d-36f90cea12aa.png)
 
+![image](https://user-images.githubusercontent.com/77392444/121141613-235e2280-c876-11eb-9da2-f938ed803b09.png)
+
+
+- 통합 거래 테이블 변화
+
+![image](https://user-images.githubusercontent.com/77392444/121143360-f01c9300-c877-11eb-9bd1-16d26dcff70b.png)
+
+![image](https://user-images.githubusercontent.com/77392444/121143290-dbd89600-c877-11eb-9862-18c578798e9d.png)
+
+
+- 기타 : 오류나는 프로시저
+
+```sql
+SET SERVEROUTPUT ON 
+CREATE OR REPLACE PROCEDURE HN_TRANSFER(
+    P_OWNER_ID HN_MEMBER.ID%TYPE, -- 본인 ID
+    P_ACCOUNT_PW HN_ACCOUNT.ACCOUNT_PW%TYPE, -- 본인 계좌 PW
+    P_OWNER_ACCOUNT HN_ACCOUNT.ACCOUNT_NUMBER%TYPE, -- 본인 은행 계좌
+    P_OWNER_CODE KFTC_BANKING_LOG.OWNER_CODE@SCOTT%TYPE, -- 본인 은행 코드
+    P_TARGET_NAME KFTC_BANKING_LOG.TARGET_NAME@SCOTT%TYPE, -- 대상 계좌주
+    P_TARGET_ACCOUNT HN_ACCOUNT.ACCOUNT_PW%TYPE, -- 대상 은행 계좌
+    P_TARGET_CODE KFTC_BANKING_LOG.OWNER_CODE@SCOTT%TYPE, -- 대상 은행 코드
+    P_AMOUNT KFTC_BANKING_LOG.AMOUNT@SCOTT%TYPE -- 거래액
+)
+IS
+        VN_OWNER_NAME VARCHAR2(30) ; -- 본인 이름
+BEGIN
+    -- 하나은행 보내는 사람 계좌주명, 주민번호 추출
+    SELECT M.NAME INTO VN_OWNER_NAME FROM HN_ACCOUNT A , HN_MEMBER M 
+    WHERE A.MEMBER_ID = M.ID
+    AND ACCOUNT_NUMBER = P_OWNER_ACCOUNT AND A.MEMBER_ID = P_OWNER_ID; 
+    DBMS_OUTPUT.PUT_LINE(VN_OWNER_NAME);
+    -- 보내는 사람 계좌에서 잔액 감소
+    IF ((SELECT ACCOUNT_PW FROM HN_ACCOUNT WHERE ACCOUNT_NUMBER = P_OWNER_ACCOUNT AND MEMBER_ID =P_OWNER_ID) != P_ACCOUNT_PW) THEN ROLLBACK;
+    ELSE IF (
+        ((SELECT BALANCE FROM HN_ACCOUNT WHERE ACCOUNT_NUMBER = P_OWNER_ACCOUNT AND MEMBER_ID =P_OWNER_ID) 
+        - P_AMOUNT) < 0
+    ) THEN ROLLBACK;
+    ELSE
+    UPDATE HN_ACCOUNT SET BALANCE = 
+            (SELECT BALANCE FROM HN_ACCOUNT WHERE ACCOUNT_NUMBER = P_OWNER_ACCOUNT AND MEMBER_ID =P_OWNER_ID) - P_AMOUNT
+    WHERE ACCOUNT_NUMBER = P_OWNER_ACCOUNT AND MEMBER_ID = P_OWNER_ID;
+    END IF;
+    -- 보내는 내역 거래 로그에 기록
+    INSERT INTO KFTC_BANKING_LOG@scott
+        (SEQ, OWNER_NAME, OWNER_CODE, OWNER_ACCOUNT, TARGET_CODE, TARGET_ACCOUNT, TARGET_NAME , AMOUNT, TYPE_CODE)
+    VALUES(
+        (SELECT nvl(MAX(SEQ)+1,1) FROM KFTC_BANKING_LOG@scott), 
+        VN_OWNER_NAME, 
+        P_OWNER_CODE, P_OWNER_ACCOUNT, P_OWNER_CODE,  P_TARGET_ACCOUNT , P_TARGET_NAME , P_AMOUNT * (-1), 4);
+    -- 받는 내역 거래 로그에 기록
+    INSERT INTO KFTC_BANKING_LOG@scott
+        (SEQ, OWNER_NAME, OWNER_CODE, OWNER_ACCOUNT, TARGET_CODE, TARGET_ACCOUNT, TARGET_NAME , AMOUNT, TYPE_CODE)
+    VALUES(
+        (SELECT nvl(MAX(SEQ)+1,1) FROM KFTC_BANKING_LOG@scott), 
+        (SELECT M.NAME FROM HN_ACCOUNT A , HN_MEMBER M WHERE A.MEMBER_ID = M.ID AND ACCOUNT_NUMBER = P_OWNER_ACCOUNT), 
+        P_TARGET_CODE, P_TARGET_ACCOUNT,P_OWNER_CODE , P_OWNER_ACCOUNT , VN_OWNER_NAME , P_AMOUNT, 3);     
+    -- 받는 사람 계좌에서 증가
+    UPDATE HN_ACCOUNT SET BALANCE = 
+            (SELECT BALANCE FROM HN_ACCOUNT WHERE ACCOUNT_NUMBER = P_TARGET_ACCOUNT) + P_AMOUNT
+    WHERE ACCOUNT_NUMBER = P_TARGET_ACCOUNT;
+    END IF;
+    COMMIT;
+END;
+```
