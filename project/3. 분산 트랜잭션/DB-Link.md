@@ -144,3 +144,122 @@ CREATE DATABASE LINK scottLink CONNECT TO HR IDENTIFIED BY HAPPY USING
 ```
 Database link HRLINK이(가) 생성되었습니다.
 ```
+
+
+
+
+## 분산 트랜잭션 실습
+
+- 로컬 PC의 HR 계정 : 하나은행 계좌 테이블, 회원 테이블이 존재함
+
+- VMWare PC의 SCOTT 계정 : 중앙은행 전체 계좌 거래 내역 테이블이 존재함
+
+- 서버실 PC의 da2102 계정 : 신한은행 계좌 테이블, 회원 테이블이 존재함
+
+- 상황 시나리오 : 하나은행에서 'haeni' 고객이 신한은행 'spring'고객에게 1000원을 계좌이체 하려고 한다. 
+
+  - 이때, 하나은행 'haeni' 고객이 신한은행 'spring' 고객에게 1000원을 이체 했다는 내역을 로그 테이블에 남겨야 한다. 
+  - 그리고, 중앙은행 전체 계좌 테이블에서 'haeni' 고객의 계좌 잔액에서 1000원을 감소시키고, 'spring' 고객의 계좌 잔액에는 1000원을 증가시켜야 한다. 
+  - 마지막으로 신한은행 테이블에서 'spring' 고객의 잔액 1000ㅝㄴ 증가
+
+
+
+### 테이블 생성
+
+
+- 하나은행 테이블 생성
+
+![image](https://user-images.githubusercontent.com/77392444/121120526-aec8bb00-c858-11eb-963a-766a64e0419a.png)
+
+
+```sql
+/*
+하나_회원정보
+MEMBER_ID 주민번호 핸드폰번호
+*/
+CREATE TABLE HN_MEMBER(
+    ID VARCHAR2(14)CONSTRAINT HN_MEM_ID_PK PRIMARY KEY,
+    PW VARCHAR2(30) NOT NULL,
+    RESIDENT_NUMBER VARCHAR2(14) NOT NULL,
+    NAME VARCHAR2(30) NOT NULL,
+    AGE NUMBER(4) NOT NULL CONSTRAINT HN_MEM_AGE_CK CHECK(AGE > 0 AND AGE < 1000),
+    SEX CHAR(1) DEFAULT 'M' CONSTRAINT HN_MEM_SEX_CK CHECK(SEX IN('M', 'F')),
+    JOIN_DATE DATE DEFAULT SYSDATE
+);
+
+/*
+하나_계좌정보
+계좌번호 MEMBER_ID 잔액 별칭 개설일
+*/
+CREATE TABLE HN_ACCOUNT(
+    ACCOUNT_NUMBER VARCHAR2(30) CONSTRAINT HN_ACNT_NUM_PK PRIMARY KEY,
+    MEMBER_ID VARCHAR2(14) NOT NULL,
+    ACCOUNT_PW NUMBER(4) NOT NULL, -- 음수 나오면 안됨, 무조건 4자리 숫자
+    BALANCE NUMBER(38) NOT NULL,
+    ALIAS VARCHAR2(30),
+    OPEN_USED CHAR(1) DEFAULT 'N' CONSTRAINT HN_ACNT_OPEN_CK CHECK(OPEN_USED IN('Y', 'N')),
+    LIMIT_AMOUNT NUMBER(20) CONSTRAINT HN_ACNT_LIMIT_CK CHECK (LIMIT_AMOUNT > 0),
+    OPENING_DATE DATE DEFAULT SYSDATE,
+    CONSTRAINT HN_ACNT_ID_FK FOREIGN KEY(MEMBER_ID) REFERENCES HN_MEMBER(ID)
+);
+```
+
+- 통합_거래내역 테이블 생성
+
+![image](https://user-images.githubusercontent.com/77392444/121120568-cacc5c80-c858-11eb-8b9b-82603012497c.png)
+
+
+```sql
+/*
+통합_거래내역
+주민번호 계좌주명 계좌번호 잔액 은행코드 대상계좌번호 대상은행코드 대상계좌잔액 거래코드 거래액 거래일자
+*/
+
+CREATE TABLE KFTC_BANKING_LOG(
+    SEQ NUMBER(30) CONSTRAINT H_BANKING_LOG_SEQ_PK PRIMARY KEY,
+    OWNER_NAME VARCHAR2(30) NOT NULL,
+    OWNER_CODE NUMBER(3) NOT NULL,
+    OWNER_ACCOUNT VARCHAR2(30) NOT NULL,
+    TARGET_CODE NUMBER(3) NOT NULL,
+    TARGET_ACCOUNT VARCHAR2(30) NOT NULL,
+    TARGET_NAME VARCHAR2(30) NOT NULL,
+    LOG_DATE DATE DEFAULT SYSDATE,
+    AMOUNT NUMBER(38) NOT NULL,
+    TYPE_CODE NUMBER(3) NOT NULL
+);
+
+
+/*
+통합_거래코드
+코드 거래구분
+*/
+CREATE TABLE BANKING_TYPE(
+    CODE NUMBER(3) CONSTRAINT BANKING_TYPE_CODE_PK PRIMARY KEY,
+    NAME VARCHAR2(30) NOT NULL CONSTRAINT BANKING_TYPE_NAME_UK UNIQUE
+);
+
+/*
+통합_은행코드
+코드 은행명
+*/
+CREATE TABLE BANK (
+    CODE NUMBER(3) CONSTRAINT BANK_CODE_PK PRIMARY KEY, -- 은행코드
+    NAME VARCHAR2(30) NOT NULL CONSTRAINT BANK_NAME_UK UNIQUE -- 은행명
+);
+```
+
+
+
+- 신한은행
+
+```sql
+/*
+신한_회원정보
+MEMBER_ID 주민번호 핸드폰번호
+*/
+
+/*
+신한_계좌정보
+계좌번호 MEMBER_ID 잔액 별칭
+*/
+```
