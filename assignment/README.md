@@ -1,8 +1,18 @@
 # 일일과제
 
+## 중간 과제
+
+#### 1. [Java : Statement, Prepared-Statement]()
+
+#### 2. [Hard parsing vs Soft parsing]()
+
+#### 3. [PL/SQL Block 실행 방식]()
+
+
+
 ## 0527 과제
 
-#### 1. [## MView의 정의 및 특징]()
+#### 1. [MView의 정의 및 특징](https://github.com/hennylee/kopo-04-database/blob/main/assignment/2021-05-27-database-MView.md)
 
 
 ## 0518 과제
