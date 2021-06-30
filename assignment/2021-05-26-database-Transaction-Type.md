@@ -2,10 +2,10 @@
 
 은행의 업무 현황과 연관지어 자료를 정리하시오.
 
-## 1. Transaction Type
+# 1. Transaction Type
 
 
-### 1.0 OLTP와 OLAP차이
+## 1.0 OLTP와 OLAP차이
 
 
 | 	|OLTP	|OLAP|
@@ -40,7 +40,7 @@
 
 
 
-### 1.1 OLTP
+## 1.1 OLTP
 
 #### 정의
 
@@ -163,7 +163,7 @@ OLTP란 주 컴퓨터와 통신 회선으로 접속되어 있는 복수의 사�
 
 
 
-### 1.2 DSS = OLAP = Batch
+## 1.2 DSS = OLAP = Batch
 
 #### 정의
 
@@ -225,7 +225,7 @@ https://docs.microsoft.com/ko-kr/azure/architecture/data-guide/images/olap-data-
 
 
 
-### 1.3 DTP
+## 1.3 DTP
 
 #### 정의
 - 분산 트랜잭션(Distributed Transaction)
@@ -282,21 +282,3 @@ https://technet.tmaxsoft.com/upload/download/online/tibero/pver-20131217-000019/
 - 그래서 서버가 다르지만 하나의 트랜잭션으로 처리해야 하며 이를 분산 트랜잭션이라고 부르는 것이다.
 
 
-
-
-## 2. Java : SQL Statement, Prepared Statement, Callable Statement
-
-```
-Transaction Type과 연계해서 정의, 장단점, 개발 시 차이점, 코딩 실습
-```
-
-- statement : 일반적인 sql쿼리를 실행
-
-- preparedStatement : 동적 또는 매개변수가 필요한 sql쿼리를 실행
-	- OLAP
-
-- callableStatement : 저장된 프로시져를 실행
-	- OLTP
-	- 트랜잭션은 자바로 구현할수도 있고, 프로시저로 구현할 수도 있다.
-    
-https://daesuni.github.io/Java-statement-vs-preparedStatement-vs-callableStatement/
