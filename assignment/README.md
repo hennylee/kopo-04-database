@@ -2,7 +2,7 @@
 
 ## 중간 과제
 
-#### 1. [Java : Statement, Prepared-Statement]()
+#### 1. [Java : Statement, Prepared-Statement, Callable Statement]()
 
 #### 2. [Hard parsing vs Soft parsing]()
 
