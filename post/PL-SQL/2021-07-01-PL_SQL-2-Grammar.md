@@ -57,6 +57,7 @@ END IF;
 
 - ELSEIF 가 아니라 ELSIF 임을 주의해야 한다.
 
+
 ## 5. 반복문
 
 ```
@@ -67,12 +68,19 @@ END IF;
 
 FOR LOOP의 LOOP 첨자는 1씩 증가하거나, 1씩 감소하기만 한다. 임의로 2, 3, 4... 씩 증가/감소 시킬 수 없다. 
 
+WHILE LOOP 에선 조건식이 TRUE 인 경우에만 실행되고, 조건식이 FALSE나 NULL인 경우에는 실행되지 않는다. 
 
 
 
+## 6. NULL
+
+`NULL > 1` 이면 NULL일까 FALSE일까? => NULL이다.
 
 
+#### [NULL과 관련된 논리연산]
+
+PL/SQL은 TRUE, FALSE 이외에도 NULL을 포함해서 3항 연산이라고 한다. 
+
+![image](https://user-images.githubusercontent.com/77392444/124071090-d1c24580-da79-11eb-986c-f288e08c4940.png)
 
 
-
-함수에는 `RETURN` 키워드가 있다. 
