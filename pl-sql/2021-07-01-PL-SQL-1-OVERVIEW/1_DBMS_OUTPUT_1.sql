@@ -1,0 +1,18 @@
+REM DEFAULT SIZE 20000 BYTES.
+
+SET SERVEROUTPUT ON
+
+BEGIN
+    FOR I IN 1..10
+    LOOP
+        DBMS_OUTPUT.PUT_LINE('['||TO_CHAR(I)||' ] PROCESSED');
+    END LOOP;
+END;
+/
+
+SET SERVEROUTPUT OFF
+BEGIN
+    -- OFF가 되어서 화명상에 출력되지 않고, 메모리상에도 기록하지 않는다.
+    DBMS_OUTPUT.PUT_LINE('OK...');
+END;
+/

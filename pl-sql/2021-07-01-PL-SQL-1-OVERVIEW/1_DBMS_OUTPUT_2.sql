@@ -1,0 +1,16 @@
+REM -------------------------------------------
+REM 출력 버퍼의 크기 조절
+REM     - DEFAULT SIZE 20000 BYTES
+REM     - MAX SIZE UNLIMITED
+REM -------------------------------------------
+
+SET SERVEROUTPUT ON SIZE 2000
+
+BEGIN 
+    FOR I IN 1..40
+    LOOP
+        DBMS_OUTPUT.PUT_LINE('[' || TO_CHAR(I) || ' ] ' ||
+            '123257469817598475981759842769817123257469817598475981759842769817123257469817598475981759842769817');
+    END LOOP;
+END;
+/
