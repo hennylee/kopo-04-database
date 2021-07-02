@@ -1,5 +1,12 @@
 # 일일과제
 
+## 0702 과제
+
+
+#### 1. [Entitiy, Attribute, Relationship]()
+
+
+
 ## 중간 과제
 
 #### 1. [Java : Statement, Prepared-Statement, Callable Statement]()
