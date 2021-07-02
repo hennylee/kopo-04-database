@@ -1,0 +1,31 @@
+-- 참조 연산자를 사용해서 변수를 정의하기
+-- 만약 변수가 50개라면 무척 귀찮겠지? 일일히 다 해야할까? 정답은 CURSOR_3.SQL에서...
+
+
+
+SET SERVEROUTPUT ON
+
+DECLARE
+    CURSOR CUR_EMP IS
+        SELECT EMPNO, JOB, SAL, COMM FROM EMP WHERE DEPTNO = 10;
+    V_ENAME EMP.ENAME%TYPE;
+    V_JOB EMP.JOB%TYPE;
+    V_SAL EMP.SAL%TYPE;
+    V_COMM EMP.COMM%TYPE;
+BEGIN
+    OPEN CUR_EMP;
+    LOOP 
+        FETCH CUR_EMP INTO V_ENAME, V_JOB, V_SAL, V_COMM;
+        EXIT WHEN CUR_EMP%NOTFOUND;
+        
+        INSERT INTO BONUS(ENAME, JOB, SAL, COMM) 
+            VALUES(V_ENAME, V_JOB, V_SAL, V_COMM);
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE('TOTAL '||TO_CHAR(CUR_EMP%ROWCOUNT)||'rows processed');
+    -- TOTAL 3rows processed
+    CLOSE CUR_EMP;
+    COMMIT;
+END;
+/
+
+

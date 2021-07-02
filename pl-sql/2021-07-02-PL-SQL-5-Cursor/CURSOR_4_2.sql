@@ -1,0 +1,41 @@
+-- 3. CUR_EMP%ROWCOUNT를 FOR LOOP 안에서 조회하는 방법
+SET SERVEROUTPUT ON
+
+-- 1.
+BEGIN
+    FOR R_CUR_EMP IN (SELECT ENAME, JOB, SAL, COMM FROM EMP WHERE DEPTNO = 10)
+    LOOP 
+        INSERT INTO BONUS(ENAME, JOB, SAL, COMM) 
+            VALUES(R_CUR_EMP.ENAME, R_CUR_EMP.JOB, R_CUR_EMP.SAL, R_CUR_EMP.COMM);
+         
+    END LOOP;
+    --DBMS_OUTPUT.PUT_LINE('TOTAL '||TO_CHAR(CUR_EMP%ROWCOUNT)||'rows processed');
+    COMMIT;
+END;
+/
+
+
+/*
+PL/SQL 프로시저가 성공적으로 완료되었습니다.
+*/
+
+
+
+-- 2. 
+BEGIN
+    FOR R_CUR_EMP IN (SELECT ENAME, JOB, SAL, COMM FROM EMP WHERE DEPTNO = 10)
+    LOOP 
+        INSERT INTO BONUS(ENAME, JOB, SAL, COMM) 
+            VALUES(R_CUR_EMP.ENAME, R_CUR_EMP.JOB, R_CUR_EMP.SAL, R_CUR_EMP.COMM);
+         
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE('TOTAL '||TO_CHAR(CUR_EMP%ROWCOUNT)||'rows processed');
+    COMMIT;
+END;
+/
+
+/*
+오류 보고 -
+ORA-06550: 줄 8, 열44:PLS-00201: 'CUR_EMP' 식별자가 정의되어야 합니다
+ORA-06550: 줄 8, 열5:PL/SQL: Statement ignored
+*/

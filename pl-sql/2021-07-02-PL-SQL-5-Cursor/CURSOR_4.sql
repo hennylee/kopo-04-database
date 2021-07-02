@@ -1,0 +1,91 @@
+-- FOR LOOP CURSOR
+-- 일일히 OPEN, FETCH, CLOSE하는 번거로움을 더는 방법
+
+SET SERVEROUTPUT ON
+
+-- 1. CUR_EMP%ROWCOUNT를 조회하지 않는 방법
+DECLARE
+    CURSOR CUR_EMP IS
+        SELECT ENAME, JOB, SAL, COMM FROM EMP WHERE DEPTNO = 10;
+    --R_CUR_EMP CUR_EMP%ROWTYPE;
+BEGIN
+    --OPEN CUR_EMP;
+    FOR R_CUR_EMP IN CUR_EMP
+    LOOP 
+        --FETCH CUR_EMP INTO R_CUR_EMP;
+        --EXIT WHEN CUR_EMP%NOTFOUND;
+        
+        INSERT INTO BONUS(ENAME, JOB, SAL, COMM) 
+            VALUES(R_CUR_EMP.ENAME, R_CUR_EMP.JOB, R_CUR_EMP.SAL, R_CUR_EMP.COMM);
+    END LOOP;
+    --DBMS_OUTPUT.PUT_LINE('TOTAL '||TO_CHAR(CUR_EMP%ROWCOUNT)||'rows processed');
+    --CLOSE CUR_EMP;
+    COMMIT;
+END;
+/
+
+/*
+PL/SQL 프로시저가 성공적으로 완료되었습니다.
+*/
+
+
+
+-- 2. CUR_EMP%ROWCOUNT를 조회하는 방법 : CUR_EMP는 FOR LOOP 안에서 정의되어 있기 때문에 오류가 나는 것이다~!
+DECLARE
+    CURSOR CUR_EMP IS
+        SELECT ENAME, JOB, SAL, COMM FROM EMP WHERE DEPTNO = 10;
+    --R_CUR_EMP CUR_EMP%ROWTYPE;
+BEGIN
+    --OPEN CUR_EMP;
+    FOR R_CUR_EMP IN CUR_EMP
+    LOOP 
+        --FETCH CUR_EMP INTO R_CUR_EMP;
+        --EXIT WHEN CUR_EMP%NOTFOUND;
+        
+        INSERT INTO BONUS(ENAME, JOB, SAL, COMM) 
+            VALUES(R_CUR_EMP.ENAME, R_CUR_EMP.JOB, R_CUR_EMP.SAL, R_CUR_EMP.COMM);
+    END LOOP;
+    DBMS_OUTPUT.PUT_LINE('TOTAL '||TO_CHAR(CUR_EMP%ROWCOUNT)||'rows processed');
+    --CLOSE CUR_EMP;
+    COMMIT;
+END;
+/
+
+/*
+오류 보고 -
+ORA-01001: 커서가 부적합합니다
+ORA-06512:  15행
+01001. 00000 -  "invalid cursor"
+*/
+
+
+-- 3. CUR_EMP%ROWCOUNT를 FOR LOOP 안에서 조회하는 방법
+DECLARE
+    CURSOR CUR_EMP IS
+        SELECT ENAME, JOB, SAL, COMM FROM EMP WHERE DEPTNO = 10;
+    --R_CUR_EMP CUR_EMP%ROWTYPE;
+BEGIN
+    --OPEN CUR_EMP;
+    FOR R_CUR_EMP IN CUR_EMP
+    LOOP 
+        --FETCH CUR_EMP INTO R_CUR_EMP;
+        --EXIT WHEN CUR_EMP%NOTFOUND;
+        
+        INSERT INTO BONUS(ENAME, JOB, SAL, COMM) 
+            VALUES(R_CUR_EMP.ENAME, R_CUR_EMP.JOB, R_CUR_EMP.SAL, R_CUR_EMP.COMM);
+         DBMS_OUTPUT.PUT_LINE('TOTAL '||TO_CHAR(CUR_EMP%ROWCOUNT)||'rows processed');
+    END LOOP;
+
+    --CLOSE CUR_EMP;
+    COMMIT;
+END;
+/
+
+
+/*
+TOTAL 1rows processed
+TOTAL 2rows processed
+TOTAL 3rows processed
+*/
+
+
