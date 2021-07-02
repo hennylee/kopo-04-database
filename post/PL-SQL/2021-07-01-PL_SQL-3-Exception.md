@@ -46,3 +46,33 @@ Transaction Level ROLLBACK : 명시적(수동)
 
 
 
+### 3.3 Exception 정의
+
+|종류                     |세부           |설명                 |예시                                                         |
+|------------------------|---------------|--------------------|-------------------------------------------------------------|
+|ORACLE Defined Exception|PREDEFINED     |Name이 정의된 Exception|NO_DATA_FOUND, TOO_MANY_ROWS, TIMEOUT_ON_RESOURCE           |
+|                        |NON-PREDEFINED |Name이 없는 Exception|ORA-00001 :무결성 제약 조건(SCOTT.DEPT_DEPTNO_PK)에 위배됩니다|
+|USER Defined Exception  |               |비즈니스룰에 따라 정의된 Exception|SAL < 0 , E_MINUS_SAL                                        |
+
+PREDEFINED 와 NON-PREDEFINED의 차이는?
+- 이름유무의 차이이다. 
+- 이름이 없는 NON-PREDEFINED는 에러명 대신 `Error Code`와 `Error Msg`만 정의되어 있다. 
+
+USER Defined Exception는 PL/SQL에 코드를 깔끔하게 만들고, 개발자의 반복된 코딩을 줄여준다.
+
+
+### 3.4 Exception 발생 및 처리
+
+Exception 블록의 역할
+1. Error가 블록 밖으로 나가지 않도록 잡아준다.
+2. 트랜젝션 일관성 보장을 위해 ROLLBACK 등의 조치
+3. 에러 로그 기록
+
+
+#### [Exception 구문]
+
+
+```sql
+
+
+```
