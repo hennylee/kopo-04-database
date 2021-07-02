@@ -86,15 +86,15 @@ USER Defined Exception는 PL/SQL에 코드를 깔끔하게 만들고, 개발자�
 
 ### 3.4 Exception 발생 및 처리
 
-#### [Exception 블록의 역할]
+Exception 블록의 역할
 1. Error가 블록 밖으로 나가지 않도록 잡아준다.
 2. 트랜젝션 일관성 보장을 위해 ROLLBACK 등의 조치
 3. 에러 로그 기록
 
 
-#### [Exception 처리과정]
-① Exception이 발생 -> 해당 Statement를 Rollback처리
-② 다음 Statement를 처리하지 않고 해당 Block내의 예외처리부로 제어를 이동
+Exception 처리과정
+1. Exception이 발생 -> 해당 Statement를 Rollback처리
+2. 다음 Statement를 처리하지 않고 해당 Block내의 예외처리부로 제어를 이동
 
 #### [질문] Exception을 처리한다는 의미를 설명 하십시요? 
  
