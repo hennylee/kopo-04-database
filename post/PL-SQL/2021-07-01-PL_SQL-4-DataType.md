@@ -1,12 +1,3 @@
-
-```
-1. DATA TYPE 개요
-2. SCALAR DATA TYPE
-3. COMPOSITE DATA TYPE
-4. DATA TYPE 과 참조연산자
-5. BLOCK 내의 SELECT
-```
-
 ## 1. DATA TYPE 개요
 
 |DATA TYPE유형 |주요특징|
