@@ -63,10 +63,35 @@ JDBC에서 처리하는 것의 차이는?
 
 |커서속성자 |IMPLICIT CURSOR |EXPLICIT CURSOR|
 |-----------|---------------|----------------|
-|**%ROWCOUNT** |SQL문에의해 영향받은 ROW 총 갯수 FETCH된 누적 갯수 |
-|**%FOUND** |- SQL문에의해 영향받은ROW 존재유무<br> - TRUE or FALSE 리턴<br> - 현재 FETCH된 ROW존재유무<br> - TRUE or FALSE 리턴|
-|%NOTFOUND|FOUND의 반대값 FOUND의 반대값|
-|%ISOPEN| 항상FALSE이다 CURSOR의 Open 상태 확인|
+|**%ROWCOUNT** |SQL문에의해 영향받은 ROW 총 갯수| FETCH된 누적 갯수 |
+|**%FOUND** |- SQL문에의해 영향받은ROW 존재유무<br> - TRUE or FALSE 리턴<br> |- 현재 FETCH된 ROW존재유무<br> - TRUE or FALSE 리턴|
+|%NOTFOUND|FOUND의 반대값| FOUND의 반대값|
+|%ISOPEN| 항상FALSE이다| CURSOR의 Open 상태 확인|
 
 
 ## 5. 명시적 커서의 4 가지 유형
+
+
+파라미터 유형
+
+![image](https://user-images.githubusercontent.com/77392444/124404114-6d063400-dd74-11eb-882b-70935ef2fa32.png)
+
+
+![image](https://user-images.githubusercontent.com/77392444/124404134-8d35f300-dd74-11eb-9da5-b0cb5d1da49f.png)
+
+### CURSOR FOR UPDATE
+SELECT는 보통 LOCK을 걸지 않는다. 값을 보기만하니까...
+하지만 SELECT FOR UPDATE는 데이터를 수정하기 위해 보는거니까 아무도 수정하지 못하게 ROW LEVEL LOCK을 건다. 
+
+이처럼 CURSOR FOR UPDATE는 SELECT FOR UPDATE를 CURSOR에서 사용하는 것이다. 
+
+다른 누군가가 LOCK을 먼저 걸었으면 나는 WAIT를 하게 된다. 
+
+```SQL
+CONN SYS AS SYSDBA
+GRANT EXECUTE ON DBMS_LOCK TO SCOTT;
+```
+
+- DBMS_LOCK : Oracle이 제공해주는 Package
+
+
