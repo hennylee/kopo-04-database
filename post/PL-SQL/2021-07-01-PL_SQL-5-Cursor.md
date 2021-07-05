@@ -1,12 +1,30 @@
-[학습목차] 
-5-1. 커서(Cursor)의 용어 및 개념
-5-2. 커서(Cursor)의 종류
-5-3. 명시적 커서(Explicit Cursor)
-5-4. 커서 속성(Cursor Attribute)
-5-5. 명시적 커서의 4 가지 유형
 
 
 ## 1. 커서(Cursor)의 용어 및 개념
+
+사용자(User)가 SQL을 전송하면 Oracle DBMS는 해당 SQL을 실행하기 위한 메모리 공간이 필요 하다.
+ 
+예를 들면,
+ 
+- SQL을 실행하여 리턴되는 Rows
+- 공유 메모리 영역(Shared Pool)에 저장되어 있는 Parsed Query에 대한 포인터
+
+등을 저장하기 위해서 메모리 공간(Context Area)이 필요하다.
+
+
+정의상으로는 `Context Area` 나 `Cursor`라는 용어가 동일한 의미로 사용되지만 
+일반적으로 `Context Area`는 할당된 영역을, `Cursor`는 해당 영역을가리키는 포인터나 해당 영역을 제어하기 위한 핸들러(Handler)의 의미로 사용된다.
+<참고 > Shared Pool, Parsed Query에 대한 내용은 SQL Tuning 과정이나
+ 
+ 
+Oracle Admin 과정에서 별도의 학습을 해야 하며 내용이 어렵다면 마치
+컴퓨터의 커서가 현재의 위치를 가리키는 역할을 하듯이 SQL,PL/SQL 관점에서도
+SQL 실행을 위해서 할당된 메모리 영역의 위치를 가리킨다(즉 Pointer 역할) 라는
+정도로만 기억을 하시기 바랍니다.
+<참고> 개개의 서버 프로세스(Server Process)가 독립적으로 사용하는
+PGA(Program Global Area) 라는 메모리 영역내에 SQL 처리를 위한 메모리 영역
+(Context Area)이 생성 됩니다.
+
 ## 2. 커서(Cursor)의 종류
 1. 암시적 커서
 
