@@ -5,14 +5,36 @@ SET SERVEROUTPUT ON
 BEGIN
     FOR I IN 1..10
     LOOP
-        DBMS_OUTPUT.PUT_LINE('['||TO_CHAR(I)||' ] PROCESSED');
+        DBMS_OUTPUT.PUT_LINE('[ '||TO_CHAR(I)||' ] PROCESSED');
     END LOOP;
 END;
 /
 
+/*
+[1 ] PROCESSED
+[2 ] PROCESSED
+[3 ] PROCESSED
+[4 ] PROCESSED
+[5 ] PROCESSED
+[6 ] PROCESSED
+[7 ] PROCESSED
+[8 ] PROCESSED
+[9 ] PROCESSED
+[10 ] PROCESSED
+
+
+PL/SQL 프로시저가 성공적으로 완료되었습니다.
+*/
+
 SET SERVEROUTPUT OFF
 BEGIN
-    -- OFF가 되어서 화명상에 출력되지 않고, 메모리상에도 기록하지 않는다.
+    -- OFF가 되어서 화면상에 출력되지 않고, 메모리상에도 기록하지 않는다.
     DBMS_OUTPUT.PUT_LINE('OK...');
 END;
 /
+
+
+
+/*
+PL/SQL 프로시저가 성공적으로 완료되었습니다.
+*/

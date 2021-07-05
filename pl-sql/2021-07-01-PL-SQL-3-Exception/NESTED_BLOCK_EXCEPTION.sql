@@ -1,22 +1,10 @@
 SET SERVEROUTPUT ON
 
-SELECT COUNT(*) FROM DEPT;
-
-/*
-  COUNT(*)
-----------
-         4
-*/         
-
-INSERT INTO DEPT VALUES(66, 'OUTER_BLK_PART', 'Outlander');
-
-/*
-1 행 이(가) 삽입되었습니다.
-*/
+INSERT INTO DEPT VALUES(66, 'OUTER_BLK_PART', 'Outlander'); -- 커밋전상태
 
 DECLARE
     V_DNAME  VARCHAR2(14);
-    V_DEPTNO NUMBER(200); -- NUMBER는 최대 38자리까지 가능 => 컴파일 에러 발생!
+    V_DEPTNO NUMBER(200); -- NUMBER는 최대 38자리까지 가능 => 컴파일 에러 발생! => 뒷부분은 아예 실행되지 않음
     V_LOC VARCHAR2(13);
 BEGIN
     -- 77 GLOBAL_PART    Nested_Blk2 
