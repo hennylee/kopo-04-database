@@ -3,11 +3,14 @@ AS
     V_ENAME EMP.ENAME%TYPE;
     V_ROWS NUMBER(6);
     
-    FUNCTION PRVT_FUNC(P_NUM IN NUMBER) RETURN NUMBER IS
+    -- PRVT_FUNC
+    FUNCTION PRVT_FUNC(P_NUM IN NUMBER) RETURN NUMBER 
+    IS
     BEGIN
         RETURN P_NUM;
     END PRVT_FUNC;
     
+    -- INSERT_EMP
     PROCEDURE INSERT_EMP(P_EMPNO NUMBER, P_ENAME VARCHAR2, P_JOB VARCHAR2, P_SAL NUMBER, P_DEPTNO NUMBER)
     IS 
     BEGIN
@@ -15,23 +18,43 @@ AS
         COMMIT;
     END INSERT_EMP;
     
+    -- DELETE_EMP
     PROCEDURE DELETE_EMP(P_EMPNO EMP.EMPNO%TYPE) IS 
     BEGIN
         DELETE FROM EMP WHERE EMPNO = P_EMPNO;
-        COMMIT;
-        GV_ROWS := GV_ROWS + SQL%ROWCOUNT;
+        -- COMMIT;
+        GV_ROWS := GV_ROWS + SQL%ROWCOUNT; -- COMMIT을 하게 되면 %ROWCOUNT가 0으로 초기화되므로 COMMIT전에 사용해야 한다.
         V_ROWS := PRVT_FUNC(GV_ROWS);
+        COMMIT;
     EXCEPTION
         WHEN OTHERS THEN
             ROLLBACK;
             WRITE_LOG('P_EMPLOYEE.DELETE', SQLERRM, 'VALUES : [EMPNO] => '|| P_EMPNO);
     END DELETE_EMP;
     
+    -- SEARCH_MNG
     FUNCTION SEARCH_MNG(P_EMPNO EMP.EMPNO%TYPE) RETURN VARCHAR2
     IS
         V_ENAME EMP.ENAME%TYPE;
     BEGIN
-        SELECT ENAME INTO V_NAME FROM EMP
-        WHERE 
-    
+        SELECT ENAME INTO V_ENAME FROM EMP
+            WHERE EMPNO = (SELECT MGR FROM EMP WHERE EMPNO = P_EMPNO);
+        
+        RETURN V_ENAME;
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            V_ENAME := 'NO_DATE';
+            RETURN V_ENAME;
+        WHEN OTHERS THEN
+            V_ENAME := SUBSTR(SQLERRM, 1, 12);
+            RETURN V_ENAME;
+    END SEARCH_MNG;
+BEGIN
+    -- -----------------------------------------------------------------------------
+    -- PROCEDURE / FUNCTION 와는 달리 PACKAGE에서는 BEGIN 실행부가 OPTIONAL
+    -- -----------------------------------------------------------------------------
+    GV_ROWS := 0; -- 주로 초기화 작업 수행하는 역할...
+END P_EMPLOYEE;
+/
+SHOW ERROR
     
